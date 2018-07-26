@@ -11,7 +11,9 @@
                 active-text-color="#e45823">
                     <el-submenu index="1">
                         <template slot="title">
-                            <i class="el-icon-location"></i>
+                            <i>
+                                <img src="@/assets/img/nav007.png" alt="">
+                            </i>
                             <span>设备巡检</span>
                         </template>
                         <el-menu-item-group>
@@ -59,6 +61,10 @@ export default {
     top: -40px;
     background: #293950;
 }
+/* .el-icon-location{
+    background: url('~@/assets/img/nav007.png') no-repeat;
+    background-size: 100% 100%;
+} */
 .el-aside-navchange{
     position: absolute;
     height: 40px;

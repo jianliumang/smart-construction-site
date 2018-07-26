@@ -13,7 +13,9 @@
                     active-text-color="#e45823">
                         <el-submenu index="1">
                             <template slot="title">
-                                <i class="el-icon-location"></i>
+                                <i>
+                                    <img src="@/assets/img/nav005.png" alt="">
+                                </i>
                                 <span>塔吊管理</span>
                             </template>
                             <el-menu-item-group>

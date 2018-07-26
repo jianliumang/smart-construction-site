@@ -106,7 +106,8 @@ export default {
                 'nav4':nav4,
             },
             indexbg:indexbg,
-            bgid:1
+            bgid:1,
+            viewheight:''
         }
     },
     created(){
@@ -204,7 +205,7 @@ export default {
 .home{
     width: 100%;
     min-width: 1620px;
-    /* height: 100%; */
+    height: 100%!important;
     /* overflow: hidden; */
 }
 .pagecss1{

@@ -49,7 +49,8 @@
                                         start-placeholder="开始日期"
                                         end-placeholder="结束日期"
                                         :picker-options="pickerOptions2"
-                                        @change="query">
+                                        @change="query"
+                                        @focus="datatype">
                                     </el-date-picker>
                                 </el-form-item>
                             </el-form>
@@ -176,7 +177,11 @@ export default {
             constructioncid:1,
             constructioncdata:[],
             enviromentalid: Number,
-            showname:''
+            showname:'',
+            //有数据的日期颜色
+            starttimevalue: '',
+            endtimevlaue: '',
+            havedate : [],
         };
     },
     created() {
@@ -188,13 +193,15 @@ export default {
         let startTime = this.setPartTime() + " 00:00:00";
         let endTime = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
         this.dates = [startTime, endTime];
-        //   setTimeout(()=>{
-        //       this.temperature();
-        //   },1000)
-        //   this.realdata = setInterval(()=>{
-        //       this.temperature();
-        //   },3000)
+          setTimeout(()=>{
+              this.temperature();
+          },1000)
+          this.realdata = setInterval(()=>{
+              this.temperature();
+          },3000)
         
+
+        this.requesthavetime();
     },
     methods: {
         constructioncfn(){
@@ -376,7 +383,7 @@ export default {
             })
         },
         echartsinfo(){
-        // 基于准备好的dom，初始化echarts实例
+            // 基于准备好的dom，初始化echarts实例
             this.myChart1 = this.$echarts.init(document.getElementById("myChart1"));
             this.myChart2 = this.$echarts.init(document.getElementById("myChart2"));
             this.myChart3 = this.$echarts.init(document.getElementById("myChart3"));
@@ -494,7 +501,7 @@ export default {
             });
         },
         query() {
-        //历史查询数据请求
+            //历史查询数据请求
             let myChart = this.$echarts.init(document.getElementById("histrori"));
             var times = [];
             var temperature = [];
@@ -506,14 +513,7 @@ export default {
             var stTime = this.dates[0];
             var enTime = this.dates[1];
             //get根据设备编号查找时间到另一个时间的环境监控数据
-        //     this.$http({
-        //         method: "post",
-        //         url:"http://62b00ebe.ngrok.io/RestIOTAPI/environmentalmonitoring/toselectHistoryFromTimeToTime2?startTime="+stTime+"&endTime="+enTime+"&enviromental_id=" + this.enviromentalid
-        //     })
-        //     .then(res => {
-        //         console.log(res)
-        // })
-        console.log(stTime,enTime,this.enviromentalid)
+            console.log(stTime,enTime,this.enviromentalid)
             this.$api.seekDatesEnvironmentalMonitoringData("?startTime="+stTime+"&endTime="+enTime+"&enviromental_id=" + this.enviromentalid).then((response) => {
                 // console.log(response)
                 if(response.data.code==200){
@@ -607,6 +607,77 @@ export default {
                 alert("图表请求数据失败!");
                 myChart.hideLoading();
             });
+        },
+
+        datatype(){
+            setTimeout(() =>{
+                console.log(5555555555)
+                var buttonelement = document.getElementsByClassName("el-picker-panel__icon-btn");
+                for(let i=0;i<buttonelement.length;i++){
+                    buttonelement[i].onclick = () => {
+                        setTimeout(() => {this.changeredfn()},10);
+                    }
+                };
+                this.changeredfn();
+            },10)
+        },
+        changeredfn(){
+            //将有数据的天数变为红色
+            //获取页面的年月
+            // var dateelement = document.getElementsByClassName("el-date-range-picker__header");
+            // console.log(dateelement)
+            // for(let o=0;o<dateelement.length;o++){
+            //     var year = dateelement[o].getElementsByTagName("div")[0].innerHTML.substring(0,4);
+            //     var months = dateelement[o].getElementsByTagName("div")[0].innerHTML.substring(7,8);
+            //     console.log(dateelement[o].nextSbiling.spanelement[i])
+
+
+
+                // this.havedate.forEach(element => {
+                //     if(year == element.substring(0,4) && months == element.substring(6,7)){
+                //         var day = element.substring(8,10);
+                //         if(day<10){
+                //             day = element.substring(8,10).substring(1);
+                //         };
+                //         var spanelement = document.getElementsByClassName("available");
+                //         for(let i=0;i<spanelement.length-10;i++){
+                //             dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#000";
+                //         };
+                //         setTimeout(() => {
+                //             for(let i=0;i<spanelement.length-10;i++){
+                //             if(spanelement[i].children[0].children[0].innerText==day){
+                //                 dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#f00";
+                //             }
+                //         }
+                //         },10)
+                        
+                //     }else{
+                //         var spanelement = document.getElementsByClassName("available");
+                //         for(let i=0;i<spanelement.length-10;i++){
+                //             dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#000";
+                //         };
+                //         var spanelement2 = document.getElementsByClassName("normal");
+                //         for(let i=0;i<spanelement2.length;i++){
+                //             dateelement[o].nextSbiling.spanelement2[i].children[0].children[0].style.color="#ccc";
+                //         };
+                //         var spanelement3 = document.getElementsByClassName("prev-month");
+                //         for(let i=0;i<spanelement3.length;i++){
+                //             dateelement[o].nextSbiling.spanelement3[i].children[0].children[0].style.color="#ccc";
+                //         };
+                //     }
+                // });
+                // // console.log(document.getElementsByClassName("today")[0].children[0].children[0])
+                // if(document.getElementsByClassName("today")[0].children[0].children[0]!=undefined){
+                //     document.getElementsByClassName("today")[0].children[0].children[0].style.color="blue"
+                // }
+
+            // }
+        },
+        requesthavetime(){
+            this.$api.withMachineNumberHasDataDayPost("?enviromentalid=2").then(res => {
+                console.log(res)
+                this.havedate = res.data.result;
+            })
         }
     },
     beforeDestroy() {

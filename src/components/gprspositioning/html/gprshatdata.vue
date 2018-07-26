@@ -38,9 +38,9 @@
                 <span>所属分组</span>
                 <el-select v-model="groupvalue" :placeholder="revisehatworksite">
                     <el-option v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.number">
+                        :key="item.groupingnumber"
+                        :label="item.groupingname"
+                        :value="item.groupingnumber">
                         
                     </el-option>
                 </el-select>
@@ -158,14 +158,8 @@ export default {
             this.options = [];
             this.$api.seekAllGroup().then(res => {
                 console.log(res)
-                if(res.data.result==200){
-                    res.data.result.forEach(element => {
-                        this.options.push({
-                            value: element.groupingid,
-                            label: element.groupingname,
-                            number: element.groupingnumber
-                        })
-                    });
+                if(res.data.code==200){
+                    this.options=res.data.result
                     this.groupvalue = this.options[0].number
                 }
             })

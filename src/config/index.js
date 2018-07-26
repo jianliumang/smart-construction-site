@@ -184,6 +184,11 @@ export const seekArchitectureData = (data) =>{
     return axios.get(api.seekArchitectureData,data)
 }
 
+//查询最新动态
+export const seekNewsType = (data) =>{
+    return axios.get(api.seekNewsType,data)
+}
+
 //根据管委会编号查找旗下所有工地
 export const withCMCNumberSeekAllConstruction = (data) =>{
     return axios.get(api.withCMCNumberSeekAllConstruction,data)

@@ -4,6 +4,7 @@ export default{
     seekMachineNumberNewAlarm : 'towercraneAlarmInformation/toselectOneAlarmInformation',//查找该设备编号最新一条报警信息
     insertArchitectureData : 'architecture/toinsertArchitecture',//插入建筑数据
     seekArchitectureData : 'architecture/toselectArchitecture',//查询建筑数据
+    seekNewsType : 'architecture/toselectNews',//查询最新动态
     withCMCNumberSeekAllConstruction : 'constructionsite/toselectAllConstructionSite',//根据管委会编号查找旗下所有工地
     withConstructionNumberSeekInfo : 'constructionsite/toselectOneConstructionSite',//get根据工地编号查找对应的工地信息
     seekEngineeringCategory : 'engineeringCategory/selectEngineeringCategory',//查找工程类别

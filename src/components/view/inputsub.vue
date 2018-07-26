@@ -182,4 +182,10 @@ export default {
 .qrimage a{
     text-decoration: none;
 }
+.inputsub td{
+    padding: 0px!important;
+}
+.inputsub td .cell{
+    line-height: 45px!important;
+}
 </style>

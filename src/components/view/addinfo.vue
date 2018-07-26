@@ -1,5 +1,5 @@
 <template>
-    <div class="inputinfo">
+    <div class="addinfo">
         <el-row>
             <el-col :span="24">
                 添加设备信息标牌
@@ -225,27 +225,32 @@ export default {
 </script>
 
 <style>
-.inputinfo{
+.addinfo{
     width: 23.4rem;
 }
-.inputinfo .el-col-24{
+.addinfo .el-col-24{
     font-size: 24px;
     height: 40px;
 }
-.inputinfo .el-col-15 input{
+.addinfo .el-col-15 input{
     border-radius: 0px;
     border-left: 0px;
     border-top: 0px;
     height: 45.56px;
     outline: none;
 }
-.inputinfo .el-col-15 .el-select{
+.addinfo .el-col-15 .el-select{
     width: 100%;
 }
-.inputinfo .firstinput{
+.addinfo .firstinput{
     border-top: 1px solid #ccc;
 }
-.inputinfo .el-row:nth-child(2) .el-table{
+.addinfo .el-row:nth-child(2) .el-table{
     margin-left: 3%;
+}
+.addinfo td{
+    padding: 0px!important;
+}.addinfo td .cell{
+    line-height: 45px!important;
 }
 </style>

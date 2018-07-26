@@ -123,22 +123,8 @@
                     :show-header="false"
                     style="width: 90%">
                         <el-table-column
-                            prop="devicesn"
-                            label="设备SN"
-                            width="85">
-                        </el-table-column>
-                        <el-table-column
-                            prop="starttime"
-                            label="开始时间">
-                        </el-table-column>
-                        <el-table-column
-                            prop="endtime"
-                            label="结束时间">
-                        </el-table-column>
-                        <el-table-column
-                            prop="type"
-                            label="类型"
-                            width="100">
+                            prop="news"
+                            label="设备SN">
                         </el-table-column>
                 </el-table>
             </div>
@@ -309,23 +295,15 @@ export default {
         },
         towerrrequest(){
             //右上角的数据展示
-            this.$api.withMachineNumberSeekAllAlarm({
+            this.$api.seekNewsType({
                 params:{
-                    'device_sn' : this.devicesn
+                    'days' : 1
                 }
             }).then(res => {
                 console.log(res)
                 if(res.data.code==200){
                     this.tableData = [];
-                    var datalist = res.data.result.reverse()
-                    for(var i=0;i<3;i++){
-                        this.tableData.push({
-                            devicesn: datalist[i].device_sn,
-                            starttime: datalist[i].alarm_starttime,
-                            endtime: datalist[i].alarm_endtime,
-                            type: datalist[i].alarm_type,
-                        })
-                    };
+                    this.tableData = res.data.result;
                 }
             })
         },
@@ -357,7 +335,7 @@ export default {
 @import "../css/boeder.css";
 .index{
     /* min-height: 1000; */
-    height: 96%;
+    height: 100%;
     padding: 20px 50px;
     display: flex;
     justify-content: space-between;
@@ -532,9 +510,16 @@ export default {
     color:#fff;
 }
 /* ----------------最新动态----------------- */
-.el-table{
+#newdynamic .el-table{
     background: none;
     border: none;
+}
+#newdynamic .el-table td,#newdynamic .el-table tr{
+    background: none;
+    border: none;
+}
+#newdynamic .el-table td div{
+    color: #fff;
 }
 /* ----------------环境监测----------------- */
 .onstruction-environment span:nth-of-type(odd){

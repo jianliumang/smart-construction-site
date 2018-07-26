@@ -176,16 +176,13 @@ export default {
             pickerOptions1: this.starttimelist,
             starttimevalue: '',
             endtimevlaue: '',
-            list: ['1','2','3'],
             havedate : [],
-            value4: ''
         };
     },
     created() {
         this.regionid = sessionStorage.getItem("regionid");
         },
     mounted() {
-        console.log(document.getElementById("showmap"))
         var elebody = document.body;
         var elemap = document.getElementById("showmap");
         elemap.style.height = elebody.clientHeight-120+'px';
