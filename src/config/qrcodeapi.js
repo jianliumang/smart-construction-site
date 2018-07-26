@@ -1,0 +1,31 @@
+export default{
+    withMachineTypeNumberDelete:'equimentController/deleteEquiment',//根据设备类型编号和设备编号删除设备
+    seekequipmenttype:'equimentController/selectAllEquipmentType',//查找所有的设备类型
+    withTypeNumberSeekMachine:'equimentController/selectEquiment',//根据设备类型编号查询设备
+    withnumberandtypeinfo:'equimentController/selectOneEquipment',//查找设备编号和设备类型编号查询设备信息
+    withTowerIdSeekInfo:'equimentController/selectEquimentInfomation',//根据塔机id查询设备详细信息
+    revisetowerinfo:'equimentController/updateTowerCrane',//修改塔机设备
+    reviseElevatorInfo:'equimentController/updateElevator',//修改升降机设备
+    pictureupload:'mongoDBController/PictureUploading',//图片上传接口
+    pictureDownload:'mongoDBController/PictureDownload',//图片下载接口
+    judgementTodayInspectionType:'towerCraneInspectionController/JudgeInspection',//查看当前日期是否巡检
+    withmachinetyperesquestabnormal:'towerCraneInspectionController/SelectTowerCraneMechanicalmainTenance',//根据设备类型获取异常列表接口
+    machineabnormaluploadinfo:'towerCraneInspectionController/insertEquipmentAbnormal',//机器异常上传信息接口
+    machinenormaluploadinfo:'towerCraneInspectionController/insertEquipmentNormal',//机器正常上传信息接口
+    seekMachineInspectionRecord:'towerCraneInspectionController/selectEquipmentInspection',//查询简单机器巡检记录
+    withidseekdetailedinfo:'towerCraneInspectionController/selectInspectionDetails',//根据id查询巡检记录详细信息
+    reviseMachineType:'towerCraneInspectionController/updateEquimentRepair',//改变设备维修状态
+    seektowerforallqrcode:'qrcode/BatchGenerationQRCode',//根据塔机设备批量生成二维码
+    seektowerforqrcode:'qrcode/manufactureTowerCraneQRCode',//根据塔机设备生成二维码
+    seekElevatorForAllQrcode:'qrcode/BatchGenerationElevatorQRCode',//根据升降机设备批量生成二维码
+    seekElevatorForQrcode:'qrcode/manufactureElevatorQRCode',//根据升降机设备生成二维码
+    seekequipmentqrcode:'qrcode/selectAllQRCode',//查找所有的设备所生成的二维码
+    addScreeners:'SecurityInspector/addUser',//添加安检员
+    seekAllCountry:'SecurityInspector/selectAllCountry',//查找所有国家
+    withCountrySeekProvince:'SecurityInspector/selectProvinceByCountry',//根据国家查找省份
+    withProvinceSeekCity:'SecurityInspector/selectCityByProvince',//根据省查找市
+    withCitySeekArea:'SecurityInspector/selectAreaByCity',//根据市查找区
+    withAreaSeekCMC:'SecurityInspector/selectAdministrationByArea',//根据区查找管委会
+    withCMCSeekConstruction:'SecurityInspector/selectSiteByAdministration',//根据管委会查找工地
+    
+}

@@ -1,0 +1,223 @@
+<template>
+    <div class="gprshatdata">
+        <el-table
+            :data="tableData"
+            border
+            stripe
+            style="width: 100%">
+            <el-table-column
+                prop="hatnumber"
+                label="安全帽编号">
+            </el-table-column>
+            <el-table-column
+                prop="name"
+                label="人员名称">
+            </el-table-column>
+            <el-table-column
+                prop="worksite"
+                label="所属分组">
+            </el-table-column>
+            <el-table-column
+                fixed="right"
+                label="操作">
+                <template slot-scope="scope">
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">修改</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-dialog
+            title="修改信息"
+            :visible.sync="dialogVisible"
+            width="1200px"
+            :before-close="handleClose">
+            <div>
+                <span>安全帽编号：</span>
+                <span>{{revisehatnumber}}</span>
+                <span>人员名称：</span>
+                <input type="text" v-model="revisehatname" name="" id="">
+                <span>所属分组</span>
+                <el-select v-model="groupvalue" :placeholder="revisehatworksite">
+                    <el-option v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.number">
+                        
+                    </el-option>
+                </el-select>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="finish">确 定</el-button>
+            </span>
+        </el-dialog>
+        <div class="block">
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                background
+                :page-sizes="[10, 20, 30, 40]"
+                :page-size="100"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="backData.length">
+            </el-pagination>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+      return {
+        regionid:Number,
+        tableData: [],
+        backData:[],
+        currentPage:1,
+        sizeval:10,
+        currentval:1,
+        dialogVisible: false,
+        revisehatnumber:Number,
+        revisehatname:'',
+        revisehatworksite: '',
+        groupvalue:'',
+        options: [],
+        openvalue:''
+      }
+    },
+    created() {
+      this.regionid = sessionStorage.getItem("regionid");
+    },
+    mounted(){
+         this.hatinforequest();
+         this.groupinforequest()
+    },
+    methods:{
+        handleClick(row) {
+            //点击回放
+            // console.log(this.revisehatworksite)
+            this.revisehatnumber = row.hatnumber;
+            this.revisehatname = row.name;
+            this.revisehatworksite = row.worksite;
+            this.dialogVisible = true;
+        },
+        handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        },
+        datashow(){
+            //根据页面条数size值与页面数值展现数据
+            this.tableData = [];
+            for(var i=this.sizeval*this.currentval-this.sizeval;i<this.sizeval*this.currentval;i++){
+                if(i>=this.backData.length){
+                    return false;
+                }
+                this.tableData.push(this.backData[i])
+            }
+        },
+        handleSizeChange(val) {
+            //点击页面条数size，传入值
+            this.sizeval = val;
+            this.tableData = [];
+            this.datashow();
+        },
+        handleCurrentChange(val) {
+            //点击页数传入页数值
+            this.currentval = val;
+            this.tableData = [];
+            this.datashow();
+        },
+        hatinforequest(){
+            //将数据在页面中展示
+            this.backData = [];
+            this.$api.withConstructionNumberSeekHat({
+                params:{
+                    regionid:this.regionid
+                }
+            }).then(res => {
+                console.log(res);
+                if(res.data.code==200){
+                    res.data.result.forEach(element => {
+                        this.backData.push({
+                            hatnumber: element.hat_number,
+                            name: element.workman_name,
+                            worksite: element.groupingname,
+                            groupingnumber: element.groupingnumber
+                        })
+                    });
+                    this.datashow();
+                }
+            })
+            
+        },
+        groupinforequest(){
+            //修改功能中的分组下拉列表
+            console.log(7777777)
+            this.options = [];
+            this.$api.seekAllGroup().then(res => {
+                console.log(res)
+                if(res.data.result==200){
+                    res.data.result.forEach(element => {
+                        this.options.push({
+                            value: element.groupingid,
+                            label: element.groupingname,
+                            number: element.groupingnumber
+                        })
+                    });
+                    this.groupvalue = this.options[0].number
+                }
+            })
+        },
+        finish(){
+            //完成修改
+            // console.log(55555)
+            // console.log(this.revisehatname)
+            this.$api.withHatNumberPutInfo({
+                "groupingnumber": this.groupvalue,
+                "hatnumber": this.revisehatnumber,
+                "workman_name": this.revisehatname
+            }).then(res => {
+                if(res.data.code==200){
+                    this.hatinforequest();
+                    if(res.data.result == true){
+                        this.openvalue = '修改成功'
+                    }else{
+                        this.openvalue = '修改失败'
+                    }
+                    this.open()
+                }
+            })
+            this.dialogVisible = false;
+        },
+        open() {
+            //消息提示
+            const h = this.$createElement;
+            this.$notify({
+            title: '标题名称',
+            message: h('i', { style: 'color: teal'}, this.openvalue)
+        });
+        }
+    },
+    watch: {
+        revisehatname(val){
+            // console.log(val)
+            // console.log(/^[\u4e00-\u9fa5]{0,}$/.test(val));
+            if(!/^[\u4e00-\u9fa5]{0,5}$/.test(val)){
+                this.revisehatname = '';
+                this.openvalue = '请输入五个字以内的汉字',
+                this.open();
+            }
+            
+        }
+    }
+}
+</script>
+
+<style>
+.cell{
+    padding: 0px!important;
+    text-align: center;
+}
+</style>
