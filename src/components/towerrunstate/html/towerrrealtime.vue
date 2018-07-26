@@ -22,42 +22,10 @@
                 <div class="tower-type">
                     <span class="tower-type-left"><span>高度</span><span>m</span><span>{{towerdata==null?0:towerdata.height}}</span></span><span class="tower-type-right"><span>角度</span><span>。</span><span>{{towerdata==null?0:towerdata.rotation}}</span></span>
                 </div>
-                <!-- <button @click="num=num+20">++++</button> -->
             </div>
             <div class="tower-transfrom">
                 <tiaoshi :content="contentdata"></tiaoshi>
             </div>
-            
-            <!-- <el-col :span="12">
-                <div class="grid-content tower-crosswise">
-                    <div class="tower-round">
-                        <div class="round-top-center">270</div>
-                        <div class="round-right-top">315</div>
-                        <div class="round-right-center">360/0</div>
-                        <div class="round-right-bottom">45</div>
-                        <div class="round-bottom-center">90</div>
-                        <div class="round-left-bottom">135</div>
-                        <div class="round-left-center">180</div>
-                        <div class="round-left-top">225</div>
-                        <div class="round-crosswise" :style="{ transform: rotatevalue,transition: 'transform ' + showtime + 's linear!important' }">
-                            <div class="round-center"></div>
-                            <div class="round-goods" :style="{ left: leftvalue + 'px',transition: 'left ' + showtime + 's linear!important' }"></div>
-                        </div>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="grid-content tower-lengthwise">
-                    <div class="tower-shell">
-                        <img src="@/assets/img/ta.png" alt="">
-                        <div class="tower-demonstrate" :style="{ left:crossdata + 'px',transition: 'left ' + showtime + 's linear!important' }">
-                            <div><img src="@/assets/img/shang.png" alt="" class="tower-on"></div>
-                            <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="tower-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                            <div><img src="@/assets/img/xia.png" alt="" class="tower-down"></div>
-                        </div>
-                    </div>
-                </div>
-            </el-col> -->
         </div>
     </div>
 </div>
@@ -132,12 +100,6 @@ export default {
                         verticaldata:20 + 5.25*res.data.result.height,
                         oring:47 + res.data.result.tower_range,
                     }
-                    // console.log(this.contentdata)
-                    // this.showtime = this.requesttype?0:10;
-                    // this.rotatevalue = 'rotate(' +res.data.result.rotation + 'deg)';
-                    // this.leftvalue = 50 + 2.7*res.data.result.tower_range;
-                    // this.crossdata = 280 + 4.2*res.data.result.tower_range;
-                    // this.verticaldata = 20 + 4.75*res.data.result.height;
                     this.anitype = true;
                 }
             })

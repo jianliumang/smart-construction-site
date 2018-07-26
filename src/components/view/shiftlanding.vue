@@ -89,10 +89,10 @@ export default {
 .button{
     width: 200px;
 }
-.el-input{
+.page-front .el-input{
     width: 200px;
 }
-.el-input .el-input__inner{
+.page-front .el-input .el-input__inner{
     width: 168px!important;
 }
 </style>

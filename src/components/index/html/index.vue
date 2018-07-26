@@ -17,7 +17,7 @@
                         <el-form ref="form" :model="form" label-width="80px">
                             <el-form-item label="建筑面积">
                                 <el-row>
-                                    <el-col :span="12"><el-input v-model="formarea"></el-input></el-col>
+                                    <el-col :span="12"><el-input v-model="form.area"></el-input></el-col>
                                     <el-col class="el-text-type" :span="12"><span>㎡</span></el-col>
                                 </el-row>
                             </el-form-item>
@@ -34,7 +34,7 @@
                                 </div>
                             </el-form-item>
                             <el-form-item label="建筑类型">
-                                <el-select v-model="formregion" placeholder="请选择建筑类型">
+                                <el-select v-model="form.region" placeholder="请选择建筑类型">
                                     <el-option v-for="item in options"
                                         :key="item.value"
                                         :label="item.label"
@@ -185,8 +185,10 @@ export default {
     data(){
         return{
             regionid:Number,
-            formarea: '',
-            formregion: '',
+            form: {
+                area: '',
+                region: ''
+            },
             valuetime: [],
             menushow: false,
             devicesn:10301229,
@@ -242,23 +244,23 @@ export default {
                 if(res.data.code==200){
                     
                     this.constructiondata = res.data.result;
-                    this.formarea = this.constructiondata.coveredArea;
-                    this.formregion = this.constructiondata.engineeringCategoryNumber;
+                    this.form.area = this.constructiondata.coveredArea;
+                    this.form.region = this.constructiondata.engineeringCategoryNumber;
                     this.valuetime = [this.constructiondata.contractStarttime,this.constructiondata.contractEndtime]
                 }
             })
         },
         onSubmit(){
             //设置工地数据*
-            if(this.valuetime==[] || this.formarea == '' || this.formregion == ''){
+            if(this.valuetime==[] || this.form.area == '' || this.form.region == ''){
                 alert("请填写完整")
                 return false;
             }
             this.$api.insertArchitectureData({
                 "contractEndtime": this.valuetime[1],
                 "contractStarttime": this.valuetime[0],
-                "coveredArea": this.formarea,
-                "engineeringCategoryNumber":  this.formregion,
+                "coveredArea": this.form.area,
+                "engineeringCategoryNumber":  this.form.region,
                 "regionid": this.regionid
             }).then(res => {
                 if(res.data.result){
@@ -348,14 +350,6 @@ export default {
     beforeDestroy() {
       clearInterval(this.realdata);
     },
-    watch:{
-        formarea(val){
-            if(!/^([1-9][0-9]*)+(\.[0-9]{1,2})?$/.test(val)){
-                this.revisehatname = '';
-                alert('请输入数字')
-            }
-        }
-    }
 }
 </script>
 
@@ -363,7 +357,7 @@ export default {
 @import "../css/boeder.css";
 .index{
     /* min-height: 1000; */
-    height: 100%;
+    height: 96%;
     padding: 20px 50px;
     display: flex;
     justify-content: space-between;

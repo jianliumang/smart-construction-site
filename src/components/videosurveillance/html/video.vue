@@ -270,11 +270,12 @@ export default {
 		},
 		videorequest(){
 			//根据工地请求获取所有的摄像头
-        	this.$http
-                .get(
-                    "http://60.191.29.210:9090/RestIOTAPI/videomonitor/toselectVideoMonitor?regionid=" + this.regionid
-                )
-                .then(res => {
+			this.$api.seekConstructionsVideo({
+				params:{
+					regionid:this.regionid
+				}
+			}).then(res => {
+					console.log(res)
 					this.videolist = res.data.result;
 					this.szIP=this.videolist[0].ip;
 					this.szPort=this.videolist[0].port;

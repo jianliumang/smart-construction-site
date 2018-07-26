@@ -283,12 +283,12 @@ export default {
     width: 90px;
     color: #99a9bf;
 }
-.demo-table-expand .el-form-item {
+.inspiction .demo-table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;
 }
-.el-form-item{
+.inspiction .el-form-item{
     text-align: left;
     width: 100%!important;
 }

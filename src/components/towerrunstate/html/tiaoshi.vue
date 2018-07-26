@@ -1,5 +1,5 @@
 <template>
-<div id="animation">
+<div id="animation" class="towerrani">
     <div class="ani-animation">
         <el-row class="ani-center">
             <el-col class="ta">
@@ -498,11 +498,11 @@ export default {
     -moz-transform: rotateY(90deg) translateZ(-21px);
     transform: rotateY(90deg) rotateX(8deg) translateZ(127px) translateX(0px) translateY(20px);
 }
-.ani-animation{
+.towerrani .ani-animation{
     width: 100%;
     overflow: hidden;
 }
-.ani-headers{
+.towerrani .ani-headers{
     height: 100px;
     padding-top: 10px;
 }
@@ -514,7 +514,7 @@ export default {
     width: 550px;
     height: 42px;
 }
-.ani-timebox form,.el-form-item{
+.ani-timebox form,.towerrani .el-form-item{
     height: 42px;
     margin-bottom: 0px;
 }

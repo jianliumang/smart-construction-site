@@ -18,18 +18,6 @@ export default new Router({
       hidden: true
     },
     {
-      path: '/login',
-      name: 'login',
-      component: (resolve) => require(['@/components/view/login.vue'],resolve),
-      hidden: true
-    },
-    {
-      path: '/login2',
-      name: 'login2',
-      component: (resolve) => require(['@/components/view/login2.vue'],resolve),
-      hidden: true
-    },
-    {
       path: '/addScreeners',
       name: 'addScreeners',
       component: (resolve) => require(['@/components/view/addScreeners.vue'],resolve),
@@ -45,12 +33,6 @@ export default new Router({
       path: '/qrcode',
       name: 'qrcode',
       component: (resolve) => require(['@/components/view/qrcode.vue'],resolve),
-      hidden: true
-    },
-    {
-      path: '/new',
-      name: 'new',
-      component: (resolve) => require(['@/components/view/new.vue'],resolve),
       hidden: true
     },
     {

@@ -1,7 +1,7 @@
 export default{
-    withMachineNumberSeekAllAlarm : 'alarmInformation/toselectAlarmInformation',//根据设备编号查出该编号下所有的报警信息
-    alarmReplay : 'alarmInformation/toselectAlarmPlayback',//报警回放
-    seekMachineNumberNewAlarm : 'alarmInformation/toselectOneAlarmInformation',//查找该设备编号最新一条报警信息
+    withMachineNumberSeekAllAlarm : 'towercraneAlarmInformation/toselectAlarmInformation',//根据设备编号查出该编号下所有的报警信息
+    alarmReplay : 'towercraneAlarmInformation/toselectAlarmPlayback',//报警回放
+    seekMachineNumberNewAlarm : 'towercraneAlarmInformation/toselectOneAlarmInformation',//查找该设备编号最新一条报警信息
     insertArchitectureData : 'architecture/toinsertArchitecture',//插入建筑数据
     seekArchitectureData : 'architecture/toselectArchitecture',//查询建筑数据
     withCMCNumberSeekAllConstruction : 'constructionsite/toselectAllConstructionSite',//根据管委会编号查找旗下所有工地
@@ -11,8 +11,8 @@ export default{
     withMachineNumberHasDataDayPost : 'environmentalmonitoring/toselectDataExistDate',//根据设备编号查找有数据的日期
     seekDatesEnvironmentalMonitoringData : 'environmentalmonitoring/toselectHistoryFromTimeToTime2',//get根据设备编号查找时间到另一个时间的环境监控数据
     seekMachineNumberNewEnvironmentalData : 'environmentalmonitoring/toselectTempertureInformation',//查找该设备编号的最新一条的环境监控所有数据
-    withMachineNumberResInfo : 'equipment/toselectEquipment',//根据设备编号请求设备信息
-    withConstructionNumberResInfo : 'equipment/toselectWorkSiteOneEquipment',//根据工地编号请求设备信息
+    withMachineNumberResInfo : 'equimentController/toselectEquipment',//根据设备编号请求设备信息
+    withConstructionNumberResInfo : 'equimentController/toselectWorkSiteOneEquipment',//根据工地编号请求设备信息
     seekAllGroup : 'crouping/selectGroupingName',//查找所有分组
     withMachineNumberHasDataDayGet : 'location/toselectDataExistDate',//根据设备编号查找有数据的日期
     withHatNumberResNewGpsInfo : 'location/toselectSafetyHatOneLocation',//根据安全帽编号请求最新的一条安全帽定位信息

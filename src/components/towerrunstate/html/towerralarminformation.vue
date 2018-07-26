@@ -158,13 +158,13 @@ export default {
             }).catch(_ => {});
         },
         replayfn(){
-            this.$http({
-                method: "get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/alarmInformation/toselectAlarmPlayback?deviceSN=" + this.devicesn
-                 + "&alarmStarttime=" + this.alarmStarttime
-                  + "&alarmEndtime=" + this.alarmEndtime
-            })
-            .then(res => {
+            this.$api.alarmReplay({
+                params:{
+                    deviceSN:this.devicesn,
+                    alarmStarttime:this.alarmStarttime,
+                    alarmEndtime:this.alarmEndtime
+                }
+            }).then(res => {
                 if(res.data.result.length==0){
                     return false;
                 }
@@ -199,22 +199,25 @@ export default {
             this.datashow();
         },
         towerrrequest(){
-            this.$http({
-                method: "get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/alarmInformation/toselectAlarmInformation?device_sn=" + this.devicesn
-            })
-            .then(res => {
-                res.data.result.reverse().forEach(element => {
-                    this.backData.push({
-                        devicesn: element.device_sn,
-                        name: '',
-                        towerrname: '',
-                        startTime: element.alarm_starttime,
-                        endTime: element.alarm_endtime,
-                        type: element.alarm_type,
-                    })
-                });
-                this.datashow();
+            this.$api.withMachineNumberSeekAllAlarm({
+                params:{
+                    device_sn:this.devicesn
+                }
+            }).then(res => {
+                console.log(res)
+                if(res.data.code==200){
+                    res.data.result.reverse().forEach(element => {
+                        this.backData.push({
+                            devicesn: element.device_sn,
+                            name: '',
+                            towerrname: '',
+                            startTime: element.alarm_starttime,
+                            endTime: element.alarm_endtime,
+                            type: element.alarm_type,
+                        })
+                    });
+                    this.datashow();
+                }
             })
         }
     }

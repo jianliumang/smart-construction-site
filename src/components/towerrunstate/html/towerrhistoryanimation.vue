@@ -1,5 +1,5 @@
 <template>
-<div id="animation">
+<div id="animation" class="towerrhistoryani">
     <div class="ani-animation">
         <el-row class="ani-headers">
             <div id="ani-select">
@@ -49,44 +49,11 @@
                 <div class="tower-type">
                     <span class="tower-type-left"><span>高度</span><span>m</span><span>{{towerdata==null?0:towerdata.lifting_height}}</span></span><span class="tower-type-right"><span>角度</span><span>。</span><span>{{towerdata==null?0:towerdata.lifting_angle}}</span></span>
                 </div>
-                <!-- <button @click="num=num+20">++++</button> -->
             </div>
             <div class="tower-transfrom">
                 <tiaoshi :content="contentdata"></tiaoshi>
             </div>
         </div>
-        <!-- <el-row class="ani-center">
-            <el-col :span="12">
-                <div class="grid-content ani-crosswise">
-                    <div class="ani-round">
-                        <div class="round-top-center">270</div>
-                        <div class="round-right-top">315</div>
-                        <div class="round-right-center">360/0</div>
-                        <div class="round-right-bottom">45</div>
-                        <div class="round-bottom-center">90</div>
-                        <div class="round-left-bottom">135</div>
-                        <div class="round-left-center">180</div>
-                        <div class="round-left-top">225</div>
-                        <div class="round-crosswise" :style="{ transform: rotatevalue,transition: 'transform ' + showtime + 's linear!important' }">
-                            <div class="round-center"></div>
-                            <div class="round-goods" :style="{ left: leftvalue + 'px',transition: 'left ' + showtime + 's linear!important' }"></div>
-                        </div>
-                    </div>
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="grid-content ani-lengthwise">
-                    <div class="ani-shell">
-                        <img src="@/assets/img/ta.png" alt="">
-                        <div class="ani-demonstrate" :style="{ left:crossdata + 'px',transition: 'left ' + showtime + 's linear!important' }">
-                            <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                            <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                            <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
-                        </div>
-                    </div>
-                </div>
-            </el-col>
-        </el-row> -->
     </div>
 </div>
 </template>
@@ -154,11 +121,6 @@ export default {
                         verticaldata:20 + 4.75*element.lifting_height,
                         oring:47 + element.lifting_range,
                     }
-                    // this.showtime = 0;
-                    // this.rotatevalue = 'rotate(' +element.lifting_angle + 'deg)';
-                    // this.leftvalue = 50 + 2.7*element.lifting_range;
-                    // this.crossdata = 280 + 4.2*element.lifting_range;
-                    // this.verticaldata = 20 + 4.75*element.lifting_height;
                     this.anitype = true;
                 }
             })
@@ -177,49 +139,44 @@ export default {
                         verticaldata:20 + 4.75*element.drop_height,
                         oring:47 + element.drop_angle,
                     }
-                    // this.showtime = (t1.getTime() - t2.getTime())/1000/this.speed;
-                    // this.rotatevalue = 'rotate(' + element.drop_angle + 'deg)';
-                    // this.leftvalue = 50 + 2.7*element.drop_amplitude;
-                    // this.crossdata = 280 + 4.2*element.drop_amplitude;
-                    // this.verticaldata = 20 + 4.75*element.drop_height;
                     this.anitype = false;
                 }
             })
         },
         alldata(){
             //根据工地查询塔吊设备的sn编号
-            this.$http({
-                method: "get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/TowerCraneSensor/toselectTowerCraneSensor?regionid=" + this.regionid
-            })
-            .then(res => {
+            this.$api.seekMachineTower({
+                params:{
+                    regionid:this.regionid
+                }
+            }).then(res => {
                 console.log(res)
-                res.data.result.forEach(element => {
-                    if(this.devicesn.indexOf(element.deviceSN)==-1){
-                        if(this.devicesn.length==0){this.devicesn.splice(0,0,element.deviceSN);}
-                        for(let i=0;i<this.devicesn.length;i++){
-                            if(this.devicesn[i]>element.deviceSN){
-                                this.devicesn.splice(i,0,element.deviceSN);
-                                return false;
-                            }; 
-                        };
-                    }
-                });
+                if(res.data.code==200){
+                    res.data.result.forEach(element => {
+                        if(this.devicesn.indexOf(element.deviceSN)==-1){
+                            if(this.devicesn.length==0){this.devicesn.splice(0,0,element.deviceSN);}
+                            for(let i=0;i<this.devicesn.length;i++){
+                                if(this.devicesn[i]>element.deviceSN){
+                                    this.devicesn.splice(i,0,element.deviceSN);
+                                    return false;
+                                }; 
+                            };
+                        }
+                    });
+                }
             })
         },
         windata() {
             // 根据设备sn编号与一段时间段的开始时间和结束时间查找回放数据
-            this.$http({
-                method: "post",
-                url:"http://60.191.29.210:9090/RestIOTAPI/workingcycle/toselectTowerCraneWorkingCycle",
-                data:{
+            this.$api.withTowerNumberAndDatesSeekInfo({
                     "device_sn":this.deviceed,
                     "endtime":this.dates[1],
                     "starttime":this.dates[0]
-                }
-            })
-            .then(res => {
-                this.playback = res.data.result;
+                }).then(res => {
+                    console.log(res)
+                    if(res.data.code==200){
+                        this.playback = res.data.result;
+                    }
             });
         },
     },
@@ -234,11 +191,11 @@ export default {
 </script>
 
 <style>
-.ani-animation{
+.towerrhistoryani .ani-animation{
     min-width: 1344px;
     overflow: hidden;
 }
-.ani-headers{
+.towerrhistoryani .ani-headers{
     height: 100px;
     padding-top: 10px;
 }
@@ -250,7 +207,7 @@ export default {
     width: 550px;
     height: 42px;
 }
-.ani-timebox form,.el-form-item{
+.ani-timebox form,.towerrhistoryani .el-form-item{
     height: 42px;
     margin-bottom: 0px;
 }
@@ -447,6 +404,8 @@ export default {
     height: 30px;
     border-radius: 5px;
     outline: 0;
+    vertical-align: top;
+    margin-top: 5px;
 }
 #ani-select .select-footer{
     width: 400px;
