@@ -190,7 +190,8 @@ export default {
             const h = this.$createElement;
             this.$notify({
             title: '标题名称',
-            message: h('i', { style: 'color: teal'}, this.openvalue)
+            message: h('i', { style: 'color: teal'}, this.openvalue),
+            customClass:'infoshow'
         });
         }
     },
@@ -199,7 +200,7 @@ export default {
             // console.log(val)
             // console.log(/^[\u4e00-\u9fa5]{0,}$/.test(val));
             if(!/^[\u4e00-\u9fa5]{0,5}$/.test(val)){
-                this.revisehatname = '';
+                this.revisehatname=val.replace(/[^\u4e00-\u9fa5]/,'');
                 this.openvalue = '请输入五个字以内的汉字',
                 this.open();
             }
@@ -210,8 +211,15 @@ export default {
 </script>
 
 <style>
+.gprshatdata{
+    width: 98%;
+    padding: 0px 1%;
+}
 .cell{
     padding: 0px!important;
     text-align: center;
+}
+.infoshow{
+    z-index: 3000;
 }
 </style>

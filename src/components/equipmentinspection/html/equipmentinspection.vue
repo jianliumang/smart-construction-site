@@ -1,41 +1,43 @@
 <template>
     <div class="equipmentinspection">
         <el-container class="aside-container">
-            <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
-                <el-menu
-                :default-openeds="['1']"
-                default-active="2"
-                class="el-menu-vertical-demo"
-                background-color="#293950"
-                text-color="#fff"
-                active-text-color="#e45823">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i>
-                                <img src="@/assets/img/nav007.png" alt="">
-                            </i>
-                            <span>设备巡检</span>
-                        </template>
-                        <el-menu-item-group>
-                            <el-menu-item index="1-1">
-                                <router-link to="/equipmentinspection/inputinfo" index="1-1">生成二维码</router-link>
-                            </el-menu-item>
-                            <el-menu-item index="1-2">
-                                <router-link to="/equipmentinspection/jump" index="1-2">二维码展示</router-link>
-                            </el-menu-item>
-                            <el-menu-item index="1-3">
-                                <router-link to="/equipmentinspection/management" index="1-3">设备管理</router-link>
-                            </el-menu-item>
-                            <el-menu-item index="1-4">
-                                <router-link to="/equipmentinspection/inspectionrecord?equipmentNumber=10301229&equipmentTypeNumber=1" index="4">巡检记录</router-link>
-                            </el-menu-item>
-                            <el-menu-item index="1-5">
-                                <router-link to="/equipmentinspection/qrcode?equipmentNumber=10301229&equipmentTypeNumber=1" index="5">巡检</router-link>
-                            </el-menu-item>
-                        </el-menu-item-group>
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
+            <div class="aside-parent">
+                <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
+                    <el-menu
+                    :default-openeds="['1']"
+                    default-active="2"
+                    class="el-menu-vertical-demo"
+                    background-color="#293950"
+                    text-color="#fff"
+                    active-text-color="#e45823">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i>
+                                    <img src="@/assets/img/nav007.png" alt="">
+                                </i>
+                                <span>设备巡检</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="1-1">
+                                    <router-link to="/equipmentinspection/inputinfo" index="1-1">生成二维码</router-link>
+                                </el-menu-item>
+                                <el-menu-item index="1-2">
+                                    <router-link to="/equipmentinspection/jump" index="1-2">二维码展示</router-link>
+                                </el-menu-item>
+                                <el-menu-item index="1-3">
+                                    <router-link to="/equipmentinspection/management" index="1-3">设备管理</router-link>
+                                </el-menu-item>
+                                <el-menu-item index="1-4">
+                                    <router-link to="/equipmentinspection/inspectionrecord?equipmentNumber=10301229&equipmentTypeNumber=1" index="4">巡检记录</router-link>
+                                </el-menu-item>
+                                <el-menu-item index="1-5">
+                                    <router-link to="/equipmentinspection/qrcode?equipmentNumber=10301229&equipmentTypeNumber=1" index="5">巡检</router-link>
+                                </el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+            </div>
             <el-container>
                 <el-main id="router-show">
                     <router-view></router-view>
@@ -53,11 +55,14 @@ export default {
 
 <style>
 .equipmentinspection{
-    height: 1000px;
+    height: 100%;
+}
+.equipmentinspection .aside-parent{
+    background: #293950;
 }
 .el-aside-nav{
     position: relative;
-    height: 1040px;
+    height: 100%;
     top: -40px;
     background: #293950;
 }

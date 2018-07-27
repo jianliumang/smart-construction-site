@@ -4,13 +4,12 @@
             <el-header>
               <div>
                 <select @change="constructioncfn" v-model="constructionc">
-                    
                     <option disabled value="">请选择设备</option>
                     <option v-for="(construc,cindex) in constructioncdata" :key="cindex" :value="construc.equipment_name">
                         {{ construc.equipment_name }}
                     </option>
                 </select>
-                  {{showname}}
+                  {{constructionc}}
               </div>
             </el-header>
             <el-main>
@@ -177,7 +176,6 @@ export default {
             constructioncid:1,
             constructioncdata:[],
             enviromentalid: Number,
-            showname:'',
             //有数据的日期颜色
             starttimevalue: '',
             endtimevlaue: '',
@@ -221,7 +219,7 @@ export default {
                 this.pm2_5time=[];
                 this.pm10time=[];
                 this.enviromentalid = element.enviromental_id;
-                this.showname = element.equipment_name;
+                // this.constructionc = element.equipment_name;
                 this.temperature();
                 }
             })
@@ -236,7 +234,7 @@ export default {
                 console.log(res)
                 if(res.data.code==200){
                     this.constructioncdata = res.data.result;
-                    this.showname = res.data.result[0].equipment_name;
+                    this.constructionc = res.data.result[0].equipment_name;
                     this.enviromentalid = res.data.result[0].enviromental_id;
                     console.log(this.enviromentalid)
                     this.temperature();
@@ -688,13 +686,24 @@ export default {
 
 <style>
 .environmentcue{
-    padding: 0px 240px 100px 240px;
+    height: 100%;
+    padding: 0px 240px;
 }
 .environmentcue .el-header{
-    height: 80px!important;
+    height: 65px!important;
     border-bottom: 1px solid #ccc;
     text-align: left;
-    padding: 15px 0 0 0;
+    padding: 10px 0 0 0;
+}
+.environmentcue .el-container{
+    height: 100%;
+}
+.environmentcue .el-header+.el-main{
+    height: 100%;
+    overflow:auto;
+}
+.environmentcue .el-header+.el-main::-webkit-scrollbar{
+    display: none;
 }
 .environmentcue .el-header select{
     width: 180px;
@@ -717,10 +726,10 @@ export default {
     display: none; 
 }
 .environmentcue .el-row{
-    height: 160px;
+    height: 16.4%;
     border-bottom: 1px solid #999;
     line-height: 100px;
-    padding: 30px 0px;
+    padding: 10px 0px;
 }
 .environmentcue img{
     /* width: 100px; */
@@ -728,7 +737,7 @@ export default {
     
 }
 .environmentcue .el-col{
-    height: 160px;
+    height: 120px;
 }
 .environmentcue .el-col-4 span:nth-child(1){
     display: inline-block;

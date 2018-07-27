@@ -1,6 +1,7 @@
 <template>
     <div class="gprspositioning">
         <el-container class="aside-container">
+            <div class="aside-parent">
                 <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
                     <el-menu
                     :default-openeds="['1']"
@@ -32,12 +33,13 @@
                         </el-submenu>
                     </el-menu>
                 </el-aside>
-                <el-container>
-                    <el-main id="router-show">
-                        <router-view></router-view>
-                    </el-main>
-                </el-container>
+            </div>
+            <el-container>
+                <el-main id="router-show">
+                    <router-view></router-view>
+                </el-main>
             </el-container>
+        </el-container>
     </div>
 </template>
 
@@ -58,18 +60,21 @@ export default {
 
 <style>
 .gprspositioning{
-    height: 1000px;
+    height: 100%;
+}
+.gprspositioning .aside-parent{
+    background: #293950;
 }
 .el-aside-nav{
     position: relative;
-    height: 1040px;
+    height: 100%;
     top: -40px;
     background: #293950;
 }
 .el-aside-navchange{
     position: absolute;
     height: 40px;
-    top: 80px;
+    top: 60px;
     background: #293950;
 }
 .gprspositioning .aside-container{

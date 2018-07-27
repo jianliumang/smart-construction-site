@@ -85,7 +85,7 @@
                 </div>
             </el-col>
         </el-row>
-        <!-- <button @click="ddd">++++</button> -->
+        <!-- <button id="but" @click="ddd">++++</button> -->
     </div>
 </div>
 </template>
@@ -146,6 +146,9 @@ export default {
 </script>
 
 <style>
+#but{
+    position: absolute;
+}
 *{
     margin: 0px;
     padding: 0px;
@@ -466,18 +469,18 @@ export default {
     transform: translateZ(-21px);
 }
 #img63{
-    -webkit-transform: rotateY(90deg) translateZ(21px);
-    -moz-transform: rotateY(90deg) translateZ(21px);
+    -webkit-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
+    -moz-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
     transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
 }
 #img64{
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
+    -webkit-transform: rotateY(90deg) translateZ(45px) translateX(0px) translateY(120px);
+    -moz-transform: rotateY(90deg) translateZ(45px) translateX(0px) translateY(120px);
     transform: rotateY(90deg) translateZ(45px) translateX(0px) translateY(120px);
 }
 #img65{
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
+    -webkit-transform: rotateY(90deg) translateZ(-8px) translateX(0px) translateY(120px);
+    -moz-transform: rotateY(90deg) translateZ(-8px) translateX(0px) translateY(120px);
     transform: rotateY(90deg) translateZ(-8px) translateX(0px) translateY(120px);
 }
 #img66{
@@ -485,8 +488,8 @@ export default {
     -ms-transform-origin: 50% 100% 0;
     transform-origin: 50% 100% 0;
     /* backface-visibility: hidden; */
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
+    -webkit-transform: rotateY(270deg) rotateX(8deg) translateZ(-80px) translateX(0px) translateY(-12px);
+    -moz-transform: rotateY(270deg) rotateX(8deg) translateZ(-80px) translateX(0px) translateY(-12px);
     transform: rotateY(270deg) rotateX(8deg) translateZ(-80px) translateX(0px) translateY(-12px);
 }
 #img67{
@@ -494,8 +497,8 @@ export default {
     -ms-transform-origin: 50% 100% 0;
     transform-origin: 50% 100% 0;
     /* backface-visibility: hidden; */
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
+    -webkit-transform: rotateY(90deg) rotateX(8deg) translateZ(127px) translateX(0px) translateY(20px);
+    -moz-transform: rotateY(90deg) rotateX(8deg) translateZ(127px) translateX(0px) translateY(20px);
     transform: rotateY(90deg) rotateX(8deg) translateZ(127px) translateX(0px) translateY(20px);
 }
 .towerrani .ani-animation{

@@ -119,7 +119,7 @@ export default {
                         rotatevalue:element.lifting_angle,
                         crossdata:455 + 4.2*element.lifting_range,
                         verticaldata:20 + 4.75*element.lifting_height,
-                        oring:47 + element.lifting_range,
+                        oring:47 + 4.2*element.lifting_range,
                     }
                     this.anitype = true;
                 }
@@ -137,7 +137,7 @@ export default {
                         rotatevalue:element.drop_angle,
                         crossdata:455 + 4.2*element.drop_amplitude,
                         verticaldata:20 + 4.75*element.drop_height,
-                        oring:47 + element.drop_angle,
+                        oring:47 + 4.2*element.drop_amplitude,
                     }
                     this.anitype = false;
                 }
@@ -196,8 +196,8 @@ export default {
     overflow: hidden;
 }
 .towerrhistoryani .ani-headers{
-    height: 100px;
-    padding-top: 10px;
+    /* height: 42px; */
+    padding: 10px 0px;
 }
 .ani-center{
     height: 700px;

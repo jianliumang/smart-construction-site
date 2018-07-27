@@ -126,8 +126,13 @@ export default {
         this.powerrequest();
         this.backgroundchang();
         // console.log(this.regionname)
+        this.changeheight()
     },
     methods: {
+        changeheight(){
+            this.viewheight = document.body.clientHeight-100+'px';
+            console.log(this.viewheight)
+        },
         backgroundset(id){
             sessionStorage.setItem("id",id);
             this.bgid = id;
@@ -206,7 +211,9 @@ export default {
     width: 100%;
     min-width: 1620px;
     height: 100%!important;
-    /* overflow: hidden; */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 .pagecss1{
     /* background: url('~@/assets/img/indexbg.png') no-repeat; */
@@ -229,8 +236,8 @@ export default {
     padding-left: 50px;
 }
 #title{
-    height: 80px;
-    line-height: 80px;
+    height: 60px;
+    line-height: 60px;
 }
 #title{
     text-align: right;
@@ -241,7 +248,7 @@ export default {
     height: 45px;
     background: url('~@/assets/img/logo.png') no-repeat;
     background-size: 100% 100%;
-    margin: 20px 10px 0px 0px;
+    margin: 10px 10px 0px 0px;
     vertical-align: top;
 }
 #title .el-col-6:nth-child(1) span:nth-child(2){
@@ -259,7 +266,7 @@ export default {
     margin: 0px;
 }
 #title .el-col-12 img{
-    margin: 20px 0px 0px 10px;
+    margin: 10px 0px 0px 10px;
     vertical-align: top;
     cursor: pointer;
 }
@@ -273,7 +280,7 @@ export default {
     background-color: #0066ad;
     border-radius: 50%;
     vertical-align: top;
-    margin-top: 20px; 
+    margin-top: 10px; 
 }
 #title .el-col-6:nth-child(3) span:nth-child(2){
     display: inline-block;
@@ -330,12 +337,12 @@ export default {
     background: url('~@/assets/img/nav007.png') no-repeat 0 center;
     margin: 0px;
 }
-/* .home .el-container{
-    height: 100%;
-} */
+.home #nav+.el-container{
+    flex: 1;
+}
 .home .el-main{
     padding: 0px;
     overflow: visible;
-    /* height: 100%; */
+    height: 100%;
 }
 </style>

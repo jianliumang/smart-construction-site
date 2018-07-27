@@ -183,11 +183,11 @@ export default {
         this.regionid = sessionStorage.getItem("regionid");
         },
     mounted() {
-        var elebody = document.body;
-        var elemap = document.getElementById("showmap");
-        elemap.style.height = elebody.clientHeight-120+'px';
-        elemap.style.width = elebody.clientWidth-600+'px';
-        console.log(elebody.clientWidth-600)
+        // var elebody = document.body;
+        // var elemap = document.getElementById("showmap");
+        // elemap.style.height = elebody.clientHeight-120+'px';
+        // elemap.style.width = elebody.clientWidth-600+'px';
+        // console.log(elebody.clientWidth-600)
         // console.log(this.imgurl)
         let startTime = this.setPartTime() + " 00:00:00";
         let endTime = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
@@ -576,8 +576,8 @@ export default {
     height: 100%;
 }
 .gprshistory .map .el-main{
-    /* width: 1300px!important; */
-    /* height: 800px!important; */
+    width: 100%!important;
+    height: 100%!important;
     padding: 0;
     /* padding-right: 50px; */
 }
@@ -605,9 +605,12 @@ export default {
     border: 1px solid #ccc;
     box-shadow: 0px 0px 1px 1px #ccc;
 }
+.gprshistory .el-aside::-webkit-scrollbar{
+    display: none;
+}
 .infotit{
-    padding: 20px 0px 0px 30px;
-    margin: 0px 0px 35px 0px;
+    padding: 10px 0px 0px 15px;
+    margin: 0px 0px 14px 0px;
     text-align: left;
     border-bottom: 1px solid #ccc;
 }
@@ -623,9 +626,6 @@ export default {
     /* margin-left: 47%; */
     font-size: 18px;
     font-weight: 600
-}
-.gprshistory .block{
-    margin-bottom: 10px;
 }
 #select-gps-history{
     /* float: right; */
@@ -659,7 +659,7 @@ export default {
     position: static;
 }
 .gprshistory .el-slider{
-    margin-top: 30px;
+    margin-top: 10px;
     width: 320px;
     padding: 0 30px;
 }

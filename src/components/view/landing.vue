@@ -29,7 +29,7 @@ export default {
     },
     created(){
         document.onkeydown=e=>{
-            var key = window.event.keyCode;
+            var key = e.keyCode || window.event.keyCode;
             if(key==13){
                 this.login();
             }
@@ -40,15 +40,10 @@ export default {
     methods: {
         login(){
             console.log(11111)
-            this.$http({
-                method: "post",
-                url:"http://60.191.29.210:9090/RestIOTAPI/userinfo/selectUserInFo",
-                data:{
+            this.$api.userInfo({
                     "username": this.usernameinput,
                     "userpassword": this.userpasswinput
-                }
-            })
-            .then(res => {
+            }).then(res => {
                 console.log(res.data)
                 if(res.data.code==200){
                     this.usermessage = res.data.result;

@@ -1,6 +1,6 @@
 <template>
     <div class="index">
-        <div>
+        <div class="index-left">
             <div class="fillet-left datashow" id="datastatistics">
                 <div class="data-title">
                     <p>
@@ -11,63 +11,66 @@
                         <span></span>
                     </div>
                 </div>
-                <div class="el-center">
-                    <button class="setupbutton" @click="menushow = !menushow">设置</button>
-                    <div class="el-setup" v-show="menushow">
-                        <el-form ref="form" :model="form" label-width="80px">
-                            <el-form-item label="建筑面积">
-                                <el-row>
-                                    <el-col :span="12"><el-input v-model="form.area"></el-input></el-col>
-                                    <el-col class="el-text-type" :span="12"><span>㎡</span></el-col>
-                                </el-row>
-                            </el-form-item>
-                            <el-form-item label="活动时间">
-                                <div class="block">
-                                    <el-date-picker
-                                        v-model="valuetime"
-                                        type="daterange"
-                                        range-separator="至"
-                                        start-placeholder="开始日期"
-                                        value-format="yyyy-MM-dd"
-                                        end-placeholder="结束日期">
-                                    </el-date-picker>
-                                </div>
-                            </el-form-item>
-                            <el-form-item label="建筑类型">
-                                <el-select v-model="form.region" placeholder="请选择建筑类型">
-                                    <el-option v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.number">
-                        
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="onSubmit">设置</el-button>
-                                <el-button @click="cancel">取消</el-button>
-                            </el-form-item>
-                        </el-form>
+                <div class="datashow-center">
+                    <div class="el-center">
+                        <button class="setupbutton" @click="menushow = !menushow">设置</button>
+                        <div class="el-setup" v-show="menushow">
+                            <el-form ref="form" :model="form" label-width="80px">
+                                <el-form-item label="建筑面积">
+                                    <el-row>
+                                        <el-col :span="12"><el-input v-model="form.area"></el-input></el-col>
+                                        <el-col class="el-text-type" :span="12"><span>㎡</span></el-col>
+                                    </el-row>
+                                </el-form-item>
+                                <el-form-item label="活动时间">
+                                    <div class="block">
+                                        <el-date-picker
+                                            v-model="valuetime"
+                                            type="daterange"
+                                            range-separator="至"
+                                            start-placeholder="开始日期"
+                                            value-format="yyyy-MM-dd"
+                                            end-placeholder="结束日期">
+                                        </el-date-picker>
+                                    </div>
+                                </el-form-item>
+                                <el-form-item label="建筑类型">
+                                    <el-select v-model="form.region" placeholder="请选择建筑类型">
+                                        <el-option v-for="item in options"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.number">
+                            
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="onSubmit">设置</el-button>
+                                    <el-button @click="cancel">取消</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </div>
+                    <div class="el-indexdata-left">
+                        <div>
+                            <span class="onstruction-condition-type">建筑面积<br /><span>{{constructiondata==null? 1000:constructiondata.coveredArea}}</span>㎡</span>
+                            <span class="onstruction-condition-type">合同工期<br /><span>{{constructiondata==null? 600:constructiondata.contractPeriod}}</span>天</span>
+                        </div>
+                        <div>
+                            <span class="onstruction-condition-type">施工状态<br /><span>{{constructiondata==null? '正在施工':constructiondata.engineeringState }}</span></span>
+                            <span class="onstruction-condition-type">工程类别<br /><span>{{constructiondata==null? '房建类':constructiondata.engineeringCategoryname }}</span></span>
+                        </div>
+                    </div>
+                    <div class="onstruction-date">剩余<span>{{constructiondata==null? 100:constructiondata.distanceEnddate}}</span>天</div>
+                    <div class="onstruction-percentage">
+                        <div class="onstruction-percentage-progress">
+                            <el-progress :text-inside="true" :stroke-width="18" :percentage="constructiondata==null? 80.12:constructiondata.constructionPercentage" color="#0066ad"></el-progress>
+                        </div>
+                        <span>{{constructiondata==null? '2017-09-30':constructiondata.contractStarttime }}</span>
+                        <span>{{constructiondata==null? '2018-12-31':constructiondata.contractEndtime }}</span>
                     </div>
                 </div>
-                <div class="el-indexdata-left">
-                    <div>
-                        <span class="onstruction-condition-type">建筑面积<br /><span>{{constructiondata==null? 1000:constructiondata.coveredArea}}</span>㎡</span>
-                        <span class="onstruction-condition-type">合同工期<br /><span>{{constructiondata==null? 600:constructiondata.contractPeriod}}</span>天</span>
-                    </div>
-                    <div>
-                        <span class="onstruction-condition-type">施工状态<br /><span>{{constructiondata==null? '正在施工':constructiondata.engineeringState }}</span></span>
-                        <span class="onstruction-condition-type">工程类别<br /><span>{{constructiondata==null? '房建类':constructiondata.engineeringCategoryname }}</span></span>
-                    </div>
-                </div>
-                <div class="onstruction-date">剩余<span>{{constructiondata==null? 100:constructiondata.distanceEnddate}}</span>天</div>
-                <div class="onstruction-percentage">
-                    <div class="onstruction-percentage-progress">
-                        <el-progress :text-inside="true" :stroke-width="18" :percentage="constructiondata==null? 80.12:constructiondata.constructionPercentage" color="#0066ad"></el-progress>
-                    </div>
-                    <span>{{constructiondata==null? '2017-09-30':constructiondata.contractStarttime }}</span>
-                    <span>{{constructiondata==null? '2018-12-31':constructiondata.contractEndtime }}</span>
-                </div>
+                <div></div>
             </div>
             <div class="fillet-left datashow" id="weathermanage">
                 <div class="data-title">
@@ -77,14 +80,17 @@
                         <span></span>
                     </div>
                 </div>
-                <div class="weather">
-                    <span>杭州<br>晴</span>
-                    <span></span>
-                    <span>31~35℃</span>
+                <div class="datashow-center">
+                    <div class="weather">
+                        <span>杭州<br>晴</span>
+                        <span></span>
+                        <span>31~35℃</span>
+                    </div>
+                    <div>
+                        明天天气预报：<span>31~38℃</span><span>  晴天</span>
+                    </div> 
                 </div>
-                <div>
-                    明天天气预报：<span>31~38℃</span><span>  晴天</span>
-                </div> 
+                <div></div>
             </div>
             <div class="fillet-left datashow" id="workmanage">
                 <div class="data-title">
@@ -94,22 +100,24 @@
                         <span></span>
                     </div>
                 </div>
-                <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
-                <div>
+                <div class="work-container">
+                    <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
                     <div>
-                        <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
-                    </div>
-                    <div>
-                        <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                        <div>
+                            <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
+                        </div>
+                        <div>
+                            <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                        </div>
                     </div>
                 </div>
                 <p>考勤率</p>    
             </div>
         </div>
-        <div>
+        <div class="index-center">
             <img class="showimg" src="@/assets/img/index_center.png" alt="">
         </div>
-        <div>
+        <div class="index-right">
             <div class="fillet-left datashow" id="newdynamic">
                 <div class="data-title">
                     <p>最新动态</p>
@@ -136,12 +144,15 @@
                         <span></span>
                     </div>
                 </div> 
-                <div class="onstruction-environment">
-                    <div><span>温度：</span><span>{{defauldata==null?"0":defauldata.temperature}} ℃</span><span>湿度：</span><span>{{defauldata==null?"0":defauldata.humidity}} RH</span></div>
-                    <div><span>光照：</span><span>{{defauldata==null?"0":defauldata.illumination}} LUX</span><span>噪音：</span><span>{{defauldata==null?"0":defauldata.noise}} db</span></div>
-                    <div><span>PM2.5：</span><span>{{defauldata==null?"0":defauldata.pm2}} ug/m3</span><span>PM10：</span><span>{{defauldata==null?"0":defauldata.pm10}} ug/m3</span></div>
-                    <div><span>更新时间：</span><span>{{defauldata==null?'2018-07-02 14:53:08':defauldata.sendtime}}</span></div>
-                </div>  
+                <div class="datashow-center">
+                    <div class="onstruction-environment">
+                        <div><span>温度：</span><span>{{defauldata==null?"0":defauldata.temperature}} ℃</span><span>湿度：</span><span>{{defauldata==null?"0":defauldata.humidity}} RH</span></div>
+                        <div><span>光照：</span><span>{{defauldata==null?"0":defauldata.illumination}} LUX</span><span>噪音：</span><span>{{defauldata==null?"0":defauldata.noise}} db</span></div>
+                        <div><span>PM2.5：</span><span>{{defauldata==null?"0":defauldata.pm2}} ug/m3</span><span>PM10：</span><span>{{defauldata==null?"0":defauldata.pm10}} ug/m3</span></div>
+                        <div><span>更新时间：</span><span>{{defauldata==null?'2018-07-02 14:53:08':defauldata.sendtime}}</span></div>
+                    </div>  
+                </div>
+                <div></div>
             </div>
             <div class="fillet-left datashow" id="safemanage">
                 <div class="data-title">
@@ -151,13 +162,15 @@
                         <span></span>
                     </div>
                 </div> 
-                <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
-                <div>
+                <div class="safe-center">
+                    <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
                     <div>
-                        <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
-                    </div>
-                    <div>
-                        <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                        <div>
+                            <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
+                        </div>
+                        <div>
+                            <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                        </div>
                     </div>
                 </div>
                 <p>考勤率</p> 
@@ -336,9 +349,20 @@ export default {
 .index{
     /* min-height: 1000; */
     height: 100%;
-    padding: 20px 50px;
+    padding: 0px 50px;
     display: flex;
     justify-content: space-between;
+}
+.index-left,.index-right{
+    width: 27%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.index-center{
+    width: 40%;
+    height: 100%;
 }
 /* ---------数据统计设置按钮------- */
 .el-center{
@@ -372,11 +396,18 @@ export default {
 }
 /* ------------数据展示框共同样式-------- */
 .index .datashow{
-    width: 433px;
-    height: 250px;
-    padding: 15px 0px 15px 30px;
-    margin-bottom: 40px;
+    width: 94%;
+    height: 28%;
+    padding: 10px 0px 10px 6%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* margin-bottom: 40px; */
 }
+/* .datashow-center{
+    flex: 1;
+    
+} */
 .data-title p{
     text-align: left;
 	height: 24px;
@@ -404,14 +435,14 @@ export default {
 }
 /* ----------------数据统计----------------- */
 .el-indexdata-left{
-    padding-top: 15px;
+    padding-top: 7px;
 }
 .onstruction-condition-type{
     display: inline-block;
     width: 75px;
     height: 50px;
     line-height: 25px;
-    margin: 0px 30px 15px 30px;
+    margin: 0px 30px 8px 30px;
     font-size: 16px;
     letter-spacing: 0px;
     text-align: left;
@@ -444,7 +475,7 @@ export default {
 .onstruction-date{
     text-align: right;
     padding-right: 80px;
-    font-size: 16px;
+    font-size: 14px;
 }
 .onstruction-percentage-progress{
     width: 378px;
@@ -455,7 +486,8 @@ export default {
 }
 /* ----------------天气管理----------------- */
 .showimg{
-    width: 759px;
+    width: 100%;
+    height: 95%;
 }
 .weather{
     height: 80px;
@@ -487,24 +519,39 @@ export default {
     margin-right: 10px;
 }
 /* ----------------考勤管理/安全管理----------------- */
+#workmanage,#safemanage{
+    display: flex;
+    flex-direction: column;
+}
 #workmanage .el-progress,#safemanage .el-progress{
     padding-top: 10px;
+}
+#workmanage .el-progress+div,#safemanage .el-progress+div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 #workmanage .el-progress+div span:nth-of-type(odd),#safemanage .el-progress+div span:nth-of-type(odd){
     display: inline-block;
     width: 80px;
     text-align: right;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
 }
 #workmanage .el-progress+div span:nth-of-type(even),#safemanage .el-progress+div span:nth-of-type(even){
     display: inline-block;
-    width: 70px;
+    width: 60px;
     text-align: left
 }
-#workmanage .el-progress+div+p,#safemanage .el-progress+div+p{
+#workmanage .work-container+p,#safemanage .safe-center+p{
     position: absolute;
-    top: 160px;
-    left: 222px;
+    top: 64%;
+    left: 18%;
+}
+.work-container,.safe-center{
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .el-progress__text{
     color:#fff;

@@ -1,11 +1,5 @@
 <template>
     <div class="towerralarminformation">
-        <!-- <select @change="changedevicesn" v-model="deviceed">
-            <option disabled value="">请选择设备SN</option>
-            <option v-for="(device,snindex) in devicesn" :key="snindex" :value="device">
-                {{ device }}
-            </option>
-        </select> -->
         <el-table
             :data="tableData"
             border
@@ -54,41 +48,7 @@
             :before-close="handleClose">
             <span>
                 <button @click="startfn">开始</button>
-                <el-row class="alarm-center">
-                    <el-col :span="12">
-                        <div class="grid-content alarm-crosswise">
-                            <div class="alarm-round">
-                                <div class="round-top-center">270</div>
-                                <div class="round-right-top">315</div>
-                                <div class="round-right-center">360/0</div>
-                                <div class="round-right-bottom">45</div>
-                                <div class="round-bottom-center">90</div>
-                                <div class="round-left-bottom">135</div>
-                                <div class="round-left-center">180</div>
-                                <div class="round-left-top">225</div>
-                                <div class="round-crosswise" :style="{ transform: rotatevalue,transition: 'transform ' + showtime + 's linear!important' }">
-                                    <div class="round-center"></div>
-                                    <div class="round-goods" :style="{ left: leftvalue + 'px',transition: 'left ' + showtime + 's linear!important' }"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-col>
-                    <el-col :span="12">
-                        <div class="grid-content alarm-lengthwise">
-                            <div class="alarm-shell">
-                                <img src="@/assets/img/ta.png" alt="">
-                                <div class="alarm-demonstrate" :style="{ left:crossdata + 'px',transition: 'left ' + showtime + 's linear!important' }">
-                                    <div><img src="@/assets/img/shang.png" alt=""></div>
-                                    <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="alarm-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                                    <div><img src="@/assets/img/xia.png" alt=""></div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-col>
-                </el-row>
-            </span>
-            <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">退 出</el-button>
+                <tiaoshi :content="contentdata"></tiaoshi>
             </span>
         </el-dialog>
         <div class="block">
@@ -107,6 +67,7 @@
 </template>
 
 <script>
+import tiaoshi from './tiaoshi.vue'
 export default {
     data() {
       return {
@@ -117,15 +78,17 @@ export default {
         sizeval:10,
         currentval:1,
         dialogVisible: false,
-        rotatevalue:'rotate(0deg)',//横截面角度
-        leftvalue:50,               //横截面幅度
-        crossdata:240,              //纵向面幅度
-        verticaldata:20,            //纵向面高度
-        showtime: 1,
         alarmStarttime:'',
         alarmEndtime:'',
         typename:'',
-        playbackdata:[]
+        playbackdata:[],
+        contentdata:{
+                    showtime:0,
+                    rotatevalue:0,
+                    crossdata:455,
+                    verticaldata:20,
+                    oring:47,
+                },
       }
     },
     mounted(){
@@ -134,23 +97,33 @@ export default {
     methods:{
         handleClick(row) {
             //点击回放
+            console.log(this.timestampToTime(Date.parse(row.startTime.replace(/-/g,"/"))),this.timestampToTime(Date.parse(row.endTime.replace(/-/g,"/"))))
             this.dialogVisible = true;
             this.devicesn = row.devicesn;
-            this.alarmStarttime = this.timestampToTime(new Date(row.startTime).getTime());
-            this.alarmEndtime = this.timestampToTime(new Date(row.endTime).getTime());
+            if(!!window.ActiveXObject || "ActiveXObject" in window){ 
+                // alert("这是IE浏览器！"); 
+                this.alarmStarttime = this.timestampToTime(Date.parse(row.startTime.replace(/-/g,"/")));
+                this.alarmEndtime = this.timestampToTime(Date.parse(row.endTime.replace(/-/g,"/")));
+            }else{ 
+                // alert("这不是IE浏览器！"); 
+                this.alarmStarttime = this.timestampToTime(new Date(row.startTime).getTime());
+                this.alarmEndtime = this.timestampToTime(new Date(row.endTime).getTime());
+            } 
+            // this.alarmStarttime = this.timestampToTime(new Date(row.startTime).getTime());
+            // this.alarmEndtime = this.timestampToTime(new Date(row.endTime).getTime());
             this.typename = row.type;
             this.replayfn()
         },
         startfn(){
             var firstdata = this.playbackdata[0];
             var lastdata = this.playbackdata[this.playbackdata.length-1];
-            this.showtime = 5;
-            // this.showtime = (new Date(lastdata.monitoring_time).getTime()-new Date(firstdata.monitoring_time).getTime())/1000;
-            // console.log(this.showtime)
-            this.rotatevalue = 'rotate('+lastdata.rotation+'deg)';
-            this.leftvalue=50 + 2.7*lastdata.tower_range;
-            this.crossdata=240 + 4.2*lastdata.tower_range;
-            this.verticaldata=20 + 5.2*lastdata.height;
+            this.contentdata={
+                showtime:5,
+                rotatevalue:45,
+                crossdata:455 + 4.2*lastdata.tower_range,
+                verticaldata:20 + 5*lastdata.height,
+                oring:47 + 4.2*lastdata.tower_range,
+            }
         },
         handleClose(done) {
             this.$confirm('确认关闭？').then(_ => {
@@ -158,6 +131,7 @@ export default {
             }).catch(_ => {});
         },
         replayfn(){
+            console.log(this.alarmStarttime,this.alarmEndtime)
             this.$api.alarmReplay({
                 params:{
                     deviceSN:this.devicesn,
@@ -165,16 +139,19 @@ export default {
                     alarmEndtime:this.alarmEndtime
                 }
             }).then(res => {
+                console.log(res)
                 if(res.data.result.length==0){
                     return false;
                 }
                 this.playbackdata = res.data.result;
                 var firstdata = this.playbackdata[0];
-                this.showtime = 0;
-                this.rotatevalue = 'rotate('+firstdata.rotation+'deg)';
-                this.leftvalue=50 + 2.7*firstdata.tower_range;
-                this.crossdata=240 + 4.2*firstdata.tower_range;
-                this.verticaldata=20 + 5.2*firstdata.height;
+                this.contentdata={
+                    showtime:0,
+                    rotatevalue:firstdata.rotation,
+                    crossdata:455 + 4.2*firstdata.tower_range,
+                    verticaldata:20 + 5*firstdata.height,
+                    oring:47 + 4.2*firstdata.tower_range,
+                }
             })
         },
         datashow(){
@@ -220,6 +197,9 @@ export default {
                 }
             })
         }
+    },
+    components:{
+        tiaoshi
     }
 }
 </script>
@@ -230,20 +210,27 @@ export default {
     text-align: center;
 }
 .towerralarminformation{
-    min-width: 1344px;
+    /* min-width: 1344px; */
+    width: 98%;
+    padding: 0px 1%;
 }        
 .towerralarminformation .el-table td:nth-child(6){
     color: #f00;
 }
 .towerralarminformation .el-dialog{
-    width: 1200px!important;
-    float: left;
-    margin: 0px!important;
+    width: 1000px!important;
+    /* float: left; */
+    margin-top: 100px!important;
     height: 90%;
+    /* overflow: hidden; */
+}
+.towerralarminformation .el-dialog__wrapper{
+    overflow: hidden;
 }
 .towerralarminformation .el-dialog__body{
-    width: 1200px;
-    height: 700px;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
 }
 .alarm-center{
     height: 700px;

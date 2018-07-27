@@ -98,7 +98,7 @@ export default {
                         rotatevalue:res.data.result.rotation,
                         crossdata:455 + 4.2*res.data.result.tower_range,
                         verticaldata:20 + 5.25*res.data.result.height,
-                        oring:47 + res.data.result.tower_range,
+                        oring:47 + 4.2*res.data.result.tower_range,
                     }
                     this.anitype = true;
                 }
@@ -111,6 +111,7 @@ export default {
                     regionid:this.regionid
                 }
             }).then(res => {
+                console.log(33333333)
                 console.log(res)
                 if(res.data.code==200){
                     res.data.result.forEach(element => {
@@ -142,9 +143,13 @@ export default {
 </script>
 
 <style>
+#towerrrealtime{
+    height: 100%;
+}
 .tower-towerrrealtime{
     min-width: 1344px;
-    /* overflow: hidden; */
+    height: 100%;
+    overflow: hidden;
 }
 .tower-headers{
     height: 85px;

@@ -179,6 +179,10 @@ export default {
 </script>
 
 <style>
+.towerrhistorydata{
+    width: 98%;
+    padding: 0px 1%;
+}
 .cell{
     padding: 0px!important;
     text-align: center;
