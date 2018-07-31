@@ -149,6 +149,7 @@ export default {
                 url:"http://60.191.29.210:9090/RestIOTAPI/workingcycle/toselectAllTowerCraneWorkingCycle?devicesn=" + this.devicesn
             })
             .then(res => {
+                // console.log(res)
                 res.data.result.reverse().forEach(element => {
                     this.backData.push({
                         workingid: element.working_id,

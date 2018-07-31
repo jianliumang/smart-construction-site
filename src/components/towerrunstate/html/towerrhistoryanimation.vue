@@ -82,7 +82,7 @@ export default {
             contentdata:{
                     showtime:0,
                     rotatevalue:0,
-                    crossdata:455,
+                    crossdata:490,
                     verticaldata:20,
                     oring:47,
                 },
@@ -117,7 +117,7 @@ export default {
                     this.contentdata = {
                         showtime:0,
                         rotatevalue:element.lifting_angle,
-                        crossdata:455 + 4.2*element.lifting_range,
+                        crossdata:490 + 4.2*element.lifting_range,
                         verticaldata:20 + 4.75*element.lifting_height,
                         oring:47 + 4.2*element.lifting_range,
                     }
@@ -135,7 +135,7 @@ export default {
                     this.contentdata = {
                         showtime:(t1.getTime() - t2.getTime())/1000/this.speed,
                         rotatevalue:element.drop_angle,
-                        crossdata:455 + 4.2*element.drop_amplitude,
+                        crossdata:490 + 4.2*element.drop_amplitude,
                         verticaldata:20 + 4.75*element.drop_height,
                         oring:47 + 4.2*element.drop_amplitude,
                     }

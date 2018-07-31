@@ -54,7 +54,7 @@ export default {
             contentdata:{
                     showtime:0,
                     rotatevalue:0,
-                    crossdata:455,
+                    crossdata:490,
                     verticaldata:20,
                     oring:47,
                 },
@@ -96,7 +96,7 @@ export default {
                     this.contentdata = {
                         showtime:this.requesttype?0:10,
                         rotatevalue:res.data.result.rotation,
-                        crossdata:455 + 4.2*res.data.result.tower_range,
+                        crossdata:490 + 4.2*res.data.result.tower_range,
                         verticaldata:20 + 5.25*res.data.result.height,
                         oring:47 + 4.2*res.data.result.tower_range,
                     }

@@ -284,6 +284,7 @@ export default {
             this.$api.seekEngineeringCategory().then(res => {
                 console.log(res)
                 if(res.data.code==200){
+                    console.log(res.data.result)
                     res.data.result.forEach(element => {
                         this.options.push({
                             value: element.engineeringCategoryId,
@@ -310,7 +311,7 @@ export default {
             //右上角的数据展示
             this.$api.seekNewsType({
                 params:{
-                    'days' : 1
+                    'strip' : 1
                 }
             }).then(res => {
                 console.log(res)

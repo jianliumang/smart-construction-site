@@ -3,48 +3,31 @@
     <div class="ani-animation">
         <el-row class="ani-center">
             <el-col class="ta">
-                <div class="gouzi" :style="{transformOrigin: '-' + content.oring + 'px 0% 0', transform: 'translateZ(-12px) ' + 'rotateY('+content.rotatevalue+'deg)',left:content.crossdata + 'px',transition: 'all ' + content.showtime + 's linear!important' }">
+                <div class="ani-css">
+
+                
+                <div class="gouzi">
                     <!-- <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
                     <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
                     <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div> -->
                     <div class="leftgou1">
                         <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                        <div :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"></div>
+                        <div class="heightchange"><img src="@/assets/img/line.png" alt="" class="ani-line"></div>
                         <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
                     </div>
                     <div class="leftgou2">
                         <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                        <div :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"></div>
+                        <div class="heightchange"><img src="@/assets/img/line.png" alt="" class="ani-line"></div>
                         <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
                     </div>
-                    <div class="leftgou3">
-                        <div :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"><img src="@/assets/ta/line_02.jpg" alt="" class="ani-line-side" :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"></div>
-                    </div>
+                    <!-- <div class="leftgou3">
+                        <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/ta/line_02.png" alt="" class="ani-line-side" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
+                    </div> -->
                     <!-- <div class="leftgou4">
                         <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/ta/line_02.jpg" alt="" class="ani-line-side" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
                     </div> -->
                 </div>
-                <!-- <div class="gouzi" :style="{transformOrigin: '-'+oring+'px 0% 0', transform: 'translateZ(-13px) ' + 'rotateY('+rotatevalue+'deg)',left:crossdata + 'px',transition: 'all ' + showtime + 's linear!important' }">
-                    <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                    <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                    <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
-                </div>
-                <div class="gouzi" :style="{transformOrigin: '-'+oring+'px 0% 0', transform: 'translateZ(-14px) ' + 'rotateY('+rotatevalue+'deg)',left:crossdata + 'px',transition: 'all ' + showtime + 's linear!important' }">
-                    <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                    <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                    <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
-                </div>
-                <div class="gouzi" :style="{transformOrigin: '-'+oring+'px 0% 0', transform: 'translateZ(-11px) ' + 'rotateY('+rotatevalue+'deg)',left:crossdata + 'px',transition: 'all ' + showtime + 's linear!important' }">
-                    <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                    <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                    <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
-                </div>
-                <div class="gouzi" :style="{transformOrigin: '-'+oring+'px 0% 0', transform: 'translateZ(-10px) ' + 'rotateY('+rotatevalue+'deg)',left:crossdata + 'px',transition: 'all ' + showtime + 's linear!important' }">
-                    <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                    <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
-                    <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
-                </div> -->
-                <div class="ta-xia6" :style="{transform:'rotateY('+content.rotatevalue+'deg)',transition: 'transform ' + content.showtime + 's linear!important'}">
+                <div class="ta-xia6">
                     <img id="img61" src="@/assets/ta/ta_01.png" alt="">
                     <img id="img62" src="@/assets/ta/ta_01.png" alt="">
                     <img id="img63" src="@/assets/ta/ta_01_05.png" alt="">
@@ -53,39 +36,13 @@
                     <img id="img66" src="@/assets/ta/ta_01_02.png" alt="">
                     <img id="img67" src="@/assets/ta/ta_01_02.png" alt="">
                 </div>
-                <div class="ta-xia5">
-                    <img id="img51" src="@/assets/ta/ta_03.png" alt="">
-                    <img id="img52" src="@/assets/ta/ta_03.png" alt="">
-                    <img id="img53" src="@/assets/ta/ta_03.png" alt="">
-                    <img id="img54" src="@/assets/ta/ta_03.png" alt="">
                 </div>
-                <div class="ta-xia4">
-                    <img id="img41" src="@/assets/ta/ta_06.png" alt="">
-                    <img id="img42" src="@/assets/ta/ta_06.png" alt="">
-                    <img id="img43" src="@/assets/ta/ta_06.png" alt="">
-                    <img id="img44" src="@/assets/ta/ta_06.png" alt="">
-                </div>
-                <div class="ta-xia3">
-                    <img id="img31" src="@/assets/ta/ta_09.png" alt="">
-                    <img id="img32" src="@/assets/ta/ta_09.png" alt="">
-                    <img id="img33" src="@/assets/ta/ta_09.png" alt="">
-                    <img id="img34" src="@/assets/ta/ta_09.png" alt="">
-                </div>
-                <div class="ta-xia2">
-                    <img id="img21" src="@/assets/ta/ta_11.png" alt="">
-                    <img id="img22" src="@/assets/ta/ta_11.png" alt="">
-                    <img id="img23" src="@/assets/ta/ta_11.png" alt="">
-                    <img id="img24" src="@/assets/ta/ta_11.png" alt="">
-                </div>
-                <div class="ta-xia">
-                    <img id="img1" src="@/assets/ta/ta_13.png" alt="">
-                    <img id="img2" src="@/assets/ta/ta_13.png" alt="">
-                    <img id="img3" src="@/assets/ta/ta_13.png" alt="">
-                    <img id="img4" src="@/assets/ta/ta_13.png" alt="">
+                <div class="ta-below">
+                    <img id="imgbow" src="@/assets/ta/ta_below.png" alt="">
                 </div>
             </el-col>
         </el-row>
-        <!-- <button id="but" @click="ddd">++++</button> -->
+        <button id="but" @click="ddd">++++</button>
     </div>
 </div>
 </template>
@@ -97,11 +54,11 @@ export default {
         return {
             regionid:Number,
             rotatevalue:0,//横截面角度
-            leftvalue:50,               //横截面幅度
-            crossdata:700,              //纵向面幅度
-            verticaldata:20,            //纵向面高度
+            leftvalue:70,               //横截面幅度
+            crossdata:490,              //纵向面幅度
+            verticaldata:100,            //纵向面高度
             translatex: 0,
-            oring: 47,
+            oring: 62,
             selected: '',
             deviceed: '',
             showtime: 5,
@@ -120,26 +77,112 @@ export default {
     },
     mounted() {
         // this.alldata()
-        console.log(this.content)
+        // console.log(document.styleSheets)
+        // this.reuquecss()
     },
     methods:{
-        // ddd(){
-        //     this.rotatevalue = this.rotatevalue + 30;
-        //     this.crossdata = this.crossdata + 50;
-        //     if(this.crossdata>705){
-        //         this.crossdata = 455;
-        //     }
-        //     // this.verticaldata = this.verticaldata + 50;
-        //     // if(this.verticaldata>440){
-        //     //     this.verticaldata = 20;
-        //     // }
-        //     this.translatex = this.translatex + 20;
-        //     this.oring = this.oring + 50;
-        //     if(this.oring>297){
-        //         this.oring = 47;
-        //     }
-        //     console.log(this.rotatevalue)
-        // },
+        ddd(){
+            this.rotatevalue = this.rotatevalue + 30;
+            // this.crossdata = this.crossdata + 50;
+            // if(this.crossdata>705){
+            //     this.crossdata = 455;
+            // }
+            // this.verticaldata = this.verticaldata + 50;
+            // if(this.verticaldata>440){
+            //     this.verticaldata = 20;
+            // }
+            // this.translatex = this.translatex + 20;
+            // this.oring = this.oring + 50;
+            // if(this.oring>297){
+            //     this.oring = 47;
+            // }
+            // console.log(this.rotatevalue)
+            this.reuquecss()
+        },
+        reuquecss(){
+            var cssindex;
+            var csslist = document.styleSheets;
+            for(let i=0;i<csslist.length;i++){
+                if(csslist[i].cssRules[0].selectorText=="#but"){
+                    cssindex = i;
+                };
+            };
+            var needcss = csslist[cssindex].cssRules;
+            for(var key in needcss){
+                // console.log(needcss[key])
+                if(needcss[key].name=="change"){
+                    console.log(needcss[key]);
+                    var end = "100% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
+                    needcss[key].deleteRule("100%");
+                    needcss[key].appendRule(end)
+                    console.log(needcss[key].cssText)
+                };
+                if(needcss[key].name=="height"){
+                    console.log(needcss[key]);
+                    console.log(this.content)
+                    var endheight = "100% { height: " +this.content.verticaldata+"px; }";
+                    needcss[key].deleteRule("100%");
+                    needcss[key].appendRule(endheight)
+                    console.log(needcss[key].cssText)
+                };
+                if(needcss[key].name=="width"){
+                    console.log(needcss[key]);
+                    console.log(this.content)
+                    var endleft = "100% { left: " +this.content.crossdata+"px; }";
+                    needcss[key].deleteRule("100%");
+                    needcss[key].appendRule(endleft)
+                    console.log(needcss[key].cssText)
+                };
+            };
+        }
+    },
+    watch:{
+        content:{
+            handler(newvalue,oldvalue){
+                console.log(newvalue,oldvalue);
+                var cssindex;
+                var csslist = document.styleSheets;
+                for(let i=0;i<csslist.length;i++){
+                    if(csslist[i].cssRules[0].selectorText=="#but"){
+                        cssindex = i;
+                    };
+                };
+                var needcss = csslist[cssindex].cssRules;
+                console.log(needcss)
+                for(var key in needcss){
+                    
+                    if(needcss[key].name=="change"){
+                        var first = "0% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
+                        var end = "100% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
+                        needcss[key].deleteRule("100%");
+                        needcss[key].deleteRule("0%");
+                        needcss[key].appendRule(first);
+                        needcss[key].appendRule(end)
+                    };
+                    if(needcss[key].name=="height"){
+                        var firstheight = "0% { height: " +oldvalue.verticaldata+"px; }";
+                        var endheight = "100% { height: " +newvalue.verticaldata+"px; }";
+                        needcss[key].deleteRule("100%");
+                        needcss[key].deleteRule("0%");
+                        needcss[key].appendRule(firstheight);
+                        needcss[key].appendRule(endheight)
+                    };
+                    if(needcss[key].name=="width"){
+                        var firstleft = "0% { left: " +oldvalue.crossdata+"px; }";
+                        var endleft = "100% { left: " +newvalue.crossdata+"px; }";
+                        needcss[key].deleteRule("100%");
+                        needcss[key].deleteRule("0%");
+                        needcss[key].appendRule(firstleft);
+                        needcss[key].appendRule(endleft)
+                    };
+                    if(needcss[key].selectorText==".ani-css" || needcss[key].selectorText==".ani-line" || needcss[key].selectorText==".heightchange"){
+                        needcss[key].style.animationDuration= newvalue.showtime+"s"
+                        console.log(needcss[key])
+                    }
+                };
+            },
+            deep: true
+        }
     }
 
 }
@@ -153,325 +196,268 @@ export default {
     margin: 0px;
     padding: 0px;
 }
-.ta{
-    text-align: center;
-    width: 800px;
-    height: 800px;
-    /* border: 1px solid #f00 */
-}
-.ta img{
-    position: absolute;
-}
-.ani-line-side{
-    width: 1px;
-}
-.gouzi{
-    width: 17px;
-    position: absolute;
-    top: 140px;
-    /* left: 255px!important; */
-     /* -moz-transform-origin: -47px 0% 0;
-    -ms-transform-origin: -47px 0% 0; */
-    /* transform-origin: -47px 0% 0; */
-    /* -webkit-transform: translateZ(-12px);
-    -moz-transform: translateZ(-12px);
-    transform: translateZ(-12px); */
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-     /* -moz-transform-origin: -47px 0% 0;
-    -ms-transform-origin: -47px 0% 0;
-    transform-origin: -47px 0% 0!important; */
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-}
-.leftgou1{
-    width: 17px;
-    position: absolute;
-    top: 0px;
-    /* backface-visibility: hidden; */
-    -webkit-transform: translateZ(6px);
-    -moz-transform: translateZ(6px);
-    transform: translateZ(1px);
-}
-.leftgou2{
-    width: 17px;
-    position: absolute;
-    top: 0px;
-    -webkit-transform: translateZ(-5px);
-    -moz-transform: translateZ(-5px);
-    transform: translateZ(0px);
-}
-.leftgou3{
-    width: 5px;
-    position: absolute;
-    top: 0px;
-    /* backface-visibility: hidden; */
-    -webkit-transform: rotateY(90deg) translateZ(9px);
-    -moz-transform: rotateY(90deg) translateZ(9px);
-    transform: rotateY(90deg) translateZ(12px) translateX(-1px);
-}
-.leftgou4{
-    width: 5px;
-    position: absolute;
-    top: 0px;
-    -webkit-transform: rotateY(90deg) translateZ(-9px);
-    -moz-transform: rotateY(90deg) translateZ(-9px);
-    transform: rotateY(90deg) translateZ(22px) translateX(-1x);
-}
-.ta-xia{
-    height: 10px;
-    width: 109px;
-    margin-left: 300px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 100% 0% 0;
-    -ms-transform-origin: 100% 0% 0;
-    transform-origin: 100% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-    
-}
-.ta-xia2{
-    height: 14px;
-    width: 76px;
-    margin-left:333px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 100% 0% 0;
-    -ms-transform-origin: 100% 0% 0;
-    transform-origin: 100% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-}
-.ta-xia3{
-    height: 294px;
-    width: 42px;
-    margin-left: 368px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 100% 0% 0;
-    -ms-transform-origin: 100% 0% 0;
-    transform-origin: 100% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-    
-}
-.ta-xia4{
-    height: 30px;
-    width: 76px;
-    margin-left: 333px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 100% 0% 0;
-    -ms-transform-origin: 100% 0% 0;
-    transform-origin: 100% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-    
-}
-.ta-xia5{
-    height: 83px;
-    width: 42px;
-    margin-left: 368px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 100% 0% 0;
-    -ms-transform-origin: 100% 0% 0;
-    transform-origin: 100% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-    
-}
-.ta-xia6{
-    height: 186px;
-    width: 480px;
-    margin-left: 40px;
-    -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -moz-transform-origin: 77% 0% 0;
-    -ms-transform-origin: 77% 0% 0;
-    transform-origin: 77% 0% 0;
-    backface-visibility: hidden;
-    /* -webkit-animation: change 6s linear infinite;
-    -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite; */
-    
+@-ms-keyframes change {
+    0% {
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+    }
+    100% {
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+    }
 }
 @-webkit-keyframes change {
     0% {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
-    33% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(240deg);
-    }
-    66% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(480deg);
-    }
     100% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(720deg);
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
 }
 @-moz-keyframes change {
     0% {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
-    33% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(240deg);
-    }
-    66% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(480deg);
-    }
     100% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(720deg);
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
 }
 @keyframes change {
     0% {
         transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
-    33% {
-        transform: translateZ(-10em) rotateX(0deg) rotateY(120deg);
+    /* 33% {
+        transform: translateZ(-10em) rotateX(0deg) rotateY(270deg);
     }
     66% {
-        transform: translateZ(-10em) rotateX(0deg) rotateY(240deg);
+        transform: translateZ(-10em) rotateX(0deg) rotateY(270deg);
+    } */
+    100% {
+        transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+    }
+}
+@-ms-keyframes height {
+    0% {
+        height: 20px;
     }
     100% {
-        transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
+        height: 20px;
     }
 }
-#img1{
-    -webkit-transform: translateZ(55px);
-    -moz-transform: translateZ(55px);
-    transform: translateZ(55px);
+@-webkit-keyframes height {
+    0% {
+        height: 20px;
+    }
+    100% {
+        height: 20px;
+    }
 }
-#img2{
-    -webkit-transform: translateZ(-55px);
-    -moz-transform: translateZ(-55px);
-    transform: translateZ(-55px);
+@-moz-keyframes height {
+    0% {
+        height: 20px;
+    }
+    100% {
+        height: 20px;
+    }
 }
-#img3{
-    -webkit-transform: rotateY(90deg) translateZ(55px);
-    -moz-transform: rotateY(90deg) translateZ(55px);
-    transform: rotateY(90deg) translateZ(55px);
+@keyframes height {
+    0% {
+        height: 20px;
+    }
+    100% {
+        height: 20px;
+    }
 }
-#img4{
-    -webkit-transform: rotateY(90deg) translateZ(-55px);
-    -moz-transform: rotateY(90deg) translateZ(-55px);
-    transform: rotateY(90deg) translateZ(-55px);
+@-ms-keyframes width {
+    0% {
+        left: 490px;
+    }
+    100% {
+        left: 490px;
+    }
 }
-#img21{
-    -webkit-transform: translateZ(35px);
-    -moz-transform: translateZ(35px);
-    transform: translateZ(35px);
+@-webkit-keyframes width {
+    0% {
+        left: 490px;
+    }
+    100% {
+        left: 490px;
+    }
 }
-#img22{
-    -webkit-transform: translateZ(-35px);
-    -moz-transform: translateZ(-35px);
-    transform: translateZ(-35px);
+@-moz-keyframes width {
+    0% {
+        left: 490px;
+    }
+    100% {
+        left: 490px;
+    }
 }
-#img23{
-    -webkit-transform: rotateY(90deg) translateZ(21px);
-    -moz-transform: rotateY(90deg) translateZ(21px);
-    transform: rotateY(90deg) translateZ(21px);
+@keyframes width {
+    0% {
+        left: 490px;
+    }
+    100% {
+        left: 490px;
+    }
 }
-#img24{
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
-    transform: rotateY(90deg) translateZ(-21px);
+.ta{
+    text-align: left;
+    width: 800px;
+    height: 800px;
+    /* border: 1px solid #f00 */
+    /* -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-animation: change 6s linear infinite;
+    -moz--animation: change 6s linear infinite;
+    animation: change 6s linear infinite; */
 }
-#img31{
-    -webkit-transform: translateZ(21px);
-    -moz-transform: translateZ(21px);
-    transform: translateZ(21px);
+.ta img{
+    position: absolute;
+    /* perspective: 800px; */
 }
-#img32{
-    -webkit-transform: translateZ(-21px);
-    -moz-transform: translateZ(-21px);
-    transform: translateZ(-21px);
+.ani-css{
+    /* -webkit-transform-style: preserve-3d; */
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    /* -webkit-animation: change 6s linear infinite; */
+    -webkit-animation: change 0s linear infinite;
+    -moz--animation: change 0s linear infinite;
+    animation: change 0s linear infinite;
+    animation-iteration-count:1;
+    -webkit-animation-iteration-count:1;
+    animation-fill-mode : forwards;
+    /* transform: rotate(45deg); */
+    transform-origin:53.6% 0px;
+    -ms-transform-origin:53.6% 0px; 		/* IE 9 */
+    -webkit-transform-origin:53.6% 0px;	/* Safari 和 Chrome */
+    -moz-transform-origin:53.6% 0px;		/* Firefox */
+    -o-transform-origin:53.6% 0px;		/* Opera */
 }
-#img33{
-    -webkit-transform: rotateY(90deg) translateZ(21px);
-    -moz-transform: rotateY(90deg) translateZ(21px);
-    transform: rotateY(90deg) translateZ(21px);
+.ani-line-side{
+    width: 1px;
 }
-#img34{
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
-    transform: rotateY(90deg) translateZ(-21px);
+.ani-line{
+    width: 17px;
+    height: 20px;
+    -webkit-animation: height 0s linear infinite;
+    -moz--animation: height 0s linear infinite;
+    animation: height 0s linear infinite;
+    animation-iteration-count:1;
+    -webkit-animation-iteration-count:1;
+    animation-fill-mode : forwards;
 }
-#img41{
-    -webkit-transform: translateZ(38px);
-    -moz-transform: translateZ(38px);
-    transform: translateZ(38px);
+.heightchange{
+    -webkit-animation: height 0s linear infinite;
+    -moz--animation: height 0s linear infinite;
+    animation: height 0s linear infinite;
+    animation-iteration-count:1;
+    -webkit-animation-iteration-count:1;
+    animation-fill-mode : forwards;
 }
-#img42{
-    -webkit-transform: translateZ(-38px);
-    -moz-transform: translateZ(-38px);
-    transform: translateZ(-38px);
+.gouzi{
+    width: 17px;
+    position: absolute;
+    top: 140px;
+    /* z-index: 200; */
+    /* left: 255px!important; */
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+     -moz-transform-origin: -62px 0% 0;
+    -ms-transform-origin: -62px 0% 0;
+    transform-origin: -62px 0% 0!important;
+    backface-visibility: visible;
+    -webkit-animation: width 6s linear infinite;
+    -moz--animation: width 6s linear infinite;
+    animation: width 6s linear infinite;
+    animation-iteration-count:1;
+    -webkit-animation-iteration-count:1;
+    animation-fill-mode : forwards;
 }
-#img43{
-    -webkit-transform: rotateY(90deg) translateZ(38px);
-    -moz-transform: rotateY(90deg) translateZ(38px);
-    transform: rotateY(90deg) translateZ(38px);
+.leftgou1{
+    width: 17px;
+    position: absolute;
+    top: 0px;
+    /* backface-visibility: hidden; */
+    /* -ms-transform: translateZ(6px); */
+    -webkit-transform: translateZ(6px);
+    -moz-transform: translateZ(6px);
+    transform: translateZ(11px);
 }
-#img44{
-    -webkit-transform: rotateY(90deg) translateZ(-38px);
-    -moz-transform: rotateY(90deg) translateZ(-38px);
-    transform: rotateY(90deg) translateZ(-38px);
+.leftgou2{
+    width: 17px;
+    position: absolute;
+    top: 0px;
+    /* -webkit-transform: translateZ(-5px); */
+    -webkit-transform: translateZ(-5px);
+    -moz-transform: translateZ(-5px);
+    transform: translateZ(10px);
 }
-#img51{
-    -webkit-transform: translateZ(21px);
-    -moz-transform: translateZ(21px);
-    transform: translateZ(21px);
+.leftgou3{
+    width: 1px;
+    position: absolute;
+    background: #f17d44;
+    top: 0px;
+    backface-visibility: visible;
+    /* -webkit-transform: rotateY(90deg) translateZ(10px) translateX(-8px) translateY(4px); */
+    -webkit-transform: rotateY(90deg) translateZ(10px) translateX(-8px) translateY(4px);
+    -moz-transform: rotateY(90deg) translateZ(10px) translateX(-8px) translateY(4px);
+    transform: rotateY(90deg) translateZ(10px) translateX(-8px) translateY(4px);
 }
-#img52{
-    -webkit-transform: translateZ(-21px);
-    -moz-transform: translateZ(-21px);
-    transform: translateZ(-21px);
+.leftgou4{
+    width: 5px;
+    position: absolute;
+    top: 0px;
+    /* -webkit-transform: rotateY(90deg) translateZ(22px) translateX(0px); */
+    -webkit-transform: rotateY(90deg) translateZ(22px) translateX(0px);
+    -moz-transform: rotateY(90deg) translateZ(22px) translateX(0px);
+    transform: rotateY(90deg) translateZ(22px) translateX(0px);
 }
-#img53{
-    -webkit-transform: rotateY(90deg) translateZ(21px);
-    -moz-transform: rotateY(90deg) translateZ(21px);
-    transform: rotateY(90deg) translateZ(21px);
+.ta-below{
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    margin-left: 375px;
+    vertical-align: top;
+    backface-visibility: visible;
 }
-#img54{
-    -webkit-transform: rotateY(90deg) translateZ(-21px);
-    -moz-transform: rotateY(90deg) translateZ(-21px);
-    transform: rotateY(90deg) translateZ(-21px);
+.ta-xia6{
+    height: 186px;
+    width: 480px;
+    margin-left: 303px;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -moz-transform-origin: 26% 0% 0;
+    -ms-transform-origin: 26% 0% 0;
+    transform-origin: 26% 0% 0;
+    backface-visibility: hidden;
+    /* -webkit-animation: change 6s linear infinite;
+    -moz--animation: change 6s linear infinite;
+    animation: change 6s linear infinite; */
+    
+}
+#imgbow{
+    -webkit-transform: translateZ(-10px);
+    -moz-transform: translateZ(-10px);
+    transform: translateZ(-10px);
 }
 #img61{
+    -ms-transform: translateZ(21px);
     -webkit-transform: translateZ(21px);
     -moz-transform: translateZ(21px);
     transform: translateZ(21px);
 }
 #img62{
+    -ms-transform: translateZ(-21px);
     -webkit-transform: translateZ(-21px);
     -moz-transform: translateZ(-21px);
     transform: translateZ(-21px);
 }
 #img63{
-    -webkit-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
-    -moz-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
-    transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(143px);
+    -webkit-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(144px);
+    -moz-transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(144px);
+    transform: rotateY(90deg) translateZ(68px) translateX(0px) translateY(144px);
 }
 #img64{
     -webkit-transform: rotateY(90deg) translateZ(45px) translateX(0px) translateY(120px);
@@ -527,49 +513,6 @@ export default {
 }
 .ani-lengthwise{
     height: 500px;
-}
-.ani-round{
-    width: 400px;
-    height: 400px;
-    border: 3px dashed orangered;
-    border-radius: 50%;
-    margin: 0 auto;
-    margin-top: 50px;
-    font-size: 24px;
-    color: orangered;
-}
-.ani-round div{
-    position: relative;
-}
-.round-top-center{
-    top: -35px;
-}
-.round-right-top{
-    top: 0px;
-    left: 165px;
-}
-.round-right-center{
-    top: 130px;
-    left: 245px;
-}
-.round-right-bottom{
-    top: 260px;
-    left: 165px;
-}
-.round-bottom-center{
-    top: 300px;
-}
-.round-left-bottom{
-    top: 210px;
-    left: -170px;
-}
-.round-left-center{
-    top: 17px;
-    left: -237px;
-}
-.round-left-top{
-    top: -170px;
-    left: -170px;
 }
 .round-crosswise{
     background: orangered;
@@ -628,10 +571,6 @@ export default {
     left: -100px;
     transition: left 1s linear!important;
 } */
-.ani-line{
-    width: 17px;
-    height: 20px;
-}
 /* .ani-down{
     position: relative;
     top: 65px;

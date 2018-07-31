@@ -1,11 +1,18 @@
 <template>
     <div class="servicesrealname">
         该模块暂未上线
+        <div class="div"></div>
     </div>
 </template>
 
 <script>
 export default {
+    data(){
+        return{
+           topval:100 
+        }
+        
+    },
 methods:{
     datatype(){
             setTimeout(() =>{
@@ -40,5 +47,42 @@ methods:{
 .servicesrealname{
     padding-top: 50px;
     font-size: 32px;
+}
+.div
+{
+width:100px;
+height:100px;
+background:red;
+position: absolute;
+top: 0px;
+left: 0px;
+animation:myfirst 5s;
+-moz-animation:myfirst 5s; /* Firefox */
+-webkit-animation:myfirst 5s; /* Safari and Chrome */
+-o-animation:myfirst 5s; /* Opera */
+}
+
+@keyframes myfirst
+{
+from {top:0px;}
+to {top:topval+px;}
+}
+
+@-moz-keyframes myfirst /* Firefox */
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+from {background:red;}
+to {background:yellow;}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+from {background:red;}
+to {background:yellow;}
 }
 </style>
