@@ -728,16 +728,16 @@ export default {
 .environmentcue .el-row{
     height: 16.4%;
     border-bottom: 1px solid #999;
-    line-height: 100px;
+    /* line-height: 100px; */
     padding: 10px 0px;
 }
 .environmentcue img{
     /* width: 100px; */
-    height: 100px;
+    height: 100%;
     
 }
 .environmentcue .el-col{
-    height: 120px;
+    height: 100%;
 }
 .environmentcue .el-col-4 span:nth-child(1){
     display: inline-block;
@@ -749,28 +749,44 @@ export default {
     margin-left: 10px;
 }
 .environmentcue .el-type{
-    line-height: 20px;
+    height: 100%;
+    /* line-height: 33%; */
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* align-items: center; */
 }
 .environmentcue .el-type div:nth-child(1){
+    
     font-size: 20px;
-    height: 25px;
-    line-height: 25px;
-    margin: 5px 0 10px 0;
+    height: 30%;
+    vertical-align: top;
+    /* flex: 5; */
+    /* line-height: 25px; */
+    /* margin: 5px 0 10px 0; */
 }
 .environmentcue .el-type div:nth-child(2){
     font-size: 14px;
     color: #999894;
-    height: 35px;
+    height: 40%;
+    /* line-height: 100%; */
+    /* flex:7; */
 }
 .el-type div:nth-child(2) span:nth-child(2){
     font-size: 14px;
+    
     /* color: #f00; */
 }
 .environmentcue .el-type div:nth-child(3){
     font-size: 14px;
     color: #999894;
-    height: 35px;
+    height: 40%;
+    /* line-height: 100%; */
+    /* flex:7; */
+}
+.environmentcue .el-data{
+    display: flex;
 }
 .environmentcue .el-data span{
     display: inline-block;
@@ -778,6 +794,10 @@ export default {
     margin-left: 10px;
     color: cadetblue;
     cursor: pointer;
+    display: flex;
+    height: 100%;
+    /* width: 50%; */
+    align-items: center;
 }
 .environmentcue .echarts{
     width: 900px;

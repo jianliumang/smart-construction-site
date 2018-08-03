@@ -89,6 +89,9 @@ export default {
 .towerrunstate .aside-parent{
     background: #293950;
 }
+.towerrunstate .aside-parent img{
+    padding-right: 10px;
+}
 .el-aside-navchange{
     position: absolute;
     height: 40px;

@@ -6,18 +6,18 @@
                 <div class="ani-css">
 
                 
-                <div class="gouzi">
+                <div class="gouzi" :style="{transformOrigin: '-' + content.oring + 'px 0% 0', transform: 'translateZ(-12px) ' + 'rotateY('+content.rotatevalue+'deg)',left:content.crossdata + 'px',transition: 'all ' + content.showtime + 's linear!important' }">
                     <!-- <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
                     <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
                     <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div> -->
                     <div class="leftgou1">
                         <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                        <div class="heightchange"><img src="@/assets/img/line.png" alt="" class="ani-line"></div>
+                        <div :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"></div>
                         <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
                     </div>
                     <div class="leftgou2">
                         <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
-                        <div class="heightchange"><img src="@/assets/img/line.png" alt="" class="ani-line"></div>
+                        <div :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:content.verticaldata + 'px',transition: 'height ' + content.showtime + 's linear!important' }"></div>
                         <div><img src="@/assets/img/xia.png" alt="" class="ani-down"></div>
                     </div>
                     <!-- <div class="leftgou3">
@@ -27,7 +27,7 @@
                         <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/ta/line_02.jpg" alt="" class="ani-line-side" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
                     </div> -->
                 </div>
-                <div class="ta-xia6">
+                <div class="ta-xia6" :style="{transform:'rotateY('+content.rotatevalue+'deg)',transition: 'transform ' + content.showtime + 's linear!important'}">
                     <img id="img61" src="@/assets/ta/ta_01.png" alt="">
                     <img id="img62" src="@/assets/ta/ta_01.png" alt="">
                     <img id="img63" src="@/assets/ta/ta_01_05.png" alt="">
@@ -42,7 +42,7 @@
                 </div>
             </el-col>
         </el-row>
-        <button id="but" @click="ddd">++++</button>
+        <!-- <button id="but" @click="ddd">++++</button> -->
     </div>
 </div>
 </template>
@@ -97,7 +97,6 @@ export default {
             //     this.oring = 47;
             // }
             // console.log(this.rotatevalue)
-            this.reuquecss()
         },
         reuquecss(){
             var cssindex;
@@ -108,6 +107,7 @@ export default {
                 };
             };
             var needcss = csslist[cssindex].cssRules;
+            // console.log(needcss instanceof Array)
             for(var key in needcss){
                 // console.log(needcss[key])
                 if(needcss[key].name=="change"){
@@ -116,72 +116,8 @@ export default {
                     needcss[key].deleteRule("100%");
                     needcss[key].appendRule(end)
                     console.log(needcss[key].cssText)
-                };
-                if(needcss[key].name=="height"){
-                    console.log(needcss[key]);
-                    console.log(this.content)
-                    var endheight = "100% { height: " +this.content.verticaldata+"px; }";
-                    needcss[key].deleteRule("100%");
-                    needcss[key].appendRule(endheight)
-                    console.log(needcss[key].cssText)
-                };
-                if(needcss[key].name=="width"){
-                    console.log(needcss[key]);
-                    console.log(this.content)
-                    var endleft = "100% { left: " +this.content.crossdata+"px; }";
-                    needcss[key].deleteRule("100%");
-                    needcss[key].appendRule(endleft)
-                    console.log(needcss[key].cssText)
-                };
+                }
             };
-        }
-    },
-    watch:{
-        content:{
-            handler(newvalue,oldvalue){
-                console.log(newvalue,oldvalue);
-                var cssindex;
-                var csslist = document.styleSheets;
-                for(let i=0;i<csslist.length;i++){
-                    if(csslist[i].cssRules[0].selectorText=="#but"){
-                        cssindex = i;
-                    };
-                };
-                var needcss = csslist[cssindex].cssRules;
-                console.log(needcss)
-                for(var key in needcss){
-                    
-                    if(needcss[key].name=="change"){
-                        var first = "0% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
-                        var end = "100% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
-                        needcss[key].deleteRule("100%");
-                        needcss[key].deleteRule("0%");
-                        needcss[key].appendRule(first);
-                        needcss[key].appendRule(end)
-                    };
-                    if(needcss[key].name=="height"){
-                        var firstheight = "0% { height: " +oldvalue.verticaldata+"px; }";
-                        var endheight = "100% { height: " +newvalue.verticaldata+"px; }";
-                        needcss[key].deleteRule("100%");
-                        needcss[key].deleteRule("0%");
-                        needcss[key].appendRule(firstheight);
-                        needcss[key].appendRule(endheight)
-                    };
-                    if(needcss[key].name=="width"){
-                        var firstleft = "0% { left: " +oldvalue.crossdata+"px; }";
-                        var endleft = "100% { left: " +newvalue.crossdata+"px; }";
-                        needcss[key].deleteRule("100%");
-                        needcss[key].deleteRule("0%");
-                        needcss[key].appendRule(firstleft);
-                        needcss[key].appendRule(endleft)
-                    };
-                    if(needcss[key].selectorText==".ani-css" || needcss[key].selectorText==".ani-line" || needcss[key].selectorText==".heightchange"){
-                        needcss[key].style.animationDuration= newvalue.showtime+"s"
-                        console.log(needcss[key])
-                    }
-                };
-            },
-            deep: true
         }
     }
 
@@ -201,7 +137,7 @@ export default {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
     100% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
     }
 }
 @-webkit-keyframes change {
@@ -209,7 +145,7 @@ export default {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
     100% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
     }
 }
 @-moz-keyframes change {
@@ -217,7 +153,7 @@ export default {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
     100% {
-        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
+        -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
     }
 }
 @keyframes change {
@@ -231,71 +167,7 @@ export default {
         transform: translateZ(-10em) rotateX(0deg) rotateY(270deg);
     } */
     100% {
-        transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
-    }
-}
-@-ms-keyframes height {
-    0% {
-        height: 20px;
-    }
-    100% {
-        height: 20px;
-    }
-}
-@-webkit-keyframes height {
-    0% {
-        height: 20px;
-    }
-    100% {
-        height: 20px;
-    }
-}
-@-moz-keyframes height {
-    0% {
-        height: 20px;
-    }
-    100% {
-        height: 20px;
-    }
-}
-@keyframes height {
-    0% {
-        height: 20px;
-    }
-    100% {
-        height: 20px;
-    }
-}
-@-ms-keyframes width {
-    0% {
-        left: 490px;
-    }
-    100% {
-        left: 490px;
-    }
-}
-@-webkit-keyframes width {
-    0% {
-        left: 490px;
-    }
-    100% {
-        left: 490px;
-    }
-}
-@-moz-keyframes width {
-    0% {
-        left: 490px;
-    }
-    100% {
-        left: 490px;
-    }
-}
-@keyframes width {
-    0% {
-        left: 490px;
-    }
-    100% {
-        left: 490px;
+        transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
     }
 }
 .ta{
@@ -320,9 +192,9 @@ export default {
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
     /* -webkit-animation: change 6s linear infinite; */
-    -webkit-animation: change 0s linear infinite;
-    -moz--animation: change 0s linear infinite;
-    animation: change 0s linear infinite;
+    -webkit-animation: change 6s linear infinite;
+    -moz--animation: change 6s linear infinite;
+    animation: change 6s linear infinite;
     animation-iteration-count:1;
     -webkit-animation-iteration-count:1;
     animation-fill-mode : forwards;
@@ -336,43 +208,29 @@ export default {
 .ani-line-side{
     width: 1px;
 }
-.ani-line{
-    width: 17px;
-    height: 20px;
-    -webkit-animation: height 0s linear infinite;
-    -moz--animation: height 0s linear infinite;
-    animation: height 0s linear infinite;
-    animation-iteration-count:1;
-    -webkit-animation-iteration-count:1;
-    animation-fill-mode : forwards;
-}
-.heightchange{
-    -webkit-animation: height 0s linear infinite;
-    -moz--animation: height 0s linear infinite;
-    animation: height 0s linear infinite;
-    animation-iteration-count:1;
-    -webkit-animation-iteration-count:1;
-    animation-fill-mode : forwards;
-}
 .gouzi{
     width: 17px;
     position: absolute;
     top: 140px;
     /* z-index: 200; */
     /* left: 255px!important; */
+     /* -moz-transform-origin: -47px 0% 0;
+    -ms-transform-origin: -47px 0% 0; */
+    /* transform-origin: -47px 0% 0; */
+    /* -webkit-transform: translateZ(-12px);
+    -moz-transform: translateZ(-12px);
+    transform: translateZ(-12px); */
+    /* -ms-transform-style: preserve-3d; */
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
-     -moz-transform-origin: -62px 0% 0;
-    -ms-transform-origin: -62px 0% 0;
-    transform-origin: -62px 0% 0!important;
+     /* -moz-transform-origin: -47px 0% 0;
+    -ms-transform-origin: -47px 0% 0;
+    transform-origin: -47px 0% 0!important; */
     backface-visibility: visible;
-    -webkit-animation: width 6s linear infinite;
-    -moz--animation: width 6s linear infinite;
-    animation: width 6s linear infinite;
-    animation-iteration-count:1;
-    -webkit-animation-iteration-count:1;
-    animation-fill-mode : forwards;
+    /* -webkit-animation: change 6s linear infinite;
+    -moz--animation: change 6s linear infinite;
+    animation: change 6s linear infinite; */
 }
 .leftgou1{
     width: 17px;
@@ -514,6 +372,49 @@ export default {
 .ani-lengthwise{
     height: 500px;
 }
+.ani-round{
+    width: 400px;
+    height: 400px;
+    border: 3px dashed orangered;
+    border-radius: 50%;
+    margin: 0 auto;
+    margin-top: 50px;
+    font-size: 24px;
+    color: orangered;
+}
+.ani-round div{
+    position: relative;
+}
+.round-top-center{
+    top: -35px;
+}
+.round-right-top{
+    top: 0px;
+    left: 165px;
+}
+.round-right-center{
+    top: 130px;
+    left: 245px;
+}
+.round-right-bottom{
+    top: 260px;
+    left: 165px;
+}
+.round-bottom-center{
+    top: 300px;
+}
+.round-left-bottom{
+    top: 210px;
+    left: -170px;
+}
+.round-left-center{
+    top: 17px;
+    left: -237px;
+}
+.round-left-top{
+    top: -170px;
+    left: -170px;
+}
 .round-crosswise{
     background: orangered;
     width: 230px;
@@ -571,6 +472,10 @@ export default {
     left: -100px;
     transition: left 1s linear!important;
 } */
+.ani-line{
+    width: 17px;
+    height: 20px;
+}
 /* .ani-down{
     position: relative;
     top: 65px;

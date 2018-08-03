@@ -8,7 +8,6 @@
                     </p>
                     <div>
                         <span></span>
-                        <span></span>
                     </div>
                 </div>
                 <div class="datashow-center">
@@ -53,19 +52,21 @@
                     </div>
                     <div class="el-indexdata-left">
                         <div>
-                            <span class="onstruction-condition-type">建筑面积<br /><span>{{constructiondata==null? 1000:constructiondata.coveredArea}}</span>㎡</span>
-                            <span class="onstruction-condition-type">合同工期<br /><span>{{constructiondata==null? 600:constructiondata.contractPeriod}}</span>天</span>
+                            <span class="onstruction-condition-type">建筑面积<br /><span><span>{{constructiondata==null? 1000:constructiondata.coveredArea}}</span>㎡</span></span>
+                            <span class="onstruction-condition-type">合同工期<br /><span><span>{{constructiondata==null? 600:constructiondata.contractPeriod}}</span>天</span></span>
                         </div>
                         <div>
-                            <span class="onstruction-condition-type">施工状态<br /><span>{{constructiondata==null? '正在施工':constructiondata.engineeringState }}</span></span>
-                            <span class="onstruction-condition-type">工程类别<br /><span>{{constructiondata==null? '房建类':constructiondata.engineeringCategoryname }}</span></span>
+                            <span class="onstruction-condition-type">施工状态<br /><span><span>{{constructiondata==null? '正在施工':constructiondata.engineeringState }}</span></span></span>
+                            <span class="onstruction-condition-type">工程类别<br /><span><span>{{constructiondata==null? '房建类':constructiondata.engineeringCategoryname }}</span></span></span>
                         </div>
                     </div>
                     <div class="onstruction-date">剩余<span>{{constructiondata==null? 100:constructiondata.distanceEnddate}}</span>天</div>
                     <div class="onstruction-percentage">
                         <div class="onstruction-percentage-progress">
-                            <el-progress :text-inside="true" :stroke-width="18" :percentage="constructiondata==null? 80.12:constructiondata.constructionPercentage" color="#0066ad"></el-progress>
+                            <el-progress :text-inside="true" :stroke-width="16" :percentage="constructiondata==null? 80.12:constructiondata.constructionPercentage" color="#0066ad"></el-progress>
                         </div>
+                    </div>
+                    <div class="onstruction-percentage">
                         <span>{{constructiondata==null? '2017-09-30':constructiondata.contractStarttime }}</span>
                         <span>{{constructiondata==null? '2018-12-31':constructiondata.contractEndtime }}</span>
                     </div>
@@ -76,7 +77,6 @@
                 <div class="data-title">
                     <p>天气管理</p>
                     <div>
-                        <span></span>
                         <span></span>
                     </div>
                 </div>
@@ -97,21 +97,27 @@
                     <p>考勤管理</p>
                     <div>
                         <span></span>
-                        <span></span>
                     </div>
                 </div>
                 <div class="work-container">
                     <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
                     <div>
                         <div>
-                            <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
+                            <span>考勤总数：</span><span>128</span>
                         </div>
                         <div>
-                            <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                            <span>合格数：</span><span>103</span>
+                        </div>
+                        <div>
+                            <span>已通过：</span><span>15</span>
+                        </div>
+                        <div>
+                            <span>未通过：</span><span>15</span>
                         </div>
                     </div>
                 </div>
                 <p>考勤率</p>    
+                <div></div>
             </div>
         </div>
         <div class="index-center">
@@ -122,7 +128,6 @@
                 <div class="data-title">
                     <p>最新动态</p>
                     <div>
-                        <span></span>
                         <span></span>
                     </div>
                 </div>
@@ -141,7 +146,6 @@
                     <p>环境监测</p>
                     <div>
                         <span></span>
-                        <span></span>
                     </div>
                 </div> 
                 <div class="datashow-center">
@@ -159,21 +163,27 @@
                     <p>安全管理</p>
                     <div>
                         <span></span>
-                        <span></span>
                     </div>
                 </div> 
                 <div class="safe-center">
                     <el-progress type="circle" show-text :width="160" :stroke-width="23" :percentage="88" color="#3d74c2"></el-progress>
                     <div>
                         <div>
-                            <span>考勤总数：</span><span>128</span><span>合格数：</span><span>103</span>
+                            <span>考勤总数：</span><span>128</span>
                         </div>
                         <div>
-                            <span>已通过：</span><span>15</span><span>未通过：</span><span>15</span>
+                            <span>合格数：</span><span>103</span>
+                        </div>
+                        <div>
+                            <span>已通过：</span><span>15</span>
+                        </div>
+                        <div>
+                            <span>未通过：</span><span>15</span>
                         </div>
                     </div>
                 </div>
                 <p>考勤率</p> 
+                <div></div>
             </div>
         </div>
     </div>
@@ -368,8 +378,8 @@ export default {
 /* ---------数据统计设置按钮------- */
 .el-center{
     position: absolute;
-    top:20px;
-    right: 20px;
+    top:4px;
+    right: 16px;
     height: 20px;
     background: #ccc;
     border-radius: 5px;
@@ -398,17 +408,19 @@ export default {
 /* ------------数据展示框共同样式-------- */
 .index .datashow{
     width: 94%;
-    height: 28%;
-    padding: 10px 0px 10px 6%;
+    height: 29%;
+    padding: 5px 0px 5px 6%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     /* margin-bottom: 40px; */
 }
-/* .datashow-center{
+.datashow-center{
     flex: 1;
-    
-} */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between
+}
 .data-title p{
     text-align: left;
 	height: 24px;
@@ -419,6 +431,11 @@ export default {
 }
 .data-title div{
     text-align: left;
+    width: 90%;
+    height: 5px;
+    line-height: 0px;
+    border-bottom: 1px solid #949494;
+    padding-top: 3px;
 }
 .data-title div span:nth-child(1){
     display: inline-block;
@@ -426,24 +443,26 @@ export default {
 	height: 5px;
     background-color: #1795ed;
 }
-.data-title div span:nth-child(2){
-    display: inline-block;
-    width: 320px;
-	height: 1px;
-    background-color: #949494;
-    position: relative;
-    left: -5px;
-}
 /* ----------------数据统计----------------- */
 .el-indexdata-left{
     padding-top: 7px;
+    height: 55%;
+}
+.el-indexdata-left div{
+    height: 49%;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1%;
 }
 .onstruction-condition-type{
     display: inline-block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     width: 75px;
-    height: 50px;
-    line-height: 25px;
-    margin: 0px 30px 8px 30px;
+    height: 100%;
+    /* line-height: 100%; */
+    /* margin: 0px 25px 8px 25px; */
     font-size: 16px;
     letter-spacing: 0px;
     text-align: left;
@@ -451,24 +470,31 @@ export default {
 }
 .el-indexdata-left div:nth-child(1) .onstruction-condition-type:nth-child(1){
     background: url('~@/assets/img/index11.png') no-repeat 0 center;
+    background-size: 30%;
 }
 .el-indexdata-left div:nth-child(1) .onstruction-condition-type:nth-child(2){
     background: url('~@/assets/img/index12.png') no-repeat 0 center;
+    background-size: 30%;
 }
 .el-indexdata-left div:nth-child(2) .onstruction-condition-type:nth-child(1){
     background: url('~@/assets/img/index13.png') no-repeat 0 center;
+    background-size: 27%;
 }
 .el-indexdata-left div:nth-child(2) .onstruction-condition-type:nth-child(2){
     background: url('~@/assets/img/index14.png') no-repeat 0 center;
+    background-size: 30%;
 }
 .onstruction-percentage{
     clear: both;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
 }
 .onstruction-percentage span{
     display: inline-block;
-    width: 38%;
+    /* width: 38%; */
     text-align: left;
-    margin-right: 46px
+    /* margin-right: 44px */
 }
 .onstruction-percentage span:nth-child(3){
     text-align: right;
@@ -479,11 +505,11 @@ export default {
     font-size: 14px;
 }
 .onstruction-percentage-progress{
-    width: 378px;
+    width: 100%;
     float: left;
     /* padding-right: 20px; */
     /* position: relative; */
-    margin: 6px 0px;
+    margin: 3px 0px;
 }
 /* ----------------天气管理----------------- */
 .showimg{
@@ -491,20 +517,25 @@ export default {
     height: 95%;
 }
 .weather{
-    height: 80px;
-    padding: 40px 0px 30px 0px;
+    height: 50%;
+    width: 95%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .weather span:nth-child(1){
     /* width: 105px; */
     line-height: 30px;
     display: inline-block;
-    padding: 20px 80px 0px 0px;
+    /* padding: 20px 80px 0px 0px; */
 }
 .weather span:nth-child(2){
-    width: 105px;
-    height: 80px;
+    width: 25%;
+    height: 100%;
     display: inline-block;
     background: url('~@/assets/img/weather.png') no-repeat 0 center;
+    background-size: 100% 100%;
     vertical-align: top;
     padding-right: 55px;
 }
@@ -515,6 +546,7 @@ export default {
 }
 .weather + div{
     text-align: left;
+    padding-bottom: 3px;
 }
 .weather + div span{
     margin-right: 10px;
@@ -526,17 +558,25 @@ export default {
 }
 #workmanage .el-progress,#safemanage .el-progress{
     padding-top: 10px;
+    
 }
 #workmanage .el-progress+div,#safemanage .el-progress+div{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
+}
+#workmanage .el-progress+div div,#safemanage .el-progress+div div{
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    height: 20%;
 }
 #workmanage .el-progress+div span:nth-of-type(odd),#safemanage .el-progress+div span:nth-of-type(odd){
     display: inline-block;
     width: 80px;
     text-align: right;
-    margin-bottom: 25px;
+    /* margin-bottom: 25px; */
 }
 #workmanage .el-progress+div span:nth-of-type(even),#safemanage .el-progress+div span:nth-of-type(even){
     display: inline-block;
@@ -546,12 +586,12 @@ export default {
 #workmanage .work-container+p,#safemanage .safe-center+p{
     position: absolute;
     top: 64%;
-    left: 18%;
+    left: 24%;
 }
 .work-container,.safe-center{
     flex: 1;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 .el-progress__text{
@@ -570,23 +610,32 @@ export default {
     color: #fff;
 }
 /* ----------------环境监测----------------- */
+.onstruction-environment{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 .onstruction-environment span:nth-of-type(odd){
     display: inline-block;
-    width: 80px;
+    width: 20%;
     text-align: left;
     font-size: 15px;
 }
 .onstruction-environment span:nth-of-type(even){
     display: inline-block;
-    width: 120px;
+    width: 28%;
     text-align: left;
     font-size: 15px;
 }
 .onstruction-environment div{
-    margin-top: 25px;
+    display: flex;
 }
 .onstruction-environment div:nth-child(4) span:nth-child(2){
-    width: 315px;
+    flex: 1;
     text-align: left;
+}
+.onstruction-environment div:nth-child(4) span:nth-child(1){
+    min-width: 100px;
 }
 </style>

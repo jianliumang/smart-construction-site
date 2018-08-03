@@ -1,37 +1,39 @@
 <template>
     <div class="home pagecss1">
         <el-row id="title">
-            <el-col :span="6">
-                <span></span>
-                <span>大境筑智慧物联</span>
-            </el-col>
-            <el-col :span="12">
-                <p>
-                    {{regionname}}
-                    <el-popover
-                    placement="right"
-                    width="400"
-                    trigger="click">
-                    <el-select @change="handleChange" v-model="selectvalue" placeholder="请选择">
-                        <el-option
-                        v-for="item in selectdata"
-                        :key="item.regionid"
-                        :label="item.regionname"
-                        :value="item.regionid">
-                        </el-option>
-                    </el-select>
-                    <img slot="reference" src="@/assets/img/change.png" alt="">
-                    </el-popover>
-                </p>
-            </el-col>
-            <el-col :span="6">
-                <span>
+            <div class="title-cneter">
+                <div>
+                    <span></span>
+                    <span>大境筑智慧物联</span>
+                </div>
+                <div>
+                    <p>
+                        {{regionname}}
+                        <el-popover
+                        placement="right"
+                        width="400"
+                        trigger="click">
+                        <el-select @change="handleChange" v-model="selectvalue" placeholder="请选择">
+                            <el-option
+                            v-for="item in selectdata"
+                            :key="item.regionid"
+                            :label="item.regionname"
+                            :value="item.regionid">
+                            </el-option>
+                        </el-select>
+                        <img slot="reference" src="@/assets/img/change.png" alt="">
+                        </el-popover>
+                    </p>
+                </div>
+                <div>
+                    <span>
 
-                </span>
-                <span>
-                    admin
-                </span>
-            </el-col>
+                    </span>
+                    <span>
+                        admin
+                    </span>
+                </div>
+            </div>
         </el-row>
         <el-row id="nav">
             <div class="home-nav">
@@ -209,7 +211,7 @@ export default {
 <style>
 .home{
     width: 100%;
-    min-width: 1620px;
+    min-width: 1344px;
     height: 100%!important;
     display: flex;
     flex-direction: column;
@@ -231,18 +233,25 @@ export default {
 .subnav span{
     display: inline-block;
     position: relative;
-    width: 100px;
-    left: -50px;
-    padding-left: 50px;
+    width: 100%;
+    left: -35px;
+    padding-left: 40px;
 }
 #title{
     height: 60px;
     line-height: 60px;
+    display: flex;
+    justify-content: center;
+}
+.title-cneter{
+    width: 1400px;
+    display: flex;
+    justify-content: space-between;
 }
 #title{
     text-align: right;
 }
-#title .el-col-6:nth-child(1) span:nth-child(1){
+.title-cneter div:nth-child(1) span:nth-child(1){
     display: inline-block;
     width: 45px;
     height: 45px;
@@ -251,29 +260,29 @@ export default {
     margin: 10px 10px 0px 0px;
     vertical-align: top;
 }
-#title .el-col-6:nth-child(1) span:nth-child(2){
+.title-cneter div:nth-child(1) span:nth-child(2){
     display: inline-block;
 	vertical-align: top;
 	font-size: 30px;
 	letter-spacing: 0px;
 }
-#title .el-col-12{
+.title-cneter div:nth-child(2){
     text-align: center;
 }
-#title .el-col-12 p{
+.title-cneter div:nth-child(2) p{
 	font-size: 36px;
     letter-spacing: 0px;
     margin: 0px;
 }
-#title .el-col-12 img{
+.title-cneter div:nth-child(2) img{
     margin: 10px 0px 0px 10px;
     vertical-align: top;
     cursor: pointer;
 }
-#title .el-col-6:nth-child(3){
+.title-cneter div:nth-child(3){
     text-align: left;
 }
-#title .el-col-6:nth-child(3) span:nth-child(1){
+.title-cneter div:nth-child(3) span:nth-child(1){
     display: inline-block;
     width: 38px;
 	height: 38px;
@@ -282,7 +291,7 @@ export default {
     vertical-align: top;
     margin-top: 10px; 
 }
-#title .el-col-6:nth-child(3) span:nth-child(2){
+.title-cneter div:nth-child(3) span:nth-child(2){
     display: inline-block;
 	font-size: 18px;
 	letter-spacing: 0px;
@@ -292,27 +301,35 @@ export default {
 #nav{
     height: 40px;
     line-height: 40px;
+    display: flex;
+    justify-content: center;
+    padding: 0px 200px;
 }
 .home-nav{
-    width: 1344px;
+    width: 100%;
     height: 40px;
     position: relative;
-    margin: auto;
+    /* margin-left: 200px; */
 }
 .home-nav .el-menu{
     border: none;
     background: none;
 }
+.home-nav ul{
+    display: flex;
+    justify-content: space-around;
+    padding-left: 2%;
+}
 .home-nav a{
     display: inline-block;
-    width: 100px;
+    width: 10%;
     height: 40px;
-    padding-left: 50px;
+    padding-left: 40px;
     text-align: left;
     text-decoration: none;
     color: #f4f4f4;
     font-size: 18px;
-    margin-right: 3.2%;
+    /* margin-right: 3.2%; */
     outline: none;
 }
 .home-nav a:nth-child(1){
@@ -335,7 +352,7 @@ export default {
 }
 .home-nav a:nth-child(7){
     background: url('~@/assets/img/nav007.png') no-repeat 0 center;
-    margin: 0px;
+    width: auto;
 }
 .home #nav+.el-container{
     flex: 1;
@@ -344,5 +361,6 @@ export default {
     padding: 0px;
     overflow: visible;
     height: 100%;
+    /* min-height: 640px; */
 }
 </style>
