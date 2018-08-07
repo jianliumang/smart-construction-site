@@ -85,7 +85,7 @@ export default {
         contentdata:{
                     showtime:0,
                     rotatevalue:0,
-                    crossdata:455,
+                    crossdata:490,
                     verticaldata:20,
                     oring:47,
                 },
@@ -118,12 +118,13 @@ export default {
             var firstdata = this.playbackdata[0];
             var lastdata = this.playbackdata[this.playbackdata.length-1];
             this.contentdata={
-                showtime:5,
-                rotatevalue:45,
-                crossdata:455 + 4.2*lastdata.tower_range,
-                verticaldata:20 + 5*lastdata.height,
+                showtime:this.playbackdata.length==1?0:5,
+                rotatevalue:lastdata.rotation,
+                crossdata:490 + 4.2*lastdata.tower_range,
+                verticaldata:20 + 4.75*lastdata.height,
                 oring:47 + 4.2*lastdata.tower_range,
             }
+            alert('本时间段只有一条数据')
         },
         handleClose(done) {
             this.$confirm('确认关闭？').then(_ => {
@@ -148,8 +149,8 @@ export default {
                 this.contentdata={
                     showtime:0,
                     rotatevalue:firstdata.rotation,
-                    crossdata:455 + 4.2*firstdata.tower_range,
-                    verticaldata:20 + 5*firstdata.height,
+                    crossdata:490 + 4.2*firstdata.tower_range,
+                    verticaldata:20 + 4.75*firstdata.height,
                     oring:47 + 4.2*firstdata.tower_range,
                 }
             })

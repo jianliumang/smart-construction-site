@@ -18,6 +18,9 @@ export default {
 .videosurveillance{
     height: 100%;
 }
+.videosurveillance .el-container{
+    height: 100%;
+}
 .videosurveillance .el-menu{
     height: 100%;
 }

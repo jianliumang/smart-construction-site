@@ -356,6 +356,7 @@ export default {
 }
 .home #nav+.el-container{
     flex: 1;
+    height: 100%;
 }
 .home .el-main{
     padding: 0px;

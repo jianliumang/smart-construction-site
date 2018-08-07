@@ -4,8 +4,6 @@
         <el-row class="ani-center">
             <el-col class="ta">
                 <div class="ani-css">
-
-                
                 <div class="gouzi" :style="{transformOrigin: '-' + content.oring + 'px 0% 0', transform: 'translateZ(-12px) ' + 'rotateY('+content.rotatevalue+'deg)',left:content.crossdata + 'px',transition: 'all ' + content.showtime + 's linear!important' }">
                     <!-- <div><img src="@/assets/img/shang.png" alt="" class="ani-on"></div>
                     <div :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"><img src="@/assets/img/line.png" alt="" class="ani-line" :style="{ height:verticaldata + 'px',transition: 'height ' + showtime + 's linear!important' }"></div>
@@ -76,6 +74,7 @@ export default {
       this.regionid = sessionStorage.getItem("regionid");
     },
     mounted() {
+        console.log(this.content)
         // this.alldata()
         // console.log(document.styleSheets)
         // this.reuquecss()
@@ -132,7 +131,7 @@ export default {
     margin: 0px;
     padding: 0px;
 }
-@-ms-keyframes change {
+/* @-ms-keyframes change {
     0% {
         -webkit-transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
@@ -160,16 +159,16 @@ export default {
     0% {
         transform: translateZ(-10em) rotateX(0deg) rotateY(0deg);
     }
-    /* 33% {
+    33% {
         transform: translateZ(-10em) rotateX(0deg) rotateY(270deg);
     }
     66% {
         transform: translateZ(-10em) rotateX(0deg) rotateY(270deg);
-    } */
+    }
     100% {
         transform: translateZ(-10em) rotateX(0deg) rotateY(360deg);
     }
-}
+} */
 .ta{
     text-align: left;
     width: 800px;
@@ -192,18 +191,18 @@ export default {
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
     /* -webkit-animation: change 6s linear infinite; */
-    -webkit-animation: change 6s linear infinite;
+    /* -webkit-animation: change 6s linear infinite;
     -moz--animation: change 6s linear infinite;
-    animation: change 6s linear infinite;
+    animation: change 6s linear infinite; */
     animation-iteration-count:1;
     -webkit-animation-iteration-count:1;
     animation-fill-mode : forwards;
     /* transform: rotate(45deg); */
-    transform-origin:53.6% 0px;
-    -ms-transform-origin:53.6% 0px; 		/* IE 9 */
-    -webkit-transform-origin:53.6% 0px;	/* Safari 和 Chrome */
-    -moz-transform-origin:53.6% 0px;		/* Firefox */
-    -o-transform-origin:53.6% 0px;		/* Opera */
+    /* transform-origin:53.6% 0px;
+    -ms-transform-origin:53.6% 0px; 		IE 9
+    -webkit-transform-origin:53.6% 0px;	Safari 和 Chrome
+    -moz-transform-origin:53.6% 0px;		Firefox
+    -o-transform-origin:53.6% 0px;		Opera */
 }
 .ani-line-side{
     width: 1px;

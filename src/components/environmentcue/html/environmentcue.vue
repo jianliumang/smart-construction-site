@@ -514,6 +514,10 @@ export default {
             console.log(stTime,enTime,this.enviromentalid)
             this.$api.seekDatesEnvironmentalMonitoringData("?startTime="+stTime+"&endTime="+enTime+"&enviromental_id=" + this.enviromentalid).then((response) => {
                 // console.log(response)
+                console.log(response)
+                if(response.data.result.length==0){
+                    alert("本时间段没有数据")
+                }
                 if(response.data.code==200){
                     times=[];
                     temperature=[];

@@ -108,7 +108,7 @@ export default new Router({
             {
               path: '/videosurveillance/video',
               name: 'video',
-              component: (resolve) => require(['@/components/videosurveillance/html/video.vue'],resolve),
+              component: (resolve) => require(['@/components/videosurveillance/html/newvideo.vue'],resolve),
               hidden:false
             },
           ]

@@ -17,7 +17,7 @@ axios.interceptors.request.use(config => {
   if(token){
     config.headers.token = token;  //将token放到请求头发送给服务器
   }
-
+  // config.headers['Content-Type']='application/x-www-form-urlencoded'
 
   // element ui Loading方法
   loadinginstace = Loading.service({ fullscreen: true });
