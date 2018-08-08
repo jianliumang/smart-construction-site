@@ -75,6 +75,7 @@ export default {
 <style>
 .towerrunstate{
     height: 100%;
+    color: #000000;
 }
 .towerrunstate .aside-container{
     height: 100%;
@@ -83,20 +84,20 @@ export default {
     position: relative;
     height: 100%;
     top: -40px;
-    background: #293950;
+    background:url('~@/assets/img/indexbg.png');
     /* border-bottom: 40px solid #293950; */
 }
 .towerrunstate .aside-parent{
-    background: #293950;
+    background:url('~@/assets/img/indexbg.png');
 }
 .towerrunstate .aside-parent img{
-    padding-right: 10px;
+    padding-right: 20px;
 }
 .el-aside-navchange{
     position: absolute;
     height: 40px;
     top: 60px;
-    background: #293950;
+    background:url('~@/assets/img/indexbg.png');
 }
 .towerrunstate li li{
     width: 100%;

@@ -129,6 +129,7 @@ export default {
                 return false;
                 };
             this.groups[num].groupdata.forEach(element => {
+                console.log(element,this.userdata)
                 this.userdata.forEach(value => {
                 if(element == value.name){
                     console.log(value.name)
@@ -143,6 +144,7 @@ export default {
                                 let doc = document.getElementsByClassName('el-checkbox__label');
                                 for(var i=0;i<doc.length;i++){
                                     if(doc[i].innerText == value.name){
+                                        // console.log()
                                         var para = document.createElement("input");
                                         para.setAttribute("disabled","disabled")
                                         para.className="el-append";
@@ -164,8 +166,10 @@ export default {
             this.groupshow.splice(num,1,!this.groupshow[num]);
         },
         handleCheckAllChange(num) {
+            console.log(this.groups[num],)
             this.groups[num].groupdata.forEach(data => {
-                if(this.checkedCities.indexOf(data)==-1){
+                if(this.checkedCities.indexOf(data)==-1&&data!='3232(张三)'){//全选bug
+                    console.log(data)
                     this.checkedCities.push(data)
                 }
             })

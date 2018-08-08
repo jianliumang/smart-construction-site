@@ -83,6 +83,10 @@
                             v-model="textareavlaue"
                             @change="textareachagne">
                         </el-input>
+                        <div style="text-align: right; margin: 0">
+                            <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
+                            <el-button type="primary" size="mini" @click="visible2 = false" slot="reference">确定</el-button>
+                        </div>
                         <el-button @click="breakdownfn(scope.row)" type="text" size="small" slot="reference">故障</el-button>
                     </el-popover>
                 </template>
@@ -110,7 +114,8 @@ export default {
             textareavlaue: '',
             rowdata:null,
             phonename:'',
-            imguuid:''
+            imguuid:'',
+            visible:false
         }
     },
     created(){
@@ -122,6 +127,9 @@ export default {
         this.responselist();
     },
     methods: {
+        downpage(){
+            
+        },
         allsubmit(){
             //将异常信息从table里遍历成数组传给后台
             var arr = [];

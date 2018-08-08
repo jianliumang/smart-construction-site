@@ -1,5 +1,43 @@
 <template>
     <div class="index">
+        <!-- <div class="aside-nav">
+            <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+                <el-radio-button :label="false">展开</el-radio-button>
+                <el-radio-button :label="true">收起</el-radio-button>
+            </el-radio-group>
+            <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+                <el-submenu index="1">
+                    <template slot="title">
+                    <i class="el-icon-location"></i>
+                    <span slot="title">导航一</span>
+                    </template>
+                    <el-menu-item-group>
+                    <span slot="title">分组一</span>
+                    <el-menu-item index="1-1">选项1</el-menu-item>
+                    <el-menu-item index="1-2">选项2</el-menu-item>
+                    </el-menu-item-group>
+                    <el-menu-item-group title="分组2">
+                    <el-menu-item index="1-3">选项3</el-menu-item>
+                    </el-menu-item-group>
+                    <el-submenu index="1-4">
+                    <span slot="title">选项4</span>
+                    <el-menu-item index="1-4-1">选项1</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-menu-item index="2">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">导航二</span>
+                </el-menu-item>
+                <el-menu-item index="3" disabled>
+                    <i class="el-icon-document"></i>
+                    <span slot="title">导航三</span>
+                </el-menu-item>
+                <el-menu-item index="4">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">导航四</span>
+                </el-menu-item>
+            </el-menu>
+        </div> -->
         <div class="index-left">
             <div class="fillet-left datashow" id="datastatistics">
                 <div class="data-title">
@@ -60,7 +98,7 @@
                             <span class="onstruction-condition-type">工程类别<br /><span><span>{{constructiondata==null? '房建类':constructiondata.engineeringCategoryname }}</span></span></span>
                         </div>
                     </div>
-                    <div class="onstruction-date">剩余<span>{{constructiondata==null? 100:constructiondata.distanceEnddate}}</span>天</div>
+                    <div class="onstruction-date" v-show="this.remaindays>=0">剩余<span>{{constructiondata==null? 100:constructiondata.distanceEnddate}}</span>天</div>
                     <div class="onstruction-percentage">
                         <div class="onstruction-percentage-progress">
                             <el-progress :text-inside="true" :stroke-width="16" :percentage="constructiondata==null? 80.12:constructiondata.constructionPercentage" color="#0066ad"></el-progress>
@@ -190,6 +228,7 @@
 </template>
 
 <script>
+import indexbg from '@/assets/img/indexbg.png'
 export default {
     data(){
         return{
@@ -207,7 +246,9 @@ export default {
             nowdate: this.setAllTime(),
             options: [],
             constructiondata: null,
-            openvalue:''
+            openvalue:'',
+            remaindays:0,
+            indexbg:indexbg
         }
     },
     created(){
@@ -222,7 +263,7 @@ export default {
         this.engineeringcategoryrequest();//设置功能中的工程类别分组下拉列表
         this.realdata = setInterval(()=>{
           this.towerrrequest();
-        },60000)
+        },60000);
     },
     methods:{
         cancel() {
@@ -251,8 +292,8 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.data.code==200){
-                    
                     this.constructiondata = res.data.result;
+                    this.remaindays = res.data.result.distanceEnddate;
                     this.form.area = this.constructiondata.coveredArea;
                     this.form.region = this.constructiondata.engineeringCategoryNumber;
                     this.valuetime = [this.constructiondata.contractStarttime,this.constructiondata.contractEndtime]
@@ -349,14 +390,26 @@ export default {
             // document.getElementsByClassName("showimg")[0].style.height=bodyheight-60+'px';//中间图片高度
         }
     },
+    beforeCreate () {
+        console.log(document.querySelector('body'))
+        document.querySelector('body').className="bg";
+
+    },
+    beforeUpdate () {
+        document.querySelector('body').className="bg";
+    },
     beforeDestroy() {
-      clearInterval(this.realdata);
+        document.querySelector('body').removeAttribute('class')
+        clearInterval(this.realdata);
     },
 }
 </script>
 
 <style>
 @import "../css/boeder.css";
+.bg{
+    background: url('~@/assets/img/indexbg.png') no-repeat;
+}
 .index{
     /* min-height: 1000; */
     height: 100%;
@@ -369,7 +422,7 @@ export default {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .index-center{
     width: 40%;
@@ -392,10 +445,13 @@ export default {
     outline: none;
     vertical-align: top;
     float: right;
+    background: steelblue;
+    border: 1px solid #68b1ef;
+    color: #fff;
 }
 .el-setup{
     position: relative;
-    background: #ccc;
+    background: #68b1ef;
     vertical-align: top;
 }
 .el-form{
@@ -404,6 +460,9 @@ export default {
 .el-text-type{
     text-align: left;
     padding-left: 10px;
+}
+.el-setup label{
+    color: #fff;
 }
 /* ------------数据展示框共同样式-------- */
 .index .datashow{

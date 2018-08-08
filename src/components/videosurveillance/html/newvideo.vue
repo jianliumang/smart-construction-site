@@ -1,57 +1,71 @@
 <template>
     <div class="newvideo">
-        <div>
-            <div>
-                设备通道
-                <div v-for="(equipmenchannel,index) in equipmenchannelval" :key="'设备通道'+index">
-                    <!-- <div>通道号：{{equipmenchannel.channelNo}}</div> -->
-                    <!-- <div>设备序列号：{{equipmenchannel.deviceSerial}}</div>
-                    <div>IPC序列号：{{equipmenchannel.ipcSerial}}</div> -->
-                    
-                    <!-- <div>设备名：{{equipmenchannel.deviceName}}</div> -->
-                    <div @click="videoshow(equipmenchannel.deviceSerial,equipmenchannel.channelNo)">通道号：{{equipmenchannel.channelNo}}通道名：{{equipmenchannel.channelName}}</div>
-                   
+        <div class="aside-parent">
+            <el-aside id="videoaside" class="el-aside-nav" width="200px" style="overflow:hidden">
+                <el-menu
+                :default-openeds="['1']"
+                default-active="2"
+                class="el-menu-vertical-demo"
+                background-color="#293950"
+                text-color="#fff"
+                active-text-color="#e45823">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i>
+                                <img src="@/assets/img/nav006.png" alt="">
+                            </i>
+                            <span>视频监控</span>
+                        </template>
+                        <el-tree :data="data" node-key="id" :default-expanded-keys="[1,'1.1']" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+        </div>
+        <div class="video-main">
+            <div class="video-center">
+                <div class="video-container" style="width: 904px;height: 604px;">
+                    <div>
+                        <subvideo index='1' :content="showval" :numdata="shownum"></subvideo>
+                        <subvideo v-show="this.shownum.num==2" index='2' :content="showval" :numdata="shownum"></subvideo>
+                    </div>
+                    <div>
+                        <subvideo v-show="this.shownum.num==2" index='3' :content="showval" :numdata="shownum"></subvideo>
+                        <subvideo v-show="this.shownum.num==2" index='4' :content="showval" :numdata="shownum"></subvideo>
+                    </div>
+                </div>
+                <div >
+                    <button @click="videonum(1)">一分屏</button>
+                    <button @click="videonum(2)">四分屏</button>
+                    <button @click="capture">抓拍</button>
+                    <!-- <button @click="equipmentinfo">设备信息</button>
+                    <button @click="equipmentlist">设备列表</button>
+                    <button @click="equipmenchannel">设备通道</button>
+                    <button @click="videolist">视频列表</button>
+                    <button @click="openvideo('C33749283',2)">开通直播</button>
+                    <button @click="downvideo">关闭</button> -->
+                    <!-- <button @click="deletelist">关闭</button> -->
+                    <!-- <button @click="videoshow('C33749283',7)">开通直播</button>
+                    <button @click="deletes">删除</button>
+                    <button @click="add">添加</button> -->
+                </div>
+                <div>
                 </div>
             </div>
-        </div>
-        <div>
-            <div class="video-container">
-                <div id="a1" @mousemove="mousemove($event)" style="width: 600px;height: 400px;"></div>
-            </div>
-            <div class="video-container">
-            </div>
-            <div >
-                <button @click="cloudStorage">开启云储存</button>
-                <button @click="capture">抓拍</button>
-                <button @click="equipmentinfo">设备信息</button>
-                <button @click="equipmentlist">设备列表</button>
-                <button @click="equipmenchannel">设备通道</button>
-                <button @click="videolist">视频列表</button>
-                <button @click="openvideo('C33749283',2)">开通直播</button>
-                <button @click="downvideo">关闭</button>
-                <!-- <button @click="deletelist">关闭</button> -->
-                <button @click="videoshow('C33749283',7)">开通直播</button>
-                <button @click="deletes">删除</button>
-                <button @click="add">添加</button>
-            </div>
-            <div>
+            <div class="contranl">
+                <div class="video-roulette">
+                    <span @mousedown="pztstart(4)"></span><span @mousedown="pztstart(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6)"></span><span @mousedown="pztstart(2)" class="el-icon-arrow-left"></span><span></span><span @mousedown="pztstart(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5)"></span><span @mousedown="pztstart(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7)"></span>
+                </div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @click="pztclick(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @click="pztclick(8)">放大</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @click="pztclick(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @click="pztclick(11)">远焦距</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-remove" @click="speedclick(0)">慢</el-button><el-button type="primary" icon="el-icon-share" @click="speedclick(1)">适中</el-button><el-button type="primary" icon="el-icon-circle-plus"  @click="speedclick(2)">快</el-button></div>
             </div>
         </div>
-        <div>
-            <div><span @click="pztclick(4)">左上</span><span @click="pztclick(0)">上</span><span @click="pztclick(6)">右上</span></div>
-            <div><span @click="pztclick(2)">左</span><span @click="pztclick(4)">中</span><span @click="pztclick(3)">右</span></div>
-            <div><span @click="pztclick(5)">左下</span><span @click="pztclick(1)">下</span><span @click="pztclick(7)">右下</span></div>
-            <div><span @click="pztclick(8)">放大</span><span @click="pztclick(9)">缩小</span></div>
-            <div><span @click="pztclick(10)">近焦距</span><span @click="pztclick(11)">远焦距</span></div>
-            <div><span @click="speedclick(0)">慢</span><span @click="speedclick(1)">适中</span><span @click="speedclick(2)">块</span></div>
-        </div>
-        <!-- <button @click="width">1111</button> -->
     </div>
-    
 </template>
 <script>
 // import offlights from '../../../../static/js/offlights.js'
 // import ckplayer from '../../../../static/ckplayer/ckplayer.js'
+import subvideo from './subvideo.vue'
 export default {
     data(){
         return{
@@ -63,21 +77,41 @@ export default {
             videolistdata:[],
             arr:[],
             speed:1,
+            accessToken:'at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw',
+            deviceSerial:'C23418950',
+            data: [{
+                id:1,
+                label: '设备列表',
+                children: []
+            }],
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            },
+            shownum:{
+                num:1,
+                width:'900',
+                height:'600'
+            }
             // swf:require('')
         }
     },
     mounted(){
-        this.open();
+        // this.open();
         this.equipmentlist();
-        this.equipmenchannel()
+        // this.equipmenchannel()
     },
     methods:{
-        mousemove(ev){
-            // ev.preventDefault()
-            console.log(1111)
+        videonum(num){
+            this.shownum={
+                num:num,
+                width:'900'/num,
+                height:'600'/num
+            };
+            console.log('分屏',num)
         },
-        width(){
-            CKobject.getObjectById('video').videoWAndH('200','100');
+        handleNodeClick(data) {
+            console.log(data);
         },
         open(){
             var flashvars={
@@ -115,22 +149,16 @@ export default {
                 //调用自定义播放器参数结束
             };
             var params = {bgcolor: '#FFF', allowFullScreen: true, allowScriptAccess: 'always', wmode: 'transparent'};
-		    CKobject.embedSWF('./static/ckplayer/ckplayer.swf','a1','ckplayer_a1','600','400',flashvars,params);;
+		    CKobject.embedSWF('./static/ckplayer/ckplayer.swf','a1','ckplayer_a1','900','600',flashvars,params);;
         },
-        cloudStorage(){
-            //云储存
+        requestToken(){
+            //获取accessToken
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/cloud/storage/enable",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }, 
-				data:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-					"deviceSerial":"C33749283",
-					"channelNo":1,
-					"enable":1
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/getToken",
+				params:{
+					"APPSECRET":"at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
+					"APPKEY":"C33749283",
 				}
 			}).then(res => {
                 console.log(res)
@@ -139,17 +167,13 @@ export default {
         capture(){
             //抓拍
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/capture",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-					"deviceSerial":"C33749283",
-					"channelNo":1,
-				}
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/capture?deviceSerial=C23418950&channelNo=1&accesstoken=at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
+				// params:{
+				// 	"deviceSerial":this.deviceSerial,
+                //     "channelNo":1,
+                //     "accessToken":this.accessToken,
+				// }
 			}).then(res => {
                 console.log(res)
             });
@@ -157,15 +181,11 @@ export default {
         equipmentinfo(){
             //设备信息:查询用户下指定设备的基本信息
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/info",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/selectEquipmentInFo",
 				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-					"deviceSerial":"C33749283",
+					"accessToken":this.accessToken,
+					"deviceSerial":this.deviceSerial,
 				}
 			}).then(res => {
                 // console.log(res)
@@ -176,55 +196,57 @@ export default {
         equipmentlist(){
             //设备列表:查询用户下设备基本信息列表
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/list",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-					"pageStart":0,
-					"pageSize":50,
-				}
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/toselectAllEquipemnt?token="+this.accessToken,
 			}).then(res => {
-                // console.log(res)
-                this.equipmentlistval=res.data.data;
-                console.log(this.equipmentlistval)
+                console.log(res)
+                this.equipmentlistval=res.data.result.data;
+                console.log(this.equipmentlistval);
+                //设备列表二级：设备名
+                res.data.result.data.forEach(ele => {
+                    this.data[0].children.push({
+                        id: this.data[0].id+'.'+1,
+                        label: ele.deviceName,
+                        children: []
+                    })
+                })
+                this.equipmenchannel()
             });
         },
         equipmenchannel(){
             //获取指定设备的通道信息
             // this.axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded'
+            console.log(222222)
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/camera/list",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*',  
-                    // 'Content-Type': 'application/x-www-form-urlencoded',  
-                },  
-                withCredentials: true,  
-				params:{
-					"accessToken":"at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
-					"deviceSerial":"C23418950"//C33749283
-				}
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/passageway?accesstoken="+this.accessToken+
+					"&deviceSerial="+this.deviceSerial,
 			}).then(res => {
                 console.log(res)
-                this.equipmenchannelval=res.data.data;
+                this.equipmenchannelval=res.data.result.data;
                 console.log(this.equipmenchannelval)
+                //设备列表二级：通道
+                res.data.result.data.forEach(ele => {
+                    console.log(this.data)
+                    this.data[0].children.forEach(element => {
+                        if(ele.deviceName==element.label){
+                            element.children.push({
+                                label: '通道'+ele.channelNo+':'+ele.channelName,
+                                children: []
+                            })
+                        }
+                    })
+                    
+                })
             });
         },
         videolist(){
             //该接口适用于已经绑定过直播地址的用户，用以获取账号下的视频地址列表
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/live/video/list",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/selectVoideList",
 				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
+					"accessToken":this.accessToken,
 					"pageStart":0,
 					"pageSize":50,
 				}
@@ -245,14 +267,10 @@ export default {
             //该接口用于根据序列号和通道号批量开通直播功能（只支持可观看视频的设备）。
             var source = deviceSerial+":"+channelNo;
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/live/video/open",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/openVoidel",
 				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
+					"accessToken":this.accessToken,
 					"source":source,
 				}
 			}).then(res => {
@@ -263,7 +281,7 @@ export default {
             });
         },
         downvideo(){
-            //该接口用于根据序列号和通道号批量开通直播功能（只支持可观看视频的设备）。
+            //该接口用于根据序列号和通道号批量关闭直播功能（只支持可观看视频的设备）。
             var source="";
             console.log(this.arr)
             this.arr.forEach(ele => {
@@ -273,14 +291,10 @@ export default {
             console.log(source)
             // var source = deviceSerial+":"+channelNo;
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/live/video/close",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/closeVoidel",
 				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
+					"accessToken":this.accessToken,
 					"source":source,
 				}
 			}).then(res => {
@@ -300,7 +314,7 @@ export default {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
 				params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
+					"accessToken":this.accessToken,
 					"source":source,
 				}
 			}).then(res => {
@@ -316,39 +330,19 @@ export default {
                 // this.videolist.
             });
         },
-        // deletelist(){
-        //     //该接口用于根据序列号和通道号批量获取设备的直播地址信息
-        //     // var source = deviceSerial+":"+channelNo;
-        //     this.axios({
-        //         method:"post",
-		// 		url:"https://open.ys7.com/api/lapp/live/video/close",
-		// 	}).then(res => {
-        //         console.log(res)
-        //     });
-        // },
         pztclick(direction){
             this.pztstart(direction);
-            
-            
         },
         speedclick(speed){
             this.speed=speed;
         },
         pztstart(direction){
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/ptz/start",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                params:{
-					"accessToken":"at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
-					"deviceSerial":"C23418950",
-                    "channelNo":1,
-                    "direction":direction,
-                    "speed":this.speed
-				}
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
+                "&speed="+this.speed+
+                "&deviceSerial="+this.deviceSerial+
+                "&channelNo=1&accesstoken="+this.accessToken,
 			}).then(res => {
                 console.log('开启云台',res)
                 setTimeout(this.pztstop(direction),500)
@@ -356,18 +350,8 @@ export default {
         },
         pztstop(direction){
             this.axios({
-                method:"post",
-                url:"https://open.ys7.com/api/lapp/device/ptz/stop",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                params:{
-					"accessToken":"at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
-					"deviceSerial":"C23418950",
-                    "channelNo":1,
-                    "direction":direction
-				}
+                method:"get",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
 			}).then(res => {
                 console.log('关闭云台',res)
             });
@@ -376,13 +360,9 @@ export default {
             this.axios({
                 method:"post",
                 url:"https://open.ys7.com/api/lapp/device/delete",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
                 params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-					"deviceSerial":"C33749283"
+					"accessToken":this.accessToken,
+					"deviceSerial":this.deviceSerial
 				}
 			}).then(res => {
                 console.log(res)
@@ -392,19 +372,18 @@ export default {
             this.axios({
                 method:"post",
                 url:"https://open.ys7.com/api/lapp/device/add",
-                headers: {  
-                    'Access-Control-Allow-Origin': '*', 
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
                 params:{
-					"accessToken":"at.d2fkjurncazfqdvf0f2sy0pn6e258zmx-67uykpkmmu-19lybgx-zym1tredy",
-                    "deviceSerial":"C33749283",
+					"accessToken":this.accessToken,
+                    "deviceSerial":this.deviceSerial,
                     "validateCode":"GSHZIH"
 				}
 			}).then(res => {
                 console.log(res)
             });
         },
+    },
+    components:{
+        subvideo
     }
 }
 </script>
@@ -412,25 +391,94 @@ export default {
 <style>
 .newvideo{
     display: flex;
-    overflow: auto;
     height: 100%;
 }
-.operation{
-    vertical-align: top;
+.newvideo .aside-parent{
+    background: #293950;
 }
-.newvideo span{
-    display: inline-block;
+.newvideo .aside-parent img{
+    padding: 0px 12px 0px 8px;
+}
+.newvideo .el-menu{
+    border: none;
+    /* padding-left: 20px; */
+}
+.video-main{
+    display: flex;
+    height: 100%;
+    flex: 1;
+    justify-content: space-around;
+    align-items: center;
+}
+.el-aside-nav{
+    position: relative;
+    height: 100%;
+    top: -40px;
+    background: #293950;
+}
+.el-aside-navchange{
+    position: absolute;
+    height: 40px;
+    top: 60px;
+    background: #293950;
+}
+.newvideo .el-tree{
+    width: 200px;
+    background: #293950;
+    color: #ffffff;
+    padding-left: 20px;
+}
+.newvideo .el-tree-node__content:hover{
+    background-color: rgb(33, 46, 64)
+}
+.newvideo .video-span{
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0px;
+}
+/* .newvideo .video-span button{
     width: 50px;
     height: 50px;
-    border:1px solid green;
     text-align: center;
     line-height: 50px;
     cursor: pointer;
+} */
+.roulette-shell{
+	border: 1px solid #ccc;
+	background: rgb(235, 241, 235);
+}
+.contranl{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.video-roulette{
+    width: 210px;
+	height: 210px;
+	border-radius: 50%;
+	border: 1px solid rgb(37, 36, 36);
+}
+.video-roulette span{
+	display: inline-block;
+	width: 70px;
+	height: 70px;
+	/* background: lawngreen; */
+	margin: 0px;
+	vertical-align: top;
+	text-align: center;
+	line-height: 70px;
+	cursor:pointer;
+	font-size: 40px;
+	font-weight: bolder;
+}
+.video-center{
+    padding: 10px;
 }
 .video-container{
     display: flex;
-}
-.video-container div{
     border: 1px solid #ccc;
 }
+/* .video-container div{
+    border: 1px solid #ccc;
+} */
 </style>

@@ -20,7 +20,12 @@ axios.interceptors.request.use(config => {
   // config.headers['Content-Type']='application/x-www-form-urlencoded'
 
   // element ui Loading方法
-  loadinginstace = Loading.service({ fullscreen: true });
+  var ptzname = config.url.substring(config.url.indexOf('/',40)+1,config.url.indexOf('?'));
+  if(ptzname!='startControlPTZ' && ptzname!='stopControlPTZ'){
+    // console.log(ptzname,1111,ptzname!='startControlPTZ')
+    loadinginstace = Loading.service({ fullscreen: true });
+  }
+  
   return config;
 }, error => {
   loadinginstace.close();

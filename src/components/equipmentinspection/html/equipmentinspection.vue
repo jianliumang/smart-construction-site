@@ -56,9 +56,13 @@ export default {
 <style>
 .equipmentinspection{
     height: 100%;
+    color: #000000;
 }
 .equipmentinspection .aside-parent{
     background: #293950;
+}
+.equipmentinspection .aside-parent img{
+    padding-right: 20px;
 }
 .el-aside-nav{
     position: relative;
@@ -82,6 +86,9 @@ export default {
 .equipmentinspection li li{
     width: 100%;
     padding: 0px!important;
+}
+.equipmentinspection .el-main{
+    overflow: auto;
 }
 .equipmentinspection .el-menu div{
     width: 200px;

@@ -118,7 +118,7 @@ export default {
                         showtime:0,
                         rotatevalue:element.lifting_angle,
                         crossdata:490 + 4.2*element.lifting_range,
-                        verticaldata:20 + 4.75*element.lifting_height,
+                        verticaldata:20 + 4.4*element.lifting_height,
                         oring:47 + 4.2*element.lifting_range,
                     }
                     this.anitype = true;
@@ -136,7 +136,7 @@ export default {
                         showtime:(t1.getTime() - t2.getTime())/1000/this.speed,
                         rotatevalue:element.drop_angle,
                         crossdata:490 + 4.2*element.drop_amplitude,
-                        verticaldata:20 + 4.75*element.drop_height,
+                        verticaldata:20 + 4.4*element.drop_height,
                         oring:47 + 4.2*element.drop_amplitude,
                     }
                     this.anitype = false;

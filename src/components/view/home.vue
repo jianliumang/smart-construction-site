@@ -1,5 +1,5 @@
 <template>
-    <div class="home pagecss1">
+    <div class="home">
         <el-row id="title">
             <div class="title-cneter">
                 <div>
@@ -145,13 +145,9 @@ export default {
             // sessionStorage.setItem("colorid",id);
             // console.log(id)
             console.log(this.bgid)
-            var homeele = document.getElementsByClassName("home");
             var titleele = document.getElementById("title");
             var aele = document.getElementsByClassName("subnav");
             if(this.bgid!=1){
-                homeele[0].classList.remove('pagecss1');
-                homeele[0].style.background="none"
-                homeele[0].classList.add('pagecss2');
                 titleele.classList.add('titlecss');
                 var num = 0;
                 for(var element in this.imgurl){
@@ -162,10 +158,6 @@ export default {
                 if(this.bgid!=3 || this.bgid!=4){return false};
                 aele[id-1].style.background="url("+this.clickimgurl['nav'+id]+") no-repeat 0 center";
             }else{
-                homeele[0].classList.remove('pagecss2');
-                
-                homeele[0].classList.add('pagecss1');
-                homeele[0].style.background="url("+this.indexbg+") no-repeat";
                 titleele.classList.remove('titlecss');
                 var num = 0;
                 for(var element in this.imgchangeurl){
@@ -216,18 +208,10 @@ export default {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-}
-.pagecss1{
-    /* background: url('~@/assets/img/indexbg.png') no-repeat; */
-    background-size: 100% 100%!important;
     color: #ffffff;
 }
-.pagecss2{
-    background: #fff;
-    color: #000000;
-}
 .titlecss{
-    background: #374760;
+    background:url('~@/assets/img/indexbg.png');
     color: #fff;
 }
 .subnav span{

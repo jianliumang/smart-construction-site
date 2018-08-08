@@ -338,6 +338,12 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.data.code==200){
+                    if(res.data.result.length==0){
+                        this.$message({
+                            message: '本时间段没有数据',
+                            type: 'warning'
+                        });
+                    }
                      res.data.result.forEach(element => {
                         this.maplist.push([element.east_longitude,element.north_latitude])
                     })

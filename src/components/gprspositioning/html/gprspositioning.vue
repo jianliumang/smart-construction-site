@@ -61,9 +61,13 @@ export default {
 <style>
 .gprspositioning{
     height: 100%;
+    color: #000000;
 }
 .gprspositioning .aside-parent{
     background: #293950;
+}
+.gprspositioning .aside-parent img{
+    padding: 0px 12px 0px 8px;
 }
 .el-aside-nav{
     position: relative;

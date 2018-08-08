@@ -1,5 +1,6 @@
 <template>
     <div class="videosurveillance">
+        
         <el-container class="aside-container">
             <el-main id="router-show">
                 <router-view></router-view>
@@ -17,6 +18,7 @@ export default {
 <style>
 .videosurveillance{
     height: 100%;
+    color: #000000;
 }
 .videosurveillance .el-container{
     height: 100%;

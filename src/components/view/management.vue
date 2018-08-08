@@ -28,7 +28,7 @@
                 label="设备名称">
                 </el-table-column> -->
                 <el-table-column
-                prop="equipmentTypeNumber"
+                prop="name"
                 label="设备类型">
                 </el-table-column>
                 <el-table-column
@@ -101,6 +101,7 @@ export default {
     },
     mounted(){
         this.requesttype()
+        // console.log(this.tableData4)
     },
     methods:{
         editfn(row){
@@ -110,6 +111,11 @@ export default {
         },
         requestequipment(){
             //根据设备类型编号查询设备
+            this.options.forEach(ele => {
+                if(ele.equipmentTypeNumber==this.selectvalue){
+                    this.typename = ele.equipmentName;
+                }
+            })
             this.$api.withTypeNumberSeekMachine({
                 params:{
                         equipmentTypeNumber : this.selectvalue
@@ -117,6 +123,10 @@ export default {
             }).then(res => {
                 console.log(res);
                 this.tableData4 = res.data.result;
+                this.tableData4.forEach(ele => {
+                    ele.name = this.typename
+                })
+                // console.log(this.tableData4)
             });
         },
         deleteRow(index, rows) {
@@ -144,6 +154,7 @@ export default {
                 if(res.data.code==200){
                     this.options = res.data.result;
                     this.selectvalue = res.data.result[0].equipmentTypeNumber;//默认下拉列表为第一个
+                    this.typename = res.data.result[0].equipmentName
                     this.requestequipment();
                 }
             });

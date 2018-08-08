@@ -1,7 +1,32 @@
 <template>
     <div class="environmentcue">
         <el-container>
-            <el-header>
+            <div class="aside-parent">
+                <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
+                    <el-menu
+                    :default-openeds="['1']"
+                    default-active="1-0"
+                    class="el-menu-vertical-demo"
+                    background-color="#293950"
+                    text-color="#fff"
+                    active-text-color="#e45823">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i>
+                                    <img src="@/assets/img/nav003.png" alt="">
+                                </i>
+                                <span>塔吊管理</span>
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item @click="constructioncfn(construc.equipment_name)" :index="'1-'+cindex" v-for="(construc,cindex) in constructioncdata" :key="cindex">
+                                    {{ construc.equipment_name }}
+                                </el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                    </el-menu>
+                </el-aside>
+            </div>
+            <!-- <el-header>
               <div>
                 <select @change="constructioncfn" v-model="constructionc">
                     <option disabled value="">请选择设备</option>
@@ -11,7 +36,7 @@
                 </select>
                   {{constructionc}}
               </div>
-            </el-header>
+            </el-header> -->
             <el-main>
                 <el-row>
                     <el-col :span="4"><img src="@/assets/img/environment_weath.png" alt=""></el-col>
@@ -23,7 +48,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.temperature}}</span><span>℃</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(1)">实时曲线</span><span @click="hostroitimeline(1)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show1">
                         <div id="myChart1" class="echarts"></div>
                     </el-row>
@@ -70,7 +95,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.humidity}}</span><span>RH</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(2)">实时曲线</span><span @click="hostroitimeline(2)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show2">
                         <div id="myChart2" class="echarts"></div>
                     </el-row>
@@ -85,7 +110,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.illumination}}</span><span>LUX</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(3)">实时曲线</span><span @click="hostroitimeline(3)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show3">
                         <div id="myChart3" class="echarts"></div>
                     </el-row>
@@ -100,7 +125,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.noise}}</span><span>db</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(4)">实时曲线</span><span @click="hostroitimeline(4)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show4">
                         <div id="myChart4" class="echarts"></div>
                     </el-row>
@@ -115,7 +140,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm2}}</span><span>ug/m3</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(5)">实时曲线</span><span @click="hostroitimeline(5)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show5">
                         <div id="myChart5" class="echarts"></div>
                     </el-row>
@@ -130,7 +155,7 @@
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm10}}</span><span>ug/m3</span></el-col>
                     <el-col class="el-data" :span="8"><span @click="realtimeline(6)">实时曲线</span><span @click="hostroitimeline(6)">历史查询</span></el-col>
                 </el-row>
-                <transition name="fade">
+                <transition v-if="linktype" name="fade">
                     <el-row class="datashow" v-show="show6">
                         <div id="myChart6" class="echarts"></div>
                     </el-row>
@@ -172,7 +197,6 @@ export default {
             enTime: "",
             pickerOptions2: this.timelist,
             dates: [],
-            constructionc:'',
             constructioncid:1,
             constructioncdata:[],
             enviromentalid: Number,
@@ -191,21 +215,22 @@ export default {
         let startTime = this.setPartTime() + " 00:00:00";
         let endTime = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
         this.dates = [startTime, endTime];
-          setTimeout(()=>{
-              this.temperature();
-          },1000)
-          this.realdata = setInterval(()=>{
-              this.temperature();
-          },3000)
+        // setTimeout(()=>{
+        //     this.temperature();
+        // },1000)
+        // this.realdata = setInterval(()=>{
+        //     this.temperature();
+        // },3000)
         
 
         this.requesthavetime();
     },
     methods: {
-        constructioncfn(){
+        constructioncfn(val){
             //通过下拉列表的change事件去请求选中的设备数据
+            console.log(val)
             this.constructioncdata.forEach(element => {
-                if(element.equipment_name == this.constructionc){
+                if(element.equipment_name == val){
                 this.weathtime=[];
                 this.weathdata=[];
                 this.humiditydata=[];
@@ -219,7 +244,6 @@ export default {
                 this.pm2_5time=[];
                 this.pm10time=[];
                 this.enviromentalid = element.enviromental_id;
-                // this.constructionc = element.equipment_name;
                 this.temperature();
                 }
             })
@@ -234,7 +258,6 @@ export default {
                 console.log(res)
                 if(res.data.code==200){
                     this.constructioncdata = res.data.result;
-                    this.constructionc = res.data.result[0].equipment_name;
                     this.enviromentalid = res.data.result[0].enviromental_id;
                     console.log(this.enviromentalid)
                     this.temperature();
@@ -516,7 +539,10 @@ export default {
                 // console.log(response)
                 console.log(response)
                 if(response.data.result.length==0){
-                    alert("本时间段没有数据")
+                    this.$message({
+                        message: '本时间段没有数据',
+                        type: 'warning'
+                    });
                 }
                 if(response.data.code==200){
                     times=[];
@@ -691,7 +717,8 @@ export default {
 <style>
 .environmentcue{
     height: 100%;
-    padding: 0px 240px;
+    padding-right: 240px;
+    color: #000000;
 }
 .environmentcue .el-header{
     height: 65px!important;
@@ -701,12 +728,48 @@ export default {
 }
 .environmentcue .el-container{
     height: 100%;
+    display: flex
 }
-.environmentcue .el-header+.el-main{
+.environmentcue .el-menu{
+    border: none;
+}
+.el-aside-navchange{
+    position: absolute;
+    height: 40px;
+    top: 60px;
+    background: #293950;
+}
+.environmentcue li li{
+    width: 100%;
+    padding: 0px!important;
+}
+.environmentcue .el-menu div{
+    width: 200px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+.environmentcue .el-submenu__title{
+    height: 40px;
+    line-height: 40px;
+}
+.el-aside-nav{
+    position: relative;
+    height: 100%;
+    top: -40px;
+    background: #293950;
+    /* border-bottom: 40px solid #293950; */
+}
+.environmentcue .aside-parent{
+    background: #293950;
+}
+.environmentcue .aside-parent img{
+    padding-right: 20px;
+}
+.environmentcue .aside-parent+.el-main{
     height: 100%;
     overflow:auto;
 }
-.environmentcue .el-header+.el-main::-webkit-scrollbar{
+.environmentcue .aside-parent+.el-main::-webkit-scrollbar{
     display: none;
 }
 .environmentcue .el-header select{

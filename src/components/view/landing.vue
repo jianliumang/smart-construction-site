@@ -3,7 +3,7 @@
       <div class="page-content">
         <div class="input-row">
           <label class="delay1">用户名:</label>
-          <el-input class="username" id="username" v-model="usernameinput" placeholder="请输入用户名"></el-input>
+          <el-input class="username" autofocus="true" id="username" v-model="usernameinput" placeholder="请输入用户名"></el-input>
         </div>
         <div class="input-row">
           <label class="delay2">密&nbsp;&nbsp;&nbsp;码:</label>
