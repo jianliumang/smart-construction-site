@@ -319,6 +319,11 @@ export const userInfo = (data) =>{
     return axios.post(api.userInfo,data)
 }
 
+//修改用户信息
+export const revisepwd = (data) =>{
+    return axios.post(api.revisepwd,data)
+}
+
 //get请求所有视频监控设备
 export const seekAllVideo = () =>{
     return axios.get(api.seekAllVideo)

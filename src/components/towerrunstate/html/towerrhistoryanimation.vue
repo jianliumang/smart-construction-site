@@ -3,12 +3,20 @@
     <div class="ani-animation">
         <el-row class="ani-headers">
             <div id="ani-select">
-                <select @change="changedevicesn" v-model="deviceed">
+                <!-- <select @change="changedevicesn" v-model="deviceed">
                     <option disabled value="">请选择设备SN</option>
                     <option v-for="(device,snindex) in devicesn" :key="snindex" :value="device">
                         {{ device }}
                     </option>
-                </select>
+                </select> -->
+                <el-select @change="changedevicesn" v-model="deviceed">
+                            <el-option
+                            v-for="item in devicesn"
+                            :key="item.id"
+                            :label="item.deviceSN"
+                            :value="item.deviceSN">
+                            </el-option>
+                        </el-select>
                 <div class="ani-timebox">
                     <el-form :inline="true">
                         <el-form-item>
@@ -71,7 +79,7 @@ export default {
             selected: '',
             deviceed: '',
             showtime: 1,
-            devicesn:new Array(),
+            devicesn:[],
             playback:[],
             options:[],
             pickerOptions3: this.timelist,
@@ -152,17 +160,18 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.data.code==200){
-                    res.data.result.forEach(element => {
-                        if(this.devicesn.indexOf(element.deviceSN)==-1){
-                            if(this.devicesn.length==0){this.devicesn.splice(0,0,element.deviceSN);}
-                            for(let i=0;i<this.devicesn.length;i++){
-                                if(this.devicesn[i]>element.deviceSN){
-                                    this.devicesn.splice(i,0,element.deviceSN);
-                                    return false;
-                                }; 
-                            };
-                        }
-                    });
+                    this.devicesn=res.data.result;
+                    // res.data.result.forEach(element => {
+                    //     if(this.devicesn.indexOf(element.deviceSN)==-1){
+                    //         if(this.devicesn.length==0){this.devicesn.splice(0,0,element.deviceSN);}
+                    //         for(let i=0;i<this.devicesn.length;i++){
+                    //             if(this.devicesn[i]>element.deviceSN){
+                    //                 this.devicesn.splice(i,0,element.deviceSN);
+                    //                 return false;
+                    //             }; 
+                    //         };
+                    //     }
+                    // });
                 }
             })
         },
@@ -217,14 +226,17 @@ export default {
     text-align: left;
 }
 .tower-datashow{
-    width: 570px;
+    width: 530px;
     height: 800px;
     display: inline-block;
     vertical-align: top;
     border-right: 1px solid #ccc;
+    /* display: flex; */
+    /* flex-direction: column;
+    align-items: center; */
 }
 .tower-type{
-    padding-left: 100px;
+    /* padding-left: 100px; */
     margin-bottom: 40px;
     display: flex;
 }

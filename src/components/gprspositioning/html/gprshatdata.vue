@@ -31,19 +31,23 @@
             width="1200px"
             :before-close="handleClose">
             <div>
-                <span>安全帽编号：</span>
-                <span>{{revisehatnumber}}</span>
-                <span>人员名称：</span>
-                <input type="text" v-model="revisehatname" name="" id="">
-                <span>所属分组</span>
-                <el-select v-model="groupvalue" :placeholder="revisehatworksite">
-                    <el-option v-for="item in options"
-                        :key="item.groupingnumber"
-                        :label="item.groupingname"
-                        :value="item.groupingnumber">
-                        
-                    </el-option>
-                </el-select>
+                <div class="res-info">
+                    <span>安全帽编号：</span><span>{{revisehatnumber}}</span>
+                </div>
+                <div class="res-info">
+                    <span>人员名称：</span>
+                    <el-input type="text" v-model="revisehatname"></el-input>
+                </div>
+                <div class="res-info">
+                    <span>所属分组：</span>
+                    <el-select v-model="groupvalue">
+                        <el-option v-for="item in options"
+                            :key="item.groupingnumber"
+                            :label="item.groupingname"
+                            :value="item.groupingnumber">
+                        </el-option>
+                    </el-select>
+                </div>
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
@@ -93,12 +97,14 @@ export default {
     },
     methods:{
         handleClick(row) {
-            //点击回放
+            //点击修改
+            console.log(row)
             // console.log(this.revisehatworksite)
             this.revisehatnumber = row.hatnumber;
             this.revisehatname = row.name;
             this.revisehatworksite = row.worksite;
             this.dialogVisible = true;
+            this.groupvalue = row.groupingnumber;
         },
         handleClose(done) {
         this.$confirm('确认关闭？')
@@ -160,7 +166,8 @@ export default {
                 console.log(res)
                 if(res.data.code==200){
                     this.options=res.data.result
-                    this.groupvalue = this.options[0].number
+                    // this.groupvalue = res.data.result[0].groupingnumber;
+                    // console.log(11111111111111,this.groupvalue)
                 }
             })
         },
@@ -221,5 +228,32 @@ export default {
 }
 .infoshow{
     z-index: 3000;
+}
+.gprshatdata .el-dialog{
+    width: 500px!important;
+}
+.gprshatdata .dialog-footer{
+    display: flex;
+    justify-content: center;
+}
+.res-info{
+    height: 50px;
+    line-height: 50px;
+    /* display: flex;
+    align-items: center; */
+}
+.res-info span{
+    display: inline-block;
+}
+.res-info .el-input{
+    width: 200px;
+}
+.res-info span:first-child{
+    text-align: right;
+    width: 100px;
+}
+.res-info span:last-child{
+    width: 200px;
+    text-align: left;
 }
 </style>

@@ -2,26 +2,19 @@
 <div class="gprsddress">
     <div class="map">
         <el-container>
-                <el-aside width="300px">
-                    <div id="select">
-                        <el-row class="block-col-2">
-                            <el-col class="el-group" :span="20" v-for="(group,index) in groups" :key="index">
-                                <div class="intogroup" @click="intogroup(index)">
-                                    <span class="demonstration">{{group.groupname}} &nbsp;&nbsp;&nbsp;成员列表<i class="el-icon-arrow-down el-icon--right"></i></span>
-                                </div>
-                                <transition name="fadegps">
-                                    <div class="groupshow" v-show="groupshow[index]">
-                                        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll[index]" @change="handleCheckAllChange(index)">全选</el-checkbox>
-                                        <div style="margin: 15px 0;"></div>
-                                        <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange(index)">
-                                            <el-checkbox v-for="city in group.groupdata" :label="city" :key="city">{{city}}</el-checkbox>
-                                        </el-checkbox-group>
-                                    </div>
-                                </transition>
-                            </el-col>
-                        </el-row>
-                        
-                    </div>
+            <el-aside>
+                    <el-tree
+                    :data="data"
+                    show-checkbox
+                    default-expand-all
+                    ref="tree"
+                    node-key="id"
+                    highlight-current
+                    @node-click="nodeClick"
+                    @check-change="checkChange"
+                    @current-change="currentChange"
+                    :props="defaultProps">
+                    </el-tree>
                 </el-aside>
                 <el-main id="showmap"><div id="container"></div></el-main>
             </el-container>
@@ -34,31 +27,18 @@ export default {
     data() {
         return {
             regionid:Number,
-            groupshow:[],
-            hatdata : new Set([1024001,1024002,1024003,1024004,1024006]),
-            maplist : new Map([
-                [1024001,[116.390428, 39.90923]],
-                [1024002,[116.391428, 39.93128]],
-                [1024003,[116.392428, 39.90923]],
-                [1024004,[116.393428, 39.90923]],
-                [1024006,[116.395428, 39.90923]]
-            ]),
-            userdata : [],
-            checkAll: [false,false],
-            checkedCities: [],
+            maplist : new Map(),
             cities: [],
             isIndeterminate: true,
-            groups:[
-                {
-                    groupnumber:1,
-                    groupname:"第一组",
-                    groupdata:[1024001,1024002,1024003,1024004,1024006]//+'(士大夫)'
-                }
-            ],
             groupnumber:Number,
             hatnumber:Number,
-            hatname:String
-        };
+            hatname:String,
+            data: [],
+            defaultProps: {
+                children: 'children',
+                label: 'label'
+            }
+        }
     },
     created() {
         this.regionid = sessionStorage.getItem("regionid");
@@ -68,142 +48,85 @@ export default {
         var elemap = document.getElementById("showmap");
         elemap.style.height = elebody.clientHeight-120+'px';
         elemap.style.width = elebody.clientWidth-500+'px';
-
-        this.cities=Array.from(this.hatdata)
         this.init();
         this.askforgroup()
     },
     methods: {
+        checkChange(obj,self,sub){
+            //节点选中触发
+            // console.log(obj.hat_number,obj,self,sub)
+            if(obj.hat_number!=undefined&&self==true){
+                // console.log()
+                this.$api.withHatNumberResNewGpsInfo({
+                    params:{
+                        hatnumber:obj.hat_number
+                    }
+                }).then(res => {
+                        if(res.data.code==200){
+                            // console.log(res)
+                            if(res.data.result==null){
+                                obj.disabled=true;
+                                this.$refs.tree.setChecked(obj.id,false);
+                                this.$message({
+                                    message: obj.workman_name+'没有定位信息',
+                                    type: 'warning'
+                                });
+                            }else{
+                                obj=Object.assign({},obj,res.data.result);
+                                this.maplist.set(obj.hat_number,obj)
+                                this.init();
+                            }
+                        }
+                    })
+            }else if(obj.hat_number!=undefined&&self==false){
+                if(this.maplist.has(obj.hat_number)){
+                    this.maplist.delete(obj.hat_number);
+                    this.init();
+                }
+            }
+        },
+        currentChange(obj,node){
+            //节点点击触发
+            // console.log(obj,node)
+        },
+        nodeClick(obj,node,self){
+            // console.log(obj,node,self)
+            // this.groupnumber = obj.groupingnumber;
+            // this.askforuser()
+        },
         askforgroup(){
             //查找所有分组信息
             this.$api.seekAllGroup().then(res => {
-                console.log(res);
                 if(res.data.code==200){
+                    res.data.result.forEach(ele => {
+                        ele.id=res.data.result.indexOf(ele)+1;
+                        ele.label=ele.groupingname;
+                        ele.children=[];
+                    })
+                    this.data=res.data.result;
                     res.data.result.forEach(element => {
-                        this.groups.push({
-                            groupnumber : element.groupingnumber,
-                            groupname : element.groupingname,
-                            groupdata : []
-                            });
                         this.groupnumber = element.groupingnumber;
                         this.askforuser()
                     });
-                    this.groupshow = [];
-                    for(var i=0;i<this.groups.length;i++){
-                        if(i==0){
-                            this.groupshow.splice(0,0,true);
-                        }else{
-                            this.groupshow.splice(i,0,false);
-                        };
-                    };
                 }
             })
         },
         askforuser(){
             //查找每组下的人员信息
             this.$api.withConstructionAndGroupSeekHat("?regionid="+this.regionid+"&groupingnumber="+this.groupnumber).then(res => {
-                console.log(res)
-                if(res.data.code==200){
-                    if(res.data.result.length == 0){return false};
+                // console.log(res.data.result)
+                if(res.data.code==200&&res.data.result.length!=0){
                     res.data.result.forEach(element => {
-                        this.groups.forEach(value => {
-                            if(value.groupnumber == element.groupingnumber){
-                                value.groupdata.push(element.hat_number + "(" + element.workman_name + ")");
-                                this.hatdata.add(element.hat_number + "(" + element.workman_name + ")");
-                                this.userdata.push({
-                                    name : element.hat_number + "(" + element.workman_name + ")",
-                                    hatnumber : element.hat_number
-                                })
-                            }
-                        })
+                        element.id=element.hat_number;
+                        element.label = element.workman_name;
                     })
+                    this.data.forEach(ele => {
+                        if(ele.groupingnumber==res.data.result[0].groupingnumber){
+                            ele.children=res.data.result;
+                        };
+                    });
                 }
             })
-        },
-        intogroup(num){
-            //点击打开分组信息
-            console.log(num);
-            if(this.groupshow[num] == true){
-                
-                this.groupshow.splice(num,1,!this.groupshow[num]);
-                return false;
-                };
-            this.groups[num].groupdata.forEach(element => {
-                console.log(element,this.userdata)
-                this.userdata.forEach(value => {
-                if(element == value.name){
-                    console.log(value.name)
-                    console.log(value.hatnumber)
-                    this.$api.withHatNumberResNewGpsInfo({
-                        params:{
-                            hatnumber:value.hatnumber
-                        }
-                    }).then(res => {
-                        if(res.data.code==200){
-                            if(res.data.result==null){
-                                let doc = document.getElementsByClassName('el-checkbox__label');
-                                for(var i=0;i<doc.length;i++){
-                                    if(doc[i].innerText == value.name){
-                                        // console.log()
-                                        var para = document.createElement("input");
-                                        para.setAttribute("disabled","disabled")
-                                        para.className="el-append";
-                                        para.style.width = doc[i].parentNode.offsetWidth + "px";
-                                        para.style.height = doc[i].parentNode.offsetHeight + "px";
-                                        doc[i].parentNode.appendChild(para);
-                                        doc[i].style.color = "#ccc";
-                                    }
-                                }
-                                return false;
-                            }
-                            this.maplist.set(value.name,[res.data.result.east_longitude,res.data.result.north_latitude]);
-                            // this.init();
-                        }
-                    })
-                }
-            })
-            })
-            this.groupshow.splice(num,1,!this.groupshow[num]);
-        },
-        handleCheckAllChange(num) {
-            console.log(this.groups[num],)
-            this.groups[num].groupdata.forEach(data => {
-                if(this.checkedCities.indexOf(data)==-1&&data!='3232(张三)'){//全选bug
-                    console.log(data)
-                    this.checkedCities.push(data)
-                }
-            })
-            this.checkedCities.concat(this.checkAll[num] ? this.groups[num].groupdata : []);
-            if(!this.checkAll[num]){
-                this.groups[num].groupdata.forEach(data => {
-                var numindex = this.checkedCities.indexOf(data)
-                    this.checkedCities.splice(numindex,1)
-                
-            })
-            }
-            this.checkedCities = Array.from(new Set(this.checkedCities))
-            this.isIndeterminate = false;
-            this.init()
-        },
-        handleCheckedCitiesChange(num) {
-            console.log(num)
-            //根据点击人员名称确定安全帽编号
-            //   console.log(111)
-            //   console.log(this.userdata)
-            //   console.log(this.checkedCities)
-            // this.userdata.forEach(element => {
-            //     console.log(222)
-            //     if(this.checkedCities[this.checkedCities.length-1] == element.name){
-            //         this.hatnumber = element.hatnumber;
-            //         this.hatname = element.name;
-            //         console.log(this.hatnumber)
-            //     }
-            // })
-            // console.log(4444)
-            let checkedCount = this.groups[num].groupdata.length;
-            this.checkAll[num] = checkedCount === this.cities.length;
-            this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
-            this.init();
         },
         init() {
         //创建一个高德地图实列
@@ -211,31 +134,30 @@ export default {
                 center: [116.397428, 39.90923], //设置中心点
                 // pitch: 60,
                 rotation: -35,
-                // resizeEnable: true, //是否监控地图容器尺寸变化
+                resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
                 layers: [new AMap.TileLayer.Satellite()], //地图图层（卫星图层）
                 zoom: 16 //地图显示的缩放级别
             });
             //gps定位点
-            if(this.checkedCities.length==0){
+            if(this.maplist.size==0){
                 return false;
-            }
-            this.checkedCities.forEach((value,index) => {
-                var placedata = this.maplist.get(value);
+            };
+            this.maplist.forEach((value,key,self) => {
                 var marker1 = new AMap.Marker({
-                    position: new AMap.LngLat(placedata[0], placedata[1]), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+                    position: new AMap.LngLat(value.east_longitude, value.north_latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
                     title: "北京"
                 });
                 //移动点下的说明
                 marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
                     offset: new AMap.Pixel(-16, 32),//修改label相对于maker的位置
-                    content: value
+                    content: value.label
                 });
                 //将创建的点标记添加到已有的地图实例：
                 var markerList = marker1;
                 map.add(markerList);
-                })
+            });
             //根据所有的定位点调整视野
             map.setFitView();
         }
@@ -296,8 +218,10 @@ export default {
     padding-top: 10px;
 }
 .gprsddress .demonstration{
-    margin-left: 20px!important;
-    width: 250px!important;
+    margin-left: 20%!important;
+    width: 80%!important;
+    display: flex;
+    justify-content: space-between;
 }
 .gprsddress .intogroup{
     cursor:pointer;

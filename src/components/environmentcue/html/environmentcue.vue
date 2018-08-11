@@ -2,20 +2,17 @@
     <div class="environmentcue">
         <el-container>
             <div class="aside-parent">
-                <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
+                <el-aside id="gpsaside" width="200px" style="overflow:hidden">
                     <el-menu
                     :default-openeds="['1']"
                     default-active="1-0"
                     class="el-menu-vertical-demo"
-                    background-color="#293950"
-                    text-color="#fff"
+                    background-color="#fff"
+                    text-color="#000"
                     active-text-color="#e45823">
                         <el-submenu index="1">
                             <template slot="title">
-                                <i>
-                                    <img src="@/assets/img/nav003.png" alt="">
-                                </i>
-                                <span>塔吊管理</span>
+                                <span>设备</span>
                             </template>
                             <el-menu-item-group>
                                 <el-menu-item @click="constructioncfn(construc.equipment_name)" :index="'1-'+cindex" v-for="(construc,cindex) in constructioncdata" :key="cindex">
@@ -46,9 +43,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.temperature}}</span><span>℃</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(1)">实时曲线</span><span @click="hostroitimeline(1)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(1)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(1)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show1">
                         <div id="myChart1" class="echarts"></div>
                     </el-row>
@@ -93,9 +90,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.humidity}}</span><span>RH</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(2)">实时曲线</span><span @click="hostroitimeline(2)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(2)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(2)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show2">
                         <div id="myChart2" class="echarts"></div>
                     </el-row>
@@ -108,9 +105,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.illumination}}</span><span>LUX</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(3)">实时曲线</span><span @click="hostroitimeline(3)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(3)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(3)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show3">
                         <div id="myChart3" class="echarts"></div>
                     </el-row>
@@ -123,9 +120,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.noise}}</span><span>db</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(4)">实时曲线</span><span @click="hostroitimeline(4)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(4)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(4)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show4">
                         <div id="myChart4" class="echarts"></div>
                     </el-row>
@@ -138,9 +135,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm2}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(5)">实时曲线</span><span @click="hostroitimeline(5)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(5)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(5)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show5">
                         <div id="myChart5" class="echarts"></div>
                     </el-row>
@@ -153,9 +150,9 @@
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
                     <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm10}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="8"><span @click="realtimeline(6)">实时曲线</span><span @click="hostroitimeline(6)">历史查询</span></el-col>
+                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(6)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(6)">历史查询</el-button></el-col>
                 </el-row>
-                <transition v-if="linktype" name="fade">
+                <transition name="fade">
                     <el-row class="datashow" v-show="show6">
                         <div id="myChart6" class="echarts"></div>
                     </el-row>
@@ -221,8 +218,6 @@ export default {
         // this.realdata = setInterval(()=>{
         //     this.temperature();
         // },3000)
-        
-
         this.requesthavetime();
     },
     methods: {
@@ -632,7 +627,10 @@ export default {
                 
             }).catch(function(error) {
                 console.log(error);
-                alert("图表请求数据失败!");
+                this.$message({
+                    message: '图表请求数据失败!',
+                    type: 'warning'
+                })
                 myChart.hideLoading();
             });
         },
@@ -733,12 +731,12 @@ export default {
 .environmentcue .el-menu{
     border: none;
 }
-.el-aside-navchange{
+/* .el-aside-navchange{
     position: absolute;
     height: 40px;
     top: 60px;
     background: #293950;
-}
+} */
 .environmentcue li li{
     width: 100%;
     padding: 0px!important;
@@ -753,15 +751,15 @@ export default {
     line-height: 40px;
 }
 .el-aside-nav{
-    position: relative;
+    /* position: relative; */
     height: 100%;
-    top: -40px;
-    background: #293950;
+    /* top: -40px;
+    background: #293950; */
     /* border-bottom: 40px solid #293950; */
 }
-.environmentcue .aside-parent{
+/* .environmentcue .aside-parent{
     background: #293950;
-}
+} */
 .environmentcue .aside-parent img{
     padding-right: 20px;
 }
@@ -855,8 +853,7 @@ export default {
 .environmentcue .el-data{
     display: flex;
 }
-.environmentcue .el-data span{
-    display: inline-block;
+.environmentcue .el-data button{
     font-size: 18px;
     margin-left: 10px;
     color: cadetblue;

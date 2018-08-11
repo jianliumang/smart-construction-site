@@ -60,6 +60,7 @@ export default {
             sessionStorage.setItem("email",this.usermessage.email);
             sessionStorage.setItem("power_id",this.usermessage.power_id);
             sessionStorage.setItem("sex",this.usermessage.sex);
+            sessionStorage.setItem("userid",this.usermessage.userid);
             sessionStorage.setItem("username",this.usermessage.username);
             localStorage.setItem("token",this.usermessage.token);
         },

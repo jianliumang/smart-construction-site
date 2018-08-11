@@ -24,7 +24,7 @@ export default {
         open(){
             console.log(33333)
             var flashvars={
-                f:this.content,//视频地址
+                f:this.content,//视频地址at.10j588251u2x04t41qecj53kd7nlfxrd-7p140r9vhz-0c72qw2-1bzzsrnxy
                 a:'',//调用时的参数，只有当s>0的时候有效
                 s:'0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
                 c:'0',//是否读取文本配置,0不是，1是

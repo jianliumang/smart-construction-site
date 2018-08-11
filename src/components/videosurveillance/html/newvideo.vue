@@ -1,6 +1,6 @@
 <template>
     <div class="newvideo">
-        <div class="aside-parent">
+        <!-- <div class="aside-parent">
             <el-aside id="videoaside" class="el-aside-nav" width="200px" style="overflow:hidden">
                 <el-menu
                 :default-openeds="['1']"
@@ -20,7 +20,8 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
-        </div>
+        </div> -->
+        <el-tree :data="data" node-key="id" :default-expanded-keys="[1,'1.1']" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
         <div class="video-main">
             <div class="video-center">
                 <div class="video-container" style="width: 904px;height: 604px;">
@@ -52,12 +53,13 @@
                 </div>
             </div>
             <div class="contranl">
-                <div class="video-roulette">
+                <p>云台控制:</p>
+                <div class="video-roulette" title="操纵摄像头方向">
                     <span @mousedown="pztstart(4)"></span><span @mousedown="pztstart(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6)"></span><span @mousedown="pztstart(2)" class="el-icon-arrow-left"></span><span></span><span @mousedown="pztstart(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5)"></span><span @mousedown="pztstart(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7)"></span>
                 </div>
                 <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @click="pztclick(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @click="pztclick(8)">放大</el-button></div>
                 <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @click="pztclick(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @click="pztclick(11)">远焦距</el-button></div>
-                <div class="video-span"><el-button type="primary" icon="el-icon-remove" @click="speedclick(0)">慢</el-button><el-button type="primary" icon="el-icon-share" @click="speedclick(1)">适中</el-button><el-button type="primary" icon="el-icon-circle-plus"  @click="speedclick(2)">快</el-button></div>
+                <div class="video-span"><el-button :class="buttonbg==0?'button-bg':''" type="primary" icon="el-icon-remove" @click="speedclick(0)">慢</el-button><el-button :class="buttonbg==1?'button-bg':''" type="primary" icon="el-icon-share" @click="speedclick(1)">适中</el-button><el-button :class="buttonbg==2?'button-bg':''" type="primary" icon="el-icon-circle-plus"  @click="speedclick(2)">快</el-button></div>
             </div>
         </div>
     </div>
@@ -77,7 +79,7 @@ export default {
             videolistdata:[],
             arr:[],
             speed:1,
-            accessToken:'at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw',
+            accessToken:'at.10j588251u2x04t41qecj53kd7nlfxrd-7p140r9vhz-0c72qw2-1bzzsrnxy',
             deviceSerial:'C23418950',
             data: [{
                 id:1,
@@ -92,7 +94,8 @@ export default {
                 num:1,
                 width:'900',
                 height:'600'
-            }
+            },
+            buttonbg:1
             // swf:require('')
         }
     },
@@ -199,7 +202,7 @@ export default {
                 method:"get",
                 url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/toselectAllEquipemnt?token="+this.accessToken,
 			}).then(res => {
-                console.log(res)
+                console.log(res);
                 this.equipmentlistval=res.data.result.data;
                 console.log(this.equipmentlistval);
                 //设备列表二级：设备名
@@ -334,6 +337,7 @@ export default {
             this.pztstart(direction);
         },
         speedclick(speed){
+            this.buttonbg=speed;
             this.speed=speed;
         },
         pztstart(direction){
@@ -394,7 +398,7 @@ export default {
     height: 100%;
 }
 .newvideo .aside-parent{
-    background: #293950;
+    /* background: #293950; */
 }
 .newvideo .aside-parent img{
     padding: 0px 12px 0px 8px;
@@ -410,27 +414,30 @@ export default {
     justify-content: space-around;
     align-items: center;
 }
+.button-bg{
+    background: cadetblue!important;
+}
 .el-aside-nav{
     position: relative;
     height: 100%;
     top: -40px;
-    background: #293950;
+    /* background: #293950; */
 }
 .el-aside-navchange{
     position: absolute;
     height: 40px;
     top: 60px;
-    background: #293950;
+    /* background: #293950; */
 }
 .newvideo .el-tree{
     width: 200px;
-    background: #293950;
-    color: #ffffff;
+    /* background: #293950; */
+    color: #000;
     padding-left: 20px;
 }
-.newvideo .el-tree-node__content:hover{
+/* .newvideo .el-tree-node__content:hover{
     background-color: rgb(33, 46, 64)
-}
+} */
 .newvideo .video-span{
     display: flex;
     justify-content: space-around;

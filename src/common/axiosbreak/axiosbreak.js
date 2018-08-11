@@ -39,9 +39,9 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
   loadinginstace.close()
   // console.log(response);
   if(response.data.code==500&&response.data.msg=='用户未登录'){
-    router.replace('/landing');
+    // router.replace('/landing');
   }else if(response.data.code==500&&response.data.msg=='用户登录超时'){
-    router.replace('/landing');
+    // router.replace('/landing');
   }
   // if(response.data.code!=200){
   //   Message.error({
@@ -59,8 +59,8 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
       //   this.$router.replace('/landing');
       // }
       switch (error.response.status) {
-        case 400:
-          router.replace('/landing');  
+        case 500:
+          // router.replace('/landing');  
         case 401://token过期，清除token并跳转到登录页面
           localStorage.clear();
           var baurl = window.location.href;

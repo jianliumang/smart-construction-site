@@ -31,6 +31,7 @@ export default{
     withTowerNumberAndDatesSeekInfo : 'workingcycle/toselectTowerCraneWorkingCycle',//根据塔机编号和开始时间结束时间查询塔机工作循环数据
     seekMachineTower : 'TowerCraneSensor/toselectTowerCraneSensor',//查找該工地下的塔机
     userInfo : 'userinfo/selectUserInFo',//登录接口
+    revisepwd: 'userinfo/updateUserInFo',//修改用户信息
     seekAllVideo : 'videomonitor/toselectListVideoMonitor',//get请求所有视频监控设备
     seekConstructionsVideo : 'videomonitor/toselectVideoMonitor',//查找指定工地所属监控
 }

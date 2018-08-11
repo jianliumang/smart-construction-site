@@ -44,9 +44,9 @@
         </el-table>
         <el-dialog
             :title="'塔吊预警回放：'+typename"
-            :visible.sync="dialogVisible"
-            :before-close="handleClose">
+            :visible.sync="dialogVisible">
             <span>
+                <button @click="resetfn">重置</button>
                 <button @click="startfn">开始</button>
                 <tiaoshi :content="contentdata"></tiaoshi>
             </span>
@@ -83,18 +83,23 @@ export default {
         typename:'',
         playbackdata:[],
         contentdata:{
-                    showtime:0,
-                    rotatevalue:0,
-                    crossdata:490,
-                    verticaldata:20,
-                    oring:47,
-                },
+                showtime:0,
+                rotatevalue:0,
+                crossdata:490,
+                verticaldata:20,
+                oring:47,
+            },
+        contentdataback:null,
       }
     },
     mounted(){
         this.towerrrequest(); 
     },
     methods:{
+        resetfn(){
+            //回放重置
+            this.contentdata=this.contentdataback;
+        },
         handleClick(row) {
             //点击回放
             console.log(this.timestampToTime(Date.parse(row.startTime.replace(/-/g,"/"))),this.timestampToTime(Date.parse(row.endTime.replace(/-/g,"/"))))
@@ -121,16 +126,18 @@ export default {
                 showtime:this.playbackdata.length==1?0:5,
                 rotatevalue:lastdata.rotation,
                 crossdata:490 + 4.2*lastdata.tower_range,
-                verticaldata:20 + 4.75*lastdata.height,
+                verticaldata:20 + 4.4*lastdata.height,
                 oring:47 + 4.2*lastdata.tower_range,
             }
-            alert('本时间段只有一条数据')
+            if(this.playbackdata.length==1){
+                alert('本时间段只有一条数据')
+            }
         },
-        handleClose(done) {
-            this.$confirm('确认关闭？').then(_ => {
-                done();
-            }).catch(_ => {});
-        },
+        // handleClose(done) {
+        //     this.$confirm('确认关闭？').then(_ => {
+        //         done();
+        //     }).catch(_ => {});
+        // },
         replayfn(){
             console.log(this.alarmStarttime,this.alarmEndtime)
             this.$api.alarmReplay({
@@ -150,9 +157,10 @@ export default {
                     showtime:0,
                     rotatevalue:firstdata.rotation,
                     crossdata:490 + 4.2*firstdata.tower_range,
-                    verticaldata:20 + 4.75*firstdata.height,
+                    verticaldata:20 + 4.4*firstdata.height,
                     oring:47 + 4.2*firstdata.tower_range,
-                }
+                };
+                this.contentdataback=this.contentdata;
             })
         },
         datashow(){

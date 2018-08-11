@@ -1,7 +1,7 @@
 <template>
     <div class="gprspositioning">
         <el-container class="aside-container">
-            <div class="aside-parent">
+            <!-- <div class="aside-parent">
                 <el-aside id="gpsaside" class="el-aside-nav" width="200px" style="overflow:hidden">
                     <el-menu
                     :default-openeds="['1']"
@@ -33,7 +33,7 @@
                         </el-submenu>
                     </el-menu>
                 </el-aside>
-            </div>
+            </div> -->
             <el-container>
                 <el-main id="router-show">
                     <router-view></router-view>
