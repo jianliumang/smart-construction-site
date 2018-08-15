@@ -1,20 +1,9 @@
 <template>
     <div class="servicesrealname">
         该模块暂未上线
-        <!-- <a href="#" download="CmFngltpZK6AebJBAAP-F1NpwkA791.jpg">xiazai</a>
-        <div>
-        <canvas  id="cavasimg" width="607" height="367"  ></canvas>
-        <input type="button" id="btnsavaImg" value="保存图片到本地" @click="Download()"/>
-
-
-
-        <iframe id="saveImg" src="#" style="display:none;"></iframe>
-
-<a href="#" @click="saveImg.document.execCommand('saveAs');">下载</a>
-
-
-<button type="button" class="btn btn-primary" @click="download('#')" >下载</button>
-    </div> -->
+    <!-- <div>{{input1}}</div> 
+    <input type="text" v-model="input2">
+    <button @click="websocketsend(input2)">发送</button> -->
     </div>
 </template>
 
@@ -22,11 +11,81 @@
 export default {
     data(){
         return{
-           topval:100 
+           topval:100,
+           websock: null,
+           input1:'',
+           input2:''
         }
         
     },
+    created(){
+        //页面刚进入时开启长连接
+        // this.initWebSocket()
+    },
+　　destroyed: function() {
+　　　　//页面销毁时关闭长连接
+// 　　　　　this.websocketclose();
+　　},
+    mounted () {
+    },
     methods:{
+        // threadPoxi(){  // 实际调用的方法
+        //         //参数
+        //         const agentData = "mymessage";
+        //         //若是ws开启状态
+        //         if (this.websock.readyState === this.websock.OPEN) {
+        //             this.websocketsend(agentData)
+        //         }
+        //         // 若是 正在开启状态，则等待300毫秒
+        //         else if (this.websock.readyState === this.websock.CONNECTING) {
+        //             let that = this;//保存当前对象this
+        //             setTimeout(function () {
+        //                 that.websocketsend(agentData)
+        //             }, 300);
+        //         }
+        //         // 若未开启 ，则等待500毫秒
+        //         else {
+        //             this.initWebSocket();
+        //             let that = this;//保存当前对象this
+        //             setTimeout(function () {
+        //                 that.websocketsend(agentData)
+        //             }, 500);
+        //         }
+        //     },
+            initWebSocket(){ //初始化weosocket
+                //ws地址
+                //判断当前浏览器是否支持WebSocket
+                this.websock = new WebSocket("ws://60.191.29.210:9090/RestIOTAPI/websocket");
+                this.websock.onopen = this.websocketonopen;
+    　　　　　　　this.websock.onerror = this.websocketonerror;
+    　　　　　　　this.websock.onmessage = this.websocketonmessage; 
+    　　　　　　　this.websock.onclose = this.websocketclose;
+            },
+            websocketonopen(){
+                console.log("WebSocket连接成功");
+            },
+            websocketonerror(e){//错误
+                console.log("WebSocket连接发生错误");
+            },
+            websocketonmessage(e){ //数据接收
+                console.log(e)
+                // const redata = JSON.parse(e.data);
+                // console.log(redata.value);
+            },
+            websocketsend(agentData){//数据发送
+                console.log(agentData)
+                this.websock.send(agentData);
+            },
+            websocketclose(e){  //关闭
+                console.log("connection closed (" + e.code + ")");
+            },
+        button(){
+            const { href } = this.$router.resolve({
+                path: 'equipmentinspection/qrcode'
+            })
+            window.open(href, '_blank')
+            // window.open(this.$router.resolve({path: 'equipmentinspection/qrcode'}),'_blank');
+        },
         datatype(){
                 setTimeout(() =>{
                     var buttonelement = document.getElementsByClassName("el-picker-panel__icon-btn");
@@ -52,9 +111,6 @@ export default {
                     }
                 }
             },
-            Download(){
-                    window.open("#")
-                },
             download(src) {
 			    var $a = document.createElement('a');
 			    $a.setAttribute("href", src);
@@ -66,31 +122,7 @@ export default {
 			    $a.dispatchEvent(evObj);
 			}
         },
-        mounted () {
-            // $loading.hide()
 
-            //canvas 绘制图片    支持手机端
-//            var canvas = document.getElementById('cavasimg');
-//            var ctx = canvas.getContext('2d');
-//            ctx.fillRect(0, 0, canvas.width, canvas.height);
-//            ctx.fillStyle = "red";
-//            ctx.font = 'italic bold 30px Helvetica ';
-//            ctx.fillText('楷体', 50, 50); 
-            // canvas 插入图片   手机端点击没反应
-            //获取canvas元素
-            var cvs = document.getElementById("cavasimg");
-            //创建image对象
-            var imgObj = new Image();
-            imgObj.src = "#";
-            imgObj.setAttribute("crossOrigin",'Anonymous')
-            //待图片加载完后，将其显示在canvas上
-            imgObj.onload = function(){
-                var ctx = cvs.getContext('2d');
-                ctx.drawImage(this, 0, 0);//this即是imgObj,保持图片的原始大小：470*480
-                //ctx.drawImage(this, 0, 0,1024,768);//改变图片的大小到1024*768
-            } 
- 
-        }
 
 }
 </script>

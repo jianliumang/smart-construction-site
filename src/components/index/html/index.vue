@@ -12,45 +12,6 @@
                         </div>
                     </div>
                     <div class="datashow-center">
-                        <div class="el-center">
-                            <button class="setupbutton" @click="menushow = !menushow">设置</button>
-                            <div class="el-setup" v-show="menushow">
-                                <el-form ref="form" :model="form" label-width="80px">
-                                    <el-form-item label="建筑面积">
-                                        <el-row>
-                                            <el-col :span="12"><el-input v-model="form.area"></el-input></el-col>
-                                            <el-col class="el-text-type" :span="12"><span>㎡</span></el-col>
-                                        </el-row>
-                                    </el-form-item>
-                                    <el-form-item label="活动时间">
-                                        <div class="block">
-                                            <el-date-picker
-                                                v-model="valuetime"
-                                                type="daterange"
-                                                range-separator="至"
-                                                start-placeholder="开始日期"
-                                                value-format="yyyy-MM-dd"
-                                                end-placeholder="结束日期">
-                                            </el-date-picker>
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="建筑类型">
-                                        <el-select v-model="form.region" placeholder="请选择建筑类型">
-                                            <el-option v-for="item in options"
-                                                :key="item.value"
-                                                :label="item.label"
-                                                :value="item.number">
-                                
-                                            </el-option>
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item>
-                                        <el-button type="primary" @click="onSubmit">设置</el-button>
-                                        <el-button @click="cancel">取消</el-button>
-                                    </el-form-item>
-                                </el-form>
-                            </div>
-                        </div>
                         <div class="el-indexdata-left">
                             <div>
                                 <span class="onstruction-condition-type">建筑面积<br /><span><span>{{constructiondata==null? 1000:constructiondata.coveredArea}}</span>㎡</span></span>
@@ -197,41 +158,45 @@ export default {
     data(){
         return{
             regionid:Number,
-            form: {
-                area: '',
-                region: ''
-            },
-            valuetime: [],
-            menushow: false,
-            devicesn:10301229,
             tableData: [],
             enviromentalid: 2,
             defauldata: null,
-            nowdate: this.setAllTime(),
-            options: [],
             constructiondata: null,
-            openvalue:'',
             remaindays:0,
             indexbg:indexbg,
         }
     },
     created(){
         this.regionid = sessionStorage.getItem("regionid");
-        console.log(this.regionid)
+        //页面刚进入时开启长连接
+        this.initWebSocket()
     },
     mounted(){
         this.bordercss();
         this.toselectArchitecture();//根据工地查询是否有设置工地数据
         this.towerrrequest();//000000000//右上角的数据展示
         this.defaultrequest();//根据设备编号请求最新一条坏境信息
-        this.engineeringcategoryrequest();//设置功能中的工程类别分组下拉列表
         this.realdata = setInterval(()=>{
           this.towerrrequest();
         },60000);
     },
     methods:{
-        cancel() {
-            this.menushow = !this.menushow
+        initWebSocket(){ //初始化weosocket
+            this.websock = new WebSocket("ws://60.191.29.210:9090/RestIOTAPI/websocket");
+            // this.websock.onopen = this.websocketonopen;
+            // this.websock.onerror = this.websocketonerror;
+            this.websock.onmessage = this.websocketonmessage; 
+            this.websock.onclose = this.websocketclose;
+        },
+        websocketonmessage(e){ //数据接收
+            console.log(e.data)
+            this.tableData.push({"news":e.data})
+            console.log(this.tableData)
+            // const redata = JSON.parse(e.data);
+            // console.log(redata.value);
+        },
+        websocketclose(e){
+
         },
         constructionfn(){
         //根据选择的工地去查找设备
@@ -258,55 +223,6 @@ export default {
                 if(res.data.code==200){
                     this.constructiondata = res.data.result;
                     this.remaindays = res.data.result.distanceEnddate;
-                    this.form.area = this.constructiondata.coveredArea;
-                    this.form.region = this.constructiondata.engineeringCategoryNumber;
-                    this.valuetime = [this.constructiondata.contractStarttime,this.constructiondata.contractEndtime]
-                }
-            })
-        },
-        onSubmit(){
-            //设置工地数据*
-            if(this.valuetime==[] || this.form.area == '' || this.form.region == ''){
-                alert("请填写完整")
-                return false;
-            }
-            this.$api.insertArchitectureData({
-                "contractEndtime": this.valuetime[1],
-                "contractStarttime": this.valuetime[0],
-                "coveredArea": this.form.area,
-                "engineeringCategoryNumber":  this.form.region,
-                "regionid": this.regionid
-            }).then(res => {
-                if(res.data.result){
-                    this.toselectArchitecture();
-                    this.menushow=false;
-                    this.openvalue = '设置成功';
-                    this.open();
-                }
-            })
-        },
-        open() {
-            //消息提示
-            const h = this.$createElement;
-            this.$notify({
-            title: '标题名称',
-            message: h('i', { style: 'color: teal'}, this.openvalue)
-        });
-        },
-        engineeringcategoryrequest(){
-            //设置功能中的工程类别分组下拉列表
-            this.options = [];
-            this.$api.seekEngineeringCategory().then(res => {
-                console.log(res)
-                if(res.data.code==200){
-                    console.log(res.data.result)
-                    res.data.result.forEach(element => {
-                        this.options.push({
-                            value: element.engineeringCategoryId,
-                            label: element.engineeringCategoryname,
-                            number: element.engineeringCategoryNumber
-                        })
-                    });
                 }
             })
         },
@@ -324,17 +240,17 @@ export default {
         },
         towerrrequest(){
             //右上角的数据展示
-            this.$api.seekNewsType({
-                params:{
-                    'strip' : 1
-                }
-            }).then(res => {
-                console.log(res)
-                if(res.data.code==200){
-                    this.tableData = [];
-                    this.tableData = res.data.result;
-                }
-            })
+            // this.$api.seekNewsType({
+            //     params:{
+            //         'strip' : 3
+            //     }
+            // }).then(res => {
+            //     console.log(res)
+            //     if(res.data.code==200){
+            //         this.tableData = [];
+            //         this.tableData = res.data.result;
+            //     }
+            // })
         },
         bordercss(){
             //边框右边角
@@ -355,19 +271,16 @@ export default {
         }
     },
     beforeCreate () {
-        console.log(document.querySelector('body'))
         document.querySelector('body').className="bg";
-        // document.getElementById("title").classList.add('titlecss');
-
     },
     beforeUpdate () {
         document.querySelector('body').className="bg";
-        // document.getElementById("title").classList.add('titlecss');
     },
     beforeDestroy() {
         document.querySelector('body').removeAttribute('class');
-        // document.getElementById("title").classList.remove('titlecss');
         clearInterval(this.realdata);
+        //页面销毁时关闭长连接
+        this.websocketclose();
     },
 }
 </script>
@@ -404,10 +317,11 @@ export default {
 /* ---------数据统计设置按钮------- */
 .el-center{
     position: absolute;
-    top:4px;
-    right: 16px;
+    width: 100%;
+    top:0px;
+    right: 0px;
     height: 20px;
-    background: #ccc;
+    /* background: #ccc; */
     border-radius: 5px;
     z-index: 100;
 }
@@ -421,11 +335,16 @@ export default {
     background: steelblue;
     border: 1px solid #68b1ef;
     color: #fff;
+    margin-right: 16px;
 }
 .el-setup{
+    width: 100%;
     position: relative;
     background: #68b1ef;
     vertical-align: top;
+    top: 0px;
+    left: 0px;
+    border-radius: 5px;
 }
 .el-form{
     clear: both;
@@ -436,9 +355,25 @@ export default {
 }
 .el-setup label{
     color: #fff;
+    width: 20%!important;
+}
+.el-form-item__content{
+    margin-left: 20%!important;
 }
 .el-setup .el-select{
     float: left;
+}
+.unit-span{
+    float: left;
+    padding-left: 10px;
+}
+.el-form-item__content .block{
+    float: left;
+    width: 90%;
+    text-align: left;
+}
+.el-form-item__content .block .el-input__inner{
+    width: 100%!important;
 }
 /* ------------数据展示框共同样式-------- */
 .index .datashow{
@@ -647,6 +582,7 @@ export default {
 }
 #newdynamic .el-table td div{
     color: #fff;
+    text-align: left;
 }
 /* ----------------环境监测----------------- */
 .onstruction-environment{

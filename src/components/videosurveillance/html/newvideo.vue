@@ -38,6 +38,7 @@
                     <button @click="videonum(1)">一分屏</button>
                     <button @click="videonum(2)">四分屏</button>
                     <button @click="capture">抓拍</button>
+                    <!-- <button @mouseup="up">1111</button> -->
                     <!-- <button @click="equipmentinfo">设备信息</button>
                     <button @click="equipmentlist">设备列表</button>
                     <button @click="equipmenchannel">设备通道</button>
@@ -55,10 +56,10 @@
             <div class="contranl">
                 <p>云台控制:</p>
                 <div class="video-roulette" title="操纵摄像头方向">
-                    <span @mousedown="pztstart(4)"></span><span @mousedown="pztstart(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6)"></span><span @mousedown="pztstart(2)" class="el-icon-arrow-left"></span><span></span><span @mousedown="pztstart(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5)"></span><span @mousedown="pztstart(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7)"></span>
+                    <span @mousedown="pztstart(4)" @mouseup="pztstop(4)"></span><span @mousedown="pztstart(0)" @mouseup="pztstop(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6)" @mouseup="pztstop(6)"></span><span @mousedown="pztstart(2)" @mouseup="pztstop(2)" class="el-icon-arrow-left"></span><span></span><span @mousedown="pztstart(3)" @mouseup="pztstop(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5)" @mouseup="pztstop(5)"></span><span @mousedown="pztstart(1)" @mouseup="pztstop(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7)" @mouseup="pztstop(7)"></span>
                 </div>
-                <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @click="pztclick(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @click="pztclick(8)">放大</el-button></div>
-                <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @click="pztclick(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @click="pztclick(11)">远焦距</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @mousedown.native="pztstart(9)" @mouseup.native="pztstop(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @mousedown.native="pztstart(8)" @mouseup.native="pztstop(8)">放大</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @mousedown.native="pztstart(10)" @mouseup.native="pztstop(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @mousedown.native="pztstart(11)" @mouseup.native="pztstop(11)">远焦距</el-button></div>
                 <div class="video-span"><el-button :class="buttonbg==0?'button-bg':''" type="primary" icon="el-icon-remove" @click="speedclick(0)">慢</el-button><el-button :class="buttonbg==1?'button-bg':''" type="primary" icon="el-icon-share" @click="speedclick(1)">适中</el-button><el-button :class="buttonbg==2?'button-bg':''" type="primary" icon="el-icon-circle-plus"  @click="speedclick(2)">快</el-button></div>
             </div>
         </div>
@@ -95,13 +96,15 @@ export default {
                 width:'900',
                 height:'600'
             },
-            buttonbg:1
+            buttonbg:1,
+            pztclicktype:true
             // swf:require('')
         }
     },
     mounted(){
         // this.open();
         this.equipmentlist();
+        console.log(this.timestampToTime(new Date().getTime()),this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-"))
         // this.equipmenchannel()
     },
     methods:{
@@ -123,14 +126,14 @@ export default {
                 s:'0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
                 c:'0',//是否读取文本配置,0不是，1是
                 x:'',//调用配置文件路径，只有在c=1时使用。默认为空调用的是ckplayer.xml
-                i:'http://www.ckplayer.com/images/loadimg3.jpg',//初始图片地址
-                d:'http://www.ckplayer.com/down/pause6.1_1.swf|http://www.ckplayer.com/down/pause6.1_2.swf',//暂停时播放的广告，swf/图片,多个用竖线隔开，图片要加链接地址，没有的时候留空就行
+                i:'',//初始图片地址
+                d:'',//暂停时播放的广告，swf/图片,多个用竖线隔开，图片要加链接地址，没有的时候留空就行
                 u:'',//暂停时如果是图片的话，加个链接地址
                 l:'',//前置广告，swf/图片/视频，多个用竖线隔开，图片和视频要加链接地址http://www.ckplayer.com/down/adv6.1_1.swf|http://www.ckplayer.com/down/adv6.1_2.swf
                 r:'',//前置广告的链接地址，多个用竖线隔开，没有的留空
                 t:'10|10',//视频开始前播放swf/图片时的时间，多个用竖线隔开
                 y:'',//这里是使用网址形式调用广告地址时使用，前提是要设置l的值为空
-                z:'http://www.ckplayer.com/down/buffer.swf',//缓冲广告，只能放一个，swf格式
+                z:'',//缓冲广告，只能放一个，swf格式
                 e:'3',//视频结束后的动作，0是调用js函数，1是循环播放，2是暂停播放并且不调用广告，3是调用视频推荐列表的插件，4是清除视频流并调用js功能和1差不多，5是暂停播放并且调用暂停广告
                 v:'80',//默认音量，0-100之间
                 p:'1',//视频默认0是暂停，1是播放，2是不加载视频
@@ -171,14 +174,18 @@ export default {
             //抓拍
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/capture?deviceSerial=C23418950&channelNo=1&accesstoken=at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
+                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/capture?deviceSerial=C23418950&channelNo=1&accesstoken="+this.accessToken,
 				// params:{
 				// 	"deviceSerial":this.deviceSerial,
                 //     "channelNo":1,
                 //     "accessToken":this.accessToken,
 				// }
 			}).then(res => {
-                console.log(res)
+                console.log(res);
+                if(res.data.code==200){
+                    var imgurl=res.data.result.data.picUrl;
+                    this.download(imgurl);
+                };
             });
         },
         equipmentinfo(){
@@ -341,16 +348,26 @@ export default {
             this.speed=speed;
         },
         pztstart(direction){
-            this.axios({
-                method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
-                "&speed="+this.speed+
-                "&deviceSerial="+this.deviceSerial+
-                "&channelNo=1&accesstoken="+this.accessToken,
-			}).then(res => {
-                console.log('开启云台',res)
-                setTimeout(this.pztstop(direction),500)
-            });
+            if(this.pztclicktype){
+                this.pztclicktype=false;
+                this.axios({
+                    method:"get",
+                    url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
+                    "&speed="+this.speed+
+                    "&deviceSerial="+this.deviceSerial+
+                    "&channelNo=1&accesstoken="+this.accessToken,
+                }).then(res => {
+                    console.log('开启云台',res)
+                    // setTimeout(this.pztstop(direction),500);
+                    setTimeout(()=>{this.pztclicktype=true},1000)
+                });
+            }else{
+                this.$message({
+                    message: '点击太频繁了,请间隔1秒',
+                    type: 'warning'
+                });
+            }
+            
         },
         pztstop(direction){
             this.axios({
@@ -385,6 +402,16 @@ export default {
                 console.log(res)
             });
         },
+        download(src) {
+            //下载图片
+            var name = "抓拍图片"+this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-")+Math.floor(Math.random()*100)+1;
+			var $a = document.createElement('a');
+			$a.setAttribute("href", src);
+			$a.setAttribute("download", name);
+			var evObj = document.createEvent('MouseEvents');
+			evObj.initMouseEvent( 'click', true, true, window, 0, 0, 0, 0, 0, false, false, true, false, 0, null);
+			$a.dispatchEvent(evObj);
+		}
     },
     components:{
         subvideo

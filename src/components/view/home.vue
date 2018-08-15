@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <el-row id="title" class="titlecss" v-show="fullscreen">
+        <el-row id="title" class="titlecss">
             <div class="title-cneter">
                 <div class="logo">
                     <span></span>
@@ -26,12 +26,12 @@
                         <span class="topimg"></span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="modifypwd">修改密码</el-dropdown-item>
+                            <el-dropdown-item command="siteinfo">工地信息</el-dropdown-item>
                             <el-dropdown-item command="exit">退出</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                     <span class="el-dropdown-link">
                         {{username}}
-                        <!-- {{true?`<span>1111</span>`:"22222"}} -->
                     </span>
                 </div>
             </div>
@@ -42,23 +42,21 @@
                     <el-radio-group :class="isCollapse?'':'nav-menu'" v-model="isCollapse" style="margin-bottom: 20px;">
                         <el-button @click="isCollapse=!isCollapse;" type="info" circle></el-button>
                     </el-radio-group>
-                    <el-menu :default-openeds="[nownav]" router :default-active="nownav" text-color="#fff" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse" background-color="#174566" active-text-color="#ffd04b">
+                    <el-menu :default-openeds="[nownav]" router :default-active="nownav" text-color="#fff" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" @select="handSelect" :collapse="isCollapse" background-color="#174566" active-text-color="#ffd04b">
                         <template v-for="route in $router.options.routes" router v-if="route.hidden">
                             <template  v-for="(xRoute,xIndex) in route.children" v-if="xRoute.hidden">
                                 <el-menu-item @click="navbgstyle(xIndex)" :route="xRoute" :index="xRoute.name" v-if="!xRoute.children" :key="xIndex" :class="nownav==xRoute.name?'first-title is-active':'first-title'">
-                                    <!-- {{navIndex}} -->
                                     <span :style="{'display':navIndex==xIndex?'':'none'}" class="firstientification"></span><span :style="{'display':navIndex==xIndex?'none':''}" class="lastientification"></span>
-                                    <img v-show="!isCollapse" :src="xRoute.icon" alt="">
-                                    <span slot="title" class="title-text">{{xRoute.name}}</span>
+                                    <img :src="xRoute.icon" alt="">
+                                    <span class="title-text">{{xRoute.name}}</span>
                                 </el-menu-item>
                                 <el-submenu class="first-title" v-if="xRoute.children" :key="xIndex" :index="xRoute.name">
                                     <template @click="navbgstyle(xIndex)" slot="title">
-                                        <!-- {{navIndex}} -->
                                         <span :style="{'display':navIndex==xIndex?'':'none'}" class="firstientification"></span><span :style="{'display':navIndex==xIndex?'none':''}" class="lastientification"></span>
-                                        <img v-show="!isCollapse" :src="xRoute.icon" alt="">
+                                        <img class="img-index" :src="xRoute.icon" alt="">
                                         <span slot="title" class="title-text">{{xRoute.name}}</span>
                                     </template>
-                                    <el-menu-item v-if="xRoute.children" v-for="(cRoute, cIndex) in xRoute.children"  :key="cIndex" :index="cRoute.name" :route="cRoute">
+                                    <el-menu-item v-if="xRoute.children" v-for="(cRoute, cIndex) in xRoute.children"  :key="cIndex" :index="cRoute.name" :route="cRoute" :class="navsub==cRoute.name?'is-active':''">
                                         <span slot="title" >{{cRoute.name}}</span>
                                     </el-menu-item>
                                 </el-submenu>
@@ -67,7 +65,7 @@
                     </el-menu>
                 </div>
             </div>
-            <el-main>
+            <el-main :style="{'background':nownavbg=='首页'?'none':'#fff'}">
                 <router-view></router-view>
             </el-main>
             <el-button v-if="nownav=='首页'" class="fullscreensty" :style="{'background':fullscreen?'url('+fullscreen2+') no-repeat center center':'url('+fullscreen1+') no-repeat center center'}" @click="fullscreen=!fullscreen;" type="info" circle></el-button>
@@ -79,6 +77,8 @@
 import indexbg from '@/assets/img/indexbg.png'
 import fullscreen1 from '@/assets/img/fullscreen1.png'
 import fullscreen2 from '@/assets/img/fullscreen2.png'
+
+// import bus from '../../assets/js/event.js'
 export default {
     data() {
         return {
@@ -97,60 +97,75 @@ export default {
             icon:'el-icon-d-arrow-right',//显示按钮的图标
             username:'admin',
             nownav:'首页',
+            nownavbg:'首页',
+            navsub:'首页',
             navIndex:1,
             fullscreen:true,
         }
     },
     created(){
-        // this.information={
-        //     "address" : sessionStorage.getItem("address"),
-        //     "email" : sessionStorage.getItem("email"),
-        //     "power_id" : sessionStorage.getItem("power_id"),
-        //     "sex" : sessionStorage.getItem("sex"),
-        //     "username" : sessionStorage.getItem("username")
-        // }
         this.username = sessionStorage.getItem("username");
         this.regionid = sessionStorage.getItem("regionid");
         this.powerid = sessionStorage.getItem("power_id");
         this.navIndex = sessionStorage.getItem("navIndex")||1;
-        console.log(this.navIndex)
         this.nownav = localStorage.getItem("nownav")||'首页';
+        this.navsub = sessionStorage.getItem("navsub")||'首页';
+        this.nownavbg = sessionStorage.getItem("nownavbg")||'首页';
     },
     mounted(){
         this.powerrequest();
-        console.log(this.nownav,localStorage.getItem("navIndex"))
+        // this.rective()
     },
     methods: {
+        // rective(){
+        //     bus.$on('component',(data)=>{
+        //         console.log(data);
+        //     })
+        // },
+        handSelect(index,path){
+            console.log(index,path);
+            var arr = [];
+            this.$router.options.routes.forEach(element => {
+                if(element.hidden){
+                    element.children.forEach(ele => {
+                        if(ele.hidden){
+                            arr.push(ele.name);
+                        }
+                    })
+                }
+            });
+            this.nownav=path[0];
+            localStorage.setItem("nownav",path[0]);
+            var index=arr.indexOf(path[0]);
+            this.navbgstyle(index+1)
+            console.log(arr)
+            if(path.length==1){
+                this.nownavbg==index;
+            }
+            this.navsub=path[1];
+            sessionStorage.setItem('navsub',path[1])
+        },
         navbgstyle(index){
             console.log(index)
-            // ev.$el.style.background='#ccc'
             var firstspanele=document.getElementsByClassName('firstientification');
             var lastspanele=document.getElementsByClassName('lastientification');
             var liele=document.getElementsByClassName('el-menu')[0].getElementsByClassName('first-title');
-            var tit = document.getElementsByClassName('el-menu')[0].getElementsByClassName('is-active')
             this.navIndex=index
             sessionStorage.setItem('navIndex',index)
-            console.log(liele);
-            console.log(tit);
             for(var i=0;i<firstspanele.length;i++){
-                console.log(firstspanele[i])
                 firstspanele[i].style.display='none';
                 lastspanele[i].style.display='';
-                
             }
-            // liele[index-1].style.background='green';
             if(index-1<3){
                 this.nownav=liele[index-1].children[3].innerHTML;
                 localStorage.setItem("nownav",liele[index-1].children[3].innerHTML);
             }else{
 
             }
-            
             firstspanele[index-1].style.display='';
             lastspanele[index-1].style.display='none';
         },
         handleOpen(key, keyPath) {
-            console.log(666666666666666)
             console.log(key, keyPath);
             this.nownav=key;
             localStorage.setItem("nownav",key);
@@ -163,22 +178,22 @@ export default {
             }
             this.navbgstyle(index+1)
         },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-
-      },
+        handleClose(key, keyPath) {
+            console.log(key, keyPath);
+        },
         handleCommand(command) {
             if(command=='exit'){
                 localStorage.removeItem('token')
+                localStorage.removeItem('nownav')
+                sessionStorage.removeItem('nownavbg')
+                sessionStorage.removeItem('navIndex')
+                sessionStorage.removeItem('navsub')
                 this.$router.push('/landing')
+            }else if(command=='siteinfo'){
+                this.$router.push('/siteinfo');
             }else{
                 this.$router.push('/revisepwd');
             }
-        },
-        clicktype(){
-            console.log(44444444444444)
-            console.log(this.clickshow)
-            this.clickshow=!this.clickshow;
         },
         handleChange() {
             //选择工地
@@ -202,8 +217,20 @@ export default {
             })
         },
     },
+    watch:{
+    //监听路由
+        $route: {
+            handler: function (val, oldVal) {
+                console.log(val,oldVal)
+                this.nownavbg=val.name;
+                sessionStorage.setItem("nownavbg",val.name)
+            },
+            //深度观察监听
+            deep: true
+        }
+    },
     beforeDestroy(){
-        sessionStorage.removeItem('navIndex')
+        // sessionStorage.removeItem('navIndex')
     }
 }
 </script>
@@ -249,11 +276,11 @@ export default {
 }
 .title-cneter .logo span:nth-child(1){
     display: inline-block;
-    width: 45px;
-    height: 45px;
+    width: 35px;
+    height: 35px;
     background: url('~@/assets/img/logo.png') no-repeat;
     background-size: 100% 100%;
-    margin: 10px 10px 0px 0px;
+    margin: 12px 10px 0px 0px;
     vertical-align: top;
 }
 .title-cneter .logo+div input{
@@ -316,6 +343,7 @@ export default {
     border-radius: 50%;
     vertical-align: top;
     margin-top: 10px; 
+    margin-right: 10px;
 }
 .title-cneter .el-dropdown{
     display: inline-block;
@@ -330,6 +358,7 @@ export default {
     flex: 1;
     height: 100%;
     display: flex;
+    background: url('~@/assets/img/indexbg.png') no-repeat;
 }
 /* ------------左侧导航栏------------------ */
 .aside-nav{
@@ -343,10 +372,12 @@ export default {
 }
 .aside-nav .is-active,.aside-nav .is-opened .el-submenu__title{
    background-color: rgb(18,55,82) !important;
+   color: #ffd04b!important;
 }
+
 .aside-nav .is-opened .el-submenu__title{
     font-weight: 700;
-    color: #ffd04b!important;
+    color: #fff!important;
 }
 .aside-nav .is-active .firstientification{
     background: #4571ec!important;
@@ -376,7 +407,7 @@ export default {
     padding-left: 0px!important;
 }
 .aside-nav li .el-menu-item{
-    padding-left: 60px!important;
+    padding-left: 67px!important;
 }
 .aside-nav img{
     width: 30px;
@@ -386,7 +417,7 @@ export default {
 .aside-nav .firstientification,.aside-nav .lastientification{
     display: inline-block;
     height: 100%;
-    width: 10px;
+    width: 5px;
 }
 .aside-nav .firstientification{
     background: #4571ec
@@ -395,12 +426,15 @@ export default {
     position: absolute;
     z-index: 100;
     width: 30px;
-    right: 0px;
-    top: 10px;
+    right: 10px;
+    top: -27px;
 }
 .aside-nav .el-radio-group .el-button{
     background: url('~@/assets/img/navtit1.png');
     background-size: 100% 100%;
+}
+.img-index{
+    padding: 4px;
 }
 .el-menu--collapse{
     width: 50px;
@@ -424,6 +458,10 @@ export default {
     height: 100%;
     flex: 1;
     /* min-height: 640px; */
+}
+.home .aside-nav+.el-main{
+    /* background: #fff; */
+    border-radius: 5px 5px 0px 0px;
 }
 .fullscreensty{
     width: 30px;

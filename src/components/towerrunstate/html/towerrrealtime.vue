@@ -180,9 +180,10 @@ export default {
     border-right: 1px solid #ccc;
 }
 .tower-type{
-    padding-left: 100px;
+    /* padding-left: 100px; */
     margin-bottom: 40px;
     display: flex;
+    justify-content: space-around;
 }
 .tower-type-left,.tower-type-right{
     display: inline-block;
@@ -192,9 +193,6 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100px;
-}
-.tower-type-left{
-    padding-right: 130px;
 }
 .tower-type-left span:nth-child(1),.tower-type-right span:nth-child(1){
     text-align: left;
@@ -229,111 +227,6 @@ export default {
     width: 800px;
     overflow: hidden;
 }
-/* .tower-crosswise{
-    height: 500px;
-    border-right: 5px solid #ccc;
-} */
-/* .tower-lengthwise{
-    height: 500px;
-}
-.tower-round{
-    width: 400px;
-    height: 400px;
-    border: 3px dashed orangered;
-    border-radius: 50%;
-    margin: 0 auto;
-    margin-top: 50px;
-    font-size: 24px;
-    color: orangered;
-}
-.tower-round div{
-    position: relative;
-}
-.round-top-center{
-    top: -35px;
-}
-.round-right-top{
-    top: 0px;
-    left: 165px;
-}
-.round-right-center{
-    top: 130px;
-    left: 245px;
-}
-.round-right-bottom{
-    top: 260px;
-    left: 165px;
-}
-.round-bottom-center{
-    top: 300px;
-}
-.round-left-bottom{
-    top: 210px;
-    left: -170px;
-}
-.round-left-center{
-    top: 17px;
-    left: -237px;
-}
-.round-left-top{
-    top: -170px;
-    left: -170px;
-}
-.round-crosswise{
-    background: orangered;
-    width: 230px;
-    height: 5px;
-    top: -29px;
-    left: 160px;
-    transform: rotate(0deg);
-    transform-origin:17% center;
-}
-.round-center{
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 3px solid orangered;
-    background: #fff;
-    top: -7px;
-    left: 30px;
-}
-.round-goods{
-    width: 11px;
-    height: 11px;
-    background: #ccc;
-    top: -22px;
-    left: 50px;
-} */
-/* .tower-demonstrate{
-    width: 17px;
-    position: relative;
-    top: -483px;
-    left: -4px;
-}
-.tower-shell{
-    height: 650px;
-}
-.tower-demonstrate div{
-    width: 17px;
-}
-.tower-demonstrate div:nth-child(1){
-    height: 4px;
-    overflow: hidden;
-}
-.tower-demonstrate div:nth-child(1) img{
-    vertical-align:top;
-}
-.tower-demonstrate div:nth-child(2){
-    height: 20px;
-}
-.tower-demonstrate div:nth-child(3){
-    height: 32px;
-    vertical-align:top;
-}
-.tower-line{
-    width: 17px;
-    height: 20px;
-} */
 #tower-select{
     height: 42px;
     line-height: 42px;
@@ -351,34 +244,8 @@ export default {
     border: none; 
     outline: 0;
 }
-/* #tower-select .el-select span{
-    color: #000!important;
-} */
 .el-select-dropdown__item.selected{
     color: #000!important;
 }
-/* #tower-select select{
-    width: 150px;
-    height: 40px;
-    border-radius: 5px;
-    outline: 0;
-    border: 3px solid #000;
-    font-size: 12px;
-    float: left;
-    appearance:none;  
-    -moz-appearance:none;  
-    -webkit-appearance:none;
-    background: url('~@/assets/img/gps_select.png') no-repeat scroll right center transparent;
-    padding: 0px 14px 0px 7px;
-}
-#tower-select select option{
-    text-align: center;
-    height: 40px;
-    width: 150px!important;
-    display: inline-block;
-    font-size: 24px;
-}
-.option-div{
-    height: 30px;
-} */
+
 </style>

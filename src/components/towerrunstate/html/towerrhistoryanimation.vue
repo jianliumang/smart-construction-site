@@ -3,12 +3,7 @@
     <div class="ani-animation">
         <el-row class="ani-headers">
             <div id="ani-select">
-                <!-- <select @change="changedevicesn" v-model="deviceed">
-                    <option disabled value="">请选择设备SN</option>
-                    <option v-for="(device,snindex) in devicesn" :key="snindex" :value="device">
-                        {{ device }}
-                    </option>
-                </select> -->
+                <span>请选择设备:&nbsp;&nbsp;</span>
                 <el-select @change="changedevicesn" v-model="deviceed">
                             <el-option
                             v-for="item in devicesn"
@@ -29,10 +24,12 @@
                             range-separator="至"
                             start-placeholder="开始日期"
                             end-placeholder="结束日期"
+                            @blur="maketime"	
+                            :disabled="deviceed==''"
                             :picker-options="pickerOptions3">
                             </el-date-picker>
                         </el-form-item>
-                        <el-form-item><el-button @click="maketime">查询</el-button></el-form-item>
+                        <!-- <el-form-item><el-button @click="maketime">查询</el-button></el-form-item> -->
                     </el-form>
                 </div>
                 <select class="select-footer" @change="changetime" v-model="selected">
@@ -161,6 +158,7 @@ export default {
                 console.log(res)
                 if(res.data.code==200){
                     this.devicesn=res.data.result;
+                    this.deviceed=res.data.result[0].deviceSN;
                     // res.data.result.forEach(element => {
                     //     if(this.devicesn.indexOf(element.deviceSN)==-1){
                     //         if(this.devicesn.length==0){this.devicesn.splice(0,0,element.deviceSN);}
@@ -205,7 +203,6 @@ export default {
     overflow: hidden;
 }
 .towerrhistoryani .ani-headers{
-    /* height: 42px; */
     padding: 10px 0px;
 }
 .ani-center{
@@ -231,14 +228,11 @@ export default {
     display: inline-block;
     vertical-align: top;
     border-right: 1px solid #ccc;
-    /* display: flex; */
-    /* flex-direction: column;
-    align-items: center; */
 }
 .tower-type{
-    /* padding-left: 100px; */
     margin-bottom: 40px;
     display: flex;
+    justify-content: space-around;
 }
 .tower-type-left,.tower-type-right{
     display: inline-block;
@@ -248,9 +242,6 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100px;
-}
-.tower-type-left{
-    padding-right: 130px;
 }
 .tower-type-left span:nth-child(1),.tower-type-right span:nth-child(1){
     text-align: left;
@@ -285,128 +276,6 @@ export default {
     width: 800px;
     overflow: hidden;
 }
-
-
-
-.ani-crosswise{
-    height: 500px;
-    border-right: 5px solid #ccc;
-}
-.ani-lengthwise{
-    height: 500px;
-}
-.ani-round{
-    width: 400px;
-    height: 400px;
-    border: 3px dashed orangered;
-    border-radius: 50%;
-    margin: 0 auto;
-    margin-top: 50px;
-    font-size: 24px;
-    color: orangered;
-}
-.ani-round div{
-    position: relative;
-}
-.round-top-center{
-    top: -35px;
-}
-.round-right-top{
-    top: 0px;
-    left: 165px;
-}
-.round-right-center{
-    top: 130px;
-    left: 245px;
-}
-.round-right-bottom{
-    top: 260px;
-    left: 165px;
-}
-.round-bottom-center{
-    top: 300px;
-}
-.round-left-bottom{
-    top: 210px;
-    left: -170px;
-}
-.round-left-center{
-    top: 17px;
-    left: -237px;
-}
-.round-left-top{
-    top: -170px;
-    left: -170px;
-}
-.round-crosswise{
-    background: orangered;
-    width: 230px;
-    height: 5px;
-    top: -29px;
-    left: 160px;
-    transform: rotate(0deg);
-    transform-origin:17% center;
-}
-.round-center{
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 3px solid orangered;
-    background: #fff;
-    top: -7px;
-    left: 30px;
-}
-.round-goods{
-    width: 11px;
-    height: 11px;
-    background: #ccc;
-    top: -22px;
-    left: 50px;
-}
-.ani-demonstrate{
-    width: 17px;
-    position: relative;
-    top: -483px;
-    left: -4px;
-}
-.ani-shell{
-    height: 650px;
-}
-.ani-demonstrate div{
-    width: 17px;
-}
-.ani-demonstrate div:nth-child(1){
-    height: 4px;
-    /* overflow: hidden; */
-}
-.ani-demonstrate div:nth-child(1) img{
-    vertical-align:top;
-}
-.ani-demonstrate div:nth-child(2){
-    height: 20px;
-}
-.ani-demonstrate div:nth-child(3){
-    height: 32px;
-    vertical-align:top;
-}
-/* .ani-on{
-    position: relative;
-    top: -436px;
-    left: -100px;
-    transition: left 1s linear!important;
-} */
-.ani-line{
-    width: 17px;
-    height: 20px;
-}
-/* .ani-down{
-    position: relative;
-    top: 65px;
-    left: -43px;
-    width: 17px;
-    height: 32px;
-    transition: left 1s linear!important;
-} */
 #ani-select{
     height: 42px;
     line-height: 42px;

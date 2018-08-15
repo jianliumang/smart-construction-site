@@ -54,6 +54,7 @@
             <div class="prompt"><span v-show="!this.userNewPwd==this.repeatPwd">两次输入密码不一样</span></div>
         </div>
         <el-button type="primary" @click="revisepassword">确认修改</el-button>
+        <el-button type="primary" @click="exit">退出</el-button>
     </div>
 </template>
 
@@ -76,8 +77,19 @@ export default {
                 this.$api.revisepwd({
                     'userpassword':this.userNewPwd,
                     'userid':sessionStorage.getItem('userid')
+                }).then(res=>{
+                    console.log(res)
+                    if(res.data.code==200){
+                        this.$message({
+                            message: '恭喜你，修改成功',
+                            type: 'success'
+                        });
+                    }
                 })
             }
+        },
+        exit(){
+            this.$router.go(-1);
         }
     }
 }

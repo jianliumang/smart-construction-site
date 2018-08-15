@@ -106,10 +106,12 @@
                 :total="backData.length">
             </el-pagination>
         </div>
+        <!-- <button @click="sendbus">11111</button> -->
     </div>
 </template>
 
 <script>
+// import bus from '../../../assets/js/event.js'
 export default {
     data() {
       return {
@@ -125,6 +127,9 @@ export default {
         this.towerrrequest();
     },
     methods:{
+        // sendbus(){
+        //     bus.$emit('component','bus info')
+        // },
         datashow(){
             for(var i=this.sizeval*this.currentval-this.sizeval;i<this.sizeval*this.currentval;i++){
                 if(i>=this.backData.length){

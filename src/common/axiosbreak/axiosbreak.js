@@ -18,17 +18,14 @@ axios.interceptors.request.use(config => {
     config.headers.token = token;  //将token放到请求头发送给服务器
   }
   // config.headers['Content-Type']='application/x-www-form-urlencoded'
-
   // element ui Loading方法
-  var ptzname = config.url.substring(config.url.indexOf('/',40)+1,config.url.indexOf('?'));
-  if(ptzname!='startControlPTZ' && ptzname!='stopControlPTZ'){
-    // console.log(ptzname,1111,ptzname!='startControlPTZ')
-    loadinginstace = Loading.service({ fullscreen: true });
-  }
-  
+  // var ptzname = config.url.substring(config.url.indexOf('/',40)+1,config.url.indexOf('?'));
+  // if(ptzname!='startControlPTZ' && ptzname!='stopControlPTZ'){
+  //   loadinginstace = Loading.service({ fullscreen: true });
+  // }
   return config;
 }, error => {
-  loadinginstace.close();
+  // loadinginstace.close();
   Message.error({
     message: '加载超时'
   });
@@ -36,19 +33,18 @@ axios.interceptors.request.use(config => {
 })
 // http响应拦截器
 axios.interceptors.response.use(response => {// 响应成功关闭loading
-  loadinginstace.close()
+  // loadinginstace.close()
   // console.log(response);
   if(response.data.code==500&&response.data.msg=='用户未登录'){
-    // router.replace('/landing');
+    router.replace('/landing');
   }else if(response.data.code==500&&response.data.msg=='用户登录超时'){
-    // router.replace('/landing');
+    router.replace('/landing');
   }
   // if(response.data.code!=200){
   //   Message.error({
   //     message: 'error:  '+response.data.code+"==>"+response.data.msg
   //   })
   // }
-  
   return response
 }, error => {
   // try {
@@ -60,14 +56,14 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
       // }
       switch (error.response.status) {
         case 500:
-          // router.replace('/landing');  
+          router.replace('/landing');  
         case 401://token过期，清除token并跳转到登录页面
           localStorage.clear();
           var baurl = window.location.href;
-      　　　　　router.replace({
-              path: '/landing',
-              query: { backUrl: baurl }
-            });           
+      　　　　 router.replace({
+                path: '/landing',
+                query: { backUrl: baurl }
+              });           
           return;
       }
     }
@@ -75,10 +71,10 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
   // }
   // catch (e) {
   // }
-  loadinginstace.close()
-  Message.error({
-    message: '加载失败'
-  })
+  // loadinginstace.close()
+    Message.error({
+      message: '加载失败'
+    })
   return Promise.reject(error.response.data)
 })
 

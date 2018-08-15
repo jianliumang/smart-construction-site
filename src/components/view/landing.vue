@@ -48,10 +48,10 @@ export default {
                 if(res.data.code==200){
                     this.usermessage = res.data.result;
                     this.addinfo();
-                    this.powerrequest();
-                    setTimeout(() => {
-                        this.$router.push('/index');
-                    },1000)
+                    // this.powerrequest();
+                    // setTimeout(() => {
+                    //     this.$router.push('/index');
+                    // },1000)
                 }
             })
         },
@@ -63,6 +63,7 @@ export default {
             sessionStorage.setItem("userid",this.usermessage.userid);
             sessionStorage.setItem("username",this.usermessage.username);
             localStorage.setItem("token",this.usermessage.token);
+            this.powerrequest();
         },
         powerrequest(){
             //根据管理权限获取工地
@@ -71,7 +72,10 @@ export default {
                     powerid : this.usermessage.power_id
                 }
             }).then(res => {
-                sessionStorage.setItem("regionid",res.data.result[0].regionid);
+                if(res.data.code==200){
+                    sessionStorage.setItem("regionid",res.data.result[0].regionid);
+                    this.$router.push('/index');
+                }
                 // this.addinfo();
             })
         },

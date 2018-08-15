@@ -44,6 +44,12 @@ export default new Router({
       hidden: false
     },
     {
+      path: '/siteinfo',
+      name: 'siteinfo',
+      component: (resolve) => require(['@/components/view/siteinfo.vue'],resolve),
+      hidden: false
+    },
+    {
       path: '/addScreeners',
       name: 'addScreeners',
       component: (resolve) => require(['@/components/equipmentinspection/html/addScreeners.vue'],resolve),
@@ -132,15 +138,42 @@ export default new Router({
         {
           path: '/environmentcue',
           name: '环境监控',
-          icon:require('@/assets/img/nav003.png'),
+          icon:require('@/assets/img/nav00003.png'),
           component: (resolve) => require(['@/components/environmentcue/html/environmentcue.vue'],resolve),
           hidden:true
+        },
+        {
+          path: '/gprspositioning',
+          name: 'GPRS定位',
+          hidden:true,
+          icon:require('@/assets/img/nav00004.png'),
+          component: (resolve) => require(['@/components/gprspositioning/html/gprspositioning.vue'],resolve),
+          children:[
+            {
+              path: '/gprspositioning/gprsaddress',
+              name: '实时定位系统',
+              component: (resolve) => require(['@/components/gprspositioning/html/gprsaddress.vue'],resolve),
+              hidden:true
+            },
+            {
+              path: '/gprspositioning/gprshistory',
+              name: '历史路径回放',
+              component: (resolve) => require(['@/components/gprspositioning/html/gprshistory.vue'],resolve),
+              hidden:true
+            },
+            {
+              path: '/gprspositioning/gprshatdata',
+              name: '人员信息表',
+              component: (resolve) => require(['@/components/gprspositioning/html/gprshatdata.vue'],resolve),
+              hidden:true
+            }
+          ]
         },
         {
           path: '/towerrunstate',
           name: '塔吊管理',
           hidden:true,
-          icon:require('@/assets/img/nav00004.png'),
+          icon:require('@/assets/img/nav00005.png'),
           component: (resolve) => require(['@/components/towerrunstate/html/towerrunstate.vue'],resolve),
           children:[
             {
@@ -165,33 +198,6 @@ export default new Router({
               path: '/towerrunstate/towerralarminformation',
               name: '塔吊报警信息',
               component: (resolve) => require(['@/components/towerrunstate/html/towerralarminformation.vue'],resolve),
-              hidden:true
-            }
-          ]
-        },
-        {
-          path: '/gprspositioning',
-          name: 'GPRS定位',
-          hidden:true,
-          icon:require('@/assets/img/nav00005.png'),
-          component: (resolve) => require(['@/components/gprspositioning/html/gprspositioning.vue'],resolve),
-          children:[
-            {
-              path: '/gprspositioning/gprsaddress',
-              name: '实时定位系统',
-              component: (resolve) => require(['@/components/gprspositioning/html/gprsaddress.vue'],resolve),
-              hidden:true
-            },
-            {
-              path: '/gprspositioning/gprshistory',
-              name: '历史路径回放',
-              component: (resolve) => require(['@/components/gprspositioning/html/gprshistory.vue'],resolve),
-              hidden:true
-            },
-            {
-              path: '/gprspositioning/gprshatdata',
-              name: '人员信息表',
-              component: (resolve) => require(['@/components/gprspositioning/html/gprshatdata.vue'],resolve),
               hidden:true
             }
           ]

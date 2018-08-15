@@ -45,13 +45,13 @@
                         :picker-options="pickerOptions0">
                         </el-date-picker>
                     </div>
-                    <button @click="clickinfo">查询</button>
+                    <el-button @click="clickinfo" :disabled="starttimevalue==''||endtimevlaue==''||grouped==''||selected==''?true:false" type="primary" size="mini">查询</el-button>
                     <p class="infotit"><span>播放</span></p>
                     <div>
-                        <button @click="startfn" id="start">开始/重放</button>
-                        <button @click="stopfn" id="pause">暂停</button>
-                        <button @click="restartfn" id="resume">恢复</button>
-                        <button @click="removefn">清除轨迹</button>
+                        <el-button @click="startfn" id="start" :disabled="historydata.length==0?true:false" type="warning" size="mini">开始/重放</el-button>
+                        <el-button @click="stopfn" id="pause" :disabled="historydata.length==0?true:false" type="warning" size="mini">暂停</el-button>
+                        <el-button @click="restartfn" id="resume" :disabled="historydata.length==0?true:false" type="warning" size="mini">恢复</el-button>
+                        <el-button @click="removefn" :disabled="historydata.length==0?true:false" type="warning" size="mini">清除轨迹</el-button>
                     </div>
                     <div class="block slide">
                         <el-slider v-model="value8" @change="sidefn" ></el-slider>
@@ -171,12 +171,12 @@ export default {
             hatnumber:Number,
             zoomtype: 0,
             markertype: 0,
-
             pickerOptions0: this.timetype,
             pickerOptions1: this.starttimelist,
             starttimevalue: '',
             endtimevlaue: '',
             havedate : [],
+            historydata:[]
         };
     },
     created() {
@@ -189,9 +189,9 @@ export default {
         // elemap.style.width = elebody.clientWidth-600+'px';
         // console.log(elebody.clientWidth-600)
         // console.log(this.imgurl)
-        let startTime = this.setPartTime() + " 00:00:00";
-        let endTime = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
-        this.dates = [startTime, endTime];
+        this.starttimevalue = this.setPartTime() + " 00:00:00";
+        this.endtimevlaue = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
+        // this.dates = [startTime, endTime];
         this.askforgroup();
         this.beforeinit();
 
@@ -338,6 +338,7 @@ export default {
             }).then(res => {
                 console.log(res)
                 if(res.data.code==200){
+                    this.historydata=res.data.result;
                     if(res.data.result.length==0){
                         this.$message({
                             message: '本时间段没有数据',

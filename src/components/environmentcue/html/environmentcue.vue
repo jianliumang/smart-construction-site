@@ -1,9 +1,9 @@
 <template>
     <div class="environmentcue">
         <el-container>
-            <div class="aside-parent">
+            <!-- <div class="aside-parent">
                 <el-aside id="gpsaside" width="200px" style="overflow:hidden">
-                    <el-menu
+                    <el-menu v-show="fasle"
                     :default-openeds="['1']"
                     default-active="1-0"
                     class="el-menu-vertical-demo"
@@ -12,7 +12,7 @@
                     active-text-color="#e45823">
                         <el-submenu index="1">
                             <template slot="title">
-                                <span>设备</span>
+                                <span>环境jian'ce设备</span>
                             </template>
                             <el-menu-item-group>
                                 <el-menu-item @click="constructioncfn(construc.equipment_name)" :index="'1-'+cindex" v-for="(construc,cindex) in constructioncdata" :key="cindex">
@@ -22,7 +22,7 @@
                         </el-submenu>
                     </el-menu>
                 </el-aside>
-            </div>
+            </div> -->
             <!-- <el-header>
               <div>
                 <select @change="constructioncfn" v-model="constructionc">
@@ -36,14 +36,17 @@
             </el-header> -->
             <el-main>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/environment_weath.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/temperature.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>温度</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.temperature}}</span><span>℃</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(1)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(1)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.temperature}}</span><span>℃</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(1)" :disabled="!linktype">实时曲线<span :class="show1?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(1)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show1">
@@ -53,8 +56,7 @@
                 <el-dialog
                     title="历史曲线"
                     :visible.sync="dialogVisible"
-                    width="70%"
-                    :before-close="handleClose">
+                    width="70%">
                     <div class="main">
                         <div class="block">
                             <span class="demonstration">{{hostroiname}}历史查询：</span>
@@ -83,14 +85,17 @@
                     </span>
                 </el-dialog>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/environment_humidity.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/humidity.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>湿度</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.humidity}}</span><span>RH</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(2)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(2)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.humidity}}</span><span>RH</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(2)" :disabled="!linktype">实时曲线<span :class="show2?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(2)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show2">
@@ -98,14 +103,17 @@
                     </el-row>
                 </transition>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/environment_illumination.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/value.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>光照</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.illumination}}</span><span>LUX</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(3)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(3)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.illumination}}</span><span>LUX</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(3)" :disabled="!linktype">实时曲线<span :class="show3?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(3)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show3">
@@ -113,14 +121,17 @@
                     </el-row>
                 </transition>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/environment_noised.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/value.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>噪音</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.noise}}</span><span>db</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(4)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(4)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.noise}}</span><span>db</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(4)" :disabled="!linktype">实时曲线<span :class="show4?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(4)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show4">
@@ -128,14 +139,17 @@
                     </el-row>
                 </transition>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/environment_pm2.5.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/dustproof.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>PM2.5</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm2}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(5)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(5)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm2}}</span><span>ug/m3</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(5)" :disabled="!linktype">实时曲线<span :class="show5?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(5)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show5">
@@ -143,14 +157,17 @@
                     </el-row>
                 </transition>
                 <el-row>
-                    <el-col :span="4"><img src="@/assets/img/dustproof.png" alt=""></el-col>
-                    <el-col class="el-type" :span="8">
+                    <el-col :span="6">
+                        <img src="@/assets/img/dustproof.png" alt="">
+                        <div>ID:{{id}}</div>
+                    </el-col>
+                    <el-col class="el-type" :span="6">
                         <div>PM10</div>
                         <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
                         <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                     </el-col>
-                    <el-col :span="4" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm10}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="8"><el-button type="text" @click="realtimeline(6)" :disabled="!linktype">实时曲线</el-button><el-button type="text" @click="hostroitimeline(6)">历史查询</el-button></el-col>
+                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm10}}</span><span>ug/m3</span></el-col>
+                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(6)" :disabled="!linktype">实时曲线<span :class="show6?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(6)">历史查询</el-button></el-col>
                 </el-row>
                 <transition name="fade">
                     <el-row class="datashow" v-show="show6">
@@ -201,6 +218,8 @@ export default {
             starttimevalue: '',
             endtimevlaue: '',
             havedate : [],
+            // setOption:null,
+            id:''
         };
     },
     created() {
@@ -215,9 +234,9 @@ export default {
         // setTimeout(()=>{
         //     this.temperature();
         // },1000)
-        // this.realdata = setInterval(()=>{
-        //     this.temperature();
-        // },3000)
+        this.realdata = setInterval(()=>{
+            this.temperature();
+        },3000)
         this.requesthavetime();
     },
     methods: {
@@ -226,20 +245,20 @@ export default {
             console.log(val)
             this.constructioncdata.forEach(element => {
                 if(element.equipment_name == val){
-                this.weathtime=[];
-                this.weathdata=[];
-                this.humiditydata=[];
-                this.illuminationdata=[];
-                this.noisedata=[];
-                this.pm2_5data=[];
-                this.pm10data=[];
-                this.humiditytime=[];
-                this.illuminationtime=[];
-                this.noisetime=[];
-                this.pm2_5time=[];
-                this.pm10time=[];
-                this.enviromentalid = element.enviromental_id;
-                this.temperature();
+                    this.weathtime=[];
+                    this.weathdata=[];
+                    this.humiditydata=[];
+                    this.illuminationdata=[];
+                    this.noisedata=[];
+                    this.pm2_5data=[];
+                    this.pm10data=[];
+                    this.humiditytime=[];
+                    this.illuminationtime=[];
+                    this.noisetime=[];
+                    this.pm2_5time=[];
+                    this.pm10time=[];
+                    this.enviromentalid = element.enviromental_id;
+                    this.temperature();
                 }
             })
         },
@@ -254,6 +273,7 @@ export default {
                 if(res.data.code==200){
                     this.constructioncdata = res.data.result;
                     this.enviromentalid = res.data.result[0].enviromental_id;
+                    this.id = this.constructioncdata[0].serial_number.substring(0,8);
                     console.log(this.enviromentalid)
                     this.temperature();
                 }   
@@ -309,13 +329,6 @@ export default {
         datashow() {
             this.temperatureshow=!this.temperatureshow;
         },
-        handleClose(done) {
-            this.$confirm('确认关闭？')
-            .then(_ => {
-                done();
-            })
-            .catch(_ => {});
-        },
         temperature() {
             //根据设备编号请求最新一条信息
             console.log('启用定时器')
@@ -350,27 +363,29 @@ export default {
                     enviromental_id:this.enviromentalid
                 }
             }).then(res => {
-                console.log(res.data.result)
-                if(res.data.code==200){
+                console.log(res)
+                // if(res.data.code==200){
                     if(res.data.result == null){
                         this.linktype = false;
                         // clearInterval(this.realdata);
-                        return false;
+                        // return false;
+                    }else if(res.data.code==200){
+                        this.linktype = true;
+                        this.defauldata = res.data.result;
+                        this.weathtime.push(this.defauldata.sendtime);
+                        this.weathdata.push(this.defauldata.temperature);
+                        this.humiditydata.push(this.defauldata.humidity);
+                        this.illuminationdata.push(this.defauldata.illumination);
+                        this.noisedata.push(this.defauldata.noise);
+                        this.pm2_5data.push(this.defauldata.pm2);
+                        this.pm10data.push(this.defauldata.pm10);
+                        this.humiditytime.push(this.defauldata.sendtime);
+                        this.illuminationtime.push(this.defauldata.sendtime);
+                        this.noisetime.push(this.defauldata.sendtime);
+                        this.pm2_5time.push(this.defauldata.sendtime);
+                        this.pm10time.push(this.defauldata.sendtime);
                     };
-                    this.linktype = true;
-                    this.defauldata = res.data.result;
-                    this.weathtime.push(this.defauldata.sendtime);
-                    this.weathdata.push(this.defauldata.temperature);
-                    this.humiditydata.push(this.defauldata.humidity);
-                    this.illuminationdata.push(this.defauldata.illumination);
-                    this.noisedata.push(this.defauldata.noise);
-                    this.pm2_5data.push(this.defauldata.pm2);
-                    this.pm10data.push(this.defauldata.pm10);
-                    this.humiditytime.push(this.defauldata.sendtime);
-                    this.illuminationtime.push(this.defauldata.sendtime);
-                    this.noisetime.push(this.defauldata.sendtime);
-                    this.pm2_5time.push(this.defauldata.sendtime);
-                    this.pm10time.push(this.defauldata.sendtime);
+                    console.log(this.weathdata)
                     this.myChart1.setOption({
                         xAxis: [{data: this.weathtime}],
                         series: [{data: this.weathdata}]
@@ -395,7 +410,7 @@ export default {
                         xAxis: [{data: this.pm10time}],
                         series: [{data: this.pm10data}]
                     });
-                }      
+                // }      
             })
         },
         echartsinfo(){
@@ -715,7 +730,8 @@ export default {
 <style>
 .environmentcue{
     height: 100%;
-    padding-right: 240px;
+    /* padding-right: 240px; */
+    padding: 0px 5px;
     color: #000000;
 }
 .environmentcue .el-header{
@@ -792,23 +808,34 @@ export default {
 }
 .environmentcue .el-row{
     height: 16.4%;
-    border-bottom: 1px solid #999;
+    border-bottom: 2px solid #f5f5f5;
     /* line-height: 100px; */
     padding: 10px 0px;
 }
 .environmentcue img{
     /* width: 100px; */
-    height: 100%;
+    height: 85%;
     
 }
 .environmentcue .el-col{
     height: 100%;
 }
-.environmentcue .el-col-4 span:nth-child(1){
+.environmentcue .el-col-6:nth-child(1){
+    text-align: left;
+}
+.environmentcue .el-col-6:nth-child(1) div{
+    color: #999999;
+}
+.environmentcue .el-col-5{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.environmentcue .el-col-5 span:nth-child(1){
     display: inline-block;
     font-size: 32px;
 }
-.environmentcue .el-col-4 span:nth-child(2){
+.environmentcue .el-col-5 span:nth-child(2){
     display: inline-block;
     font-size: 18px;
     margin-left: 10px;
@@ -852,6 +879,7 @@ export default {
 }
 .environmentcue .el-data{
     display: flex;
+    justify-content: flex-end;
 }
 .environmentcue .el-data button{
     font-size: 18px;
