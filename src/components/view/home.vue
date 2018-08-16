@@ -39,21 +39,21 @@
         <el-container>
             <div class="aside-nav">
                 <div class="" v-show="fullscreen">
-                    <el-radio-group :class="isCollapse?'':'nav-menu'" v-model="isCollapse" style="margin-bottom: 20px;">
-                        <el-button @click="isCollapse=!isCollapse;" type="info" circle></el-button>
+                    <el-radio-group :class="isCollapse?'':'nav-menu'" v-model="isCollapse" v-show="nownavbg!='首页'">
+                        <el-button @click="isCollapse=!isCollapse;" type="info"></el-button>
                     </el-radio-group>
-                    <el-menu :default-openeds="[nownav]" router :default-active="nownav" text-color="#fff" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" @select="handSelect" :collapse="isCollapse" background-color="#174566" active-text-color="#ffd04b">
+                    <el-menu :default-openeds="[nownav]" router :default-active="nownav" text-color="#fff" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" @select="handSelect" :collapse="isCollapse" background-color="#174566" active-text-color="#ffd04b" :style="{'border-top': nownavbg=='首页'?'46px solid #174566':'46px solid #4d6ad6'}">
                         <template v-for="route in $router.options.routes" router v-if="route.hidden">
                             <template  v-for="(xRoute,xIndex) in route.children" v-if="xRoute.hidden">
-                                <el-menu-item @click="navbgstyle(xIndex)" :route="xRoute" :index="xRoute.name" v-if="!xRoute.children" :key="xIndex" :class="nownav==xRoute.name?'first-title is-active':'first-title'">
+                                <el-menu-item @click="navbgstyle(xIndex)" :route="xRoute" :index="xRoute.name" v-if="!xRoute.children" :key="xIndex" :class="nownav==xRoute.name?'first-title is-active':'first-title'" :style="{'padding':isCollapse?'0px':'0px 20px','text-align':isCollapse?'center':'left'}">
                                     <span :style="{'display':navIndex==xIndex?'':'none'}" class="firstientification"></span><span :style="{'display':navIndex==xIndex?'none':''}" class="lastientification"></span>
-                                    <img :src="xRoute.icon" alt="">
+                                    <img :src="xRoute.icon" alt="" :style="{'margin-right':isCollapse?'0px':'10px'}">
                                     <span class="title-text">{{xRoute.name}}</span>
                                 </el-menu-item>
                                 <el-submenu class="first-title" v-if="xRoute.children" :key="xIndex" :index="xRoute.name">
                                     <template @click="navbgstyle(xIndex)" slot="title">
                                         <span :style="{'display':navIndex==xIndex?'':'none'}" class="firstientification"></span><span :style="{'display':navIndex==xIndex?'none':''}" class="lastientification"></span>
-                                        <img class="img-index" :src="xRoute.icon" alt="">
+                                        <img class="img-index" :src="xRoute.icon" alt="" :style="{'position':isCollapse?'relative':'','left':'0px','right':'0px','margin':isCollapse?'0px auto':'0px 10px 0px 0px'}">
                                         <span slot="title" class="title-text">{{xRoute.name}}</span>
                                     </template>
                                     <el-menu-item v-if="xRoute.children" v-for="(cRoute, cIndex) in xRoute.children"  :key="cIndex" :index="cRoute.name" :route="cRoute" :class="navsub==cRoute.name?'is-active':''">
@@ -111,6 +111,11 @@ export default {
         this.nownav = localStorage.getItem("nownav")||'首页';
         this.navsub = sessionStorage.getItem("navsub")||'首页';
         this.nownavbg = sessionStorage.getItem("nownavbg")||'首页';
+        if(location.href.substr(-5,5)=='index'){
+            this.isCollapse=false;
+        }else{
+            this.isCollapse=true
+        }
     },
     mounted(){
         this.powerrequest();
@@ -224,6 +229,9 @@ export default {
                 console.log(val,oldVal)
                 this.nownavbg=val.name;
                 sessionStorage.setItem("nownavbg",val.name)
+                if(val.name=='首页'){
+                    this.isCollapse=false;
+                }
             },
             //深度观察监听
             deep: true
@@ -390,9 +398,10 @@ export default {
     background: none;
     border: none;
     color: #fff;
+    
 }
 .aside-nav ul div{
-    padding: 0px 20px 0px 0px!important;
+    padding: 0px 0px 0px 0px!important;
     display: flex;
     /* justify-content: space-between; */
     overflow: hidden;
@@ -423,15 +432,25 @@ export default {
     background: #4571ec
 }
 .aside-nav .el-radio-group{
+    /* position: absolute; */
     position: absolute;
     z-index: 100;
-    width: 30px;
-    right: 10px;
-    top: -27px;
+    width: 25px;
+    height: 25px;
+    background: #4d6ad6;
+    /* transition: right 5s linear; */
+    /* right: 10px; */
+    top: 10px;
+    right: 12px;
 }
 .aside-nav .el-radio-group .el-button{
     background: url('~@/assets/img/navtit1.png');
     background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    border-radius: 0px;
+    border: 1px solid #fff;
 }
 .img-index{
     padding: 4px;
@@ -451,6 +470,8 @@ export default {
 .nav-menu{
     -webkit-transform: rotateZ(90deg);
     transform: rotateZ(90deg);
+    right: -12px!important;
+    
 }
 .home .el-main{
     padding: 10px;

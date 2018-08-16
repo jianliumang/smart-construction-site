@@ -36,8 +36,17 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
   // loadinginstace.close()
   // console.log(response);
   if(response.data.code==500&&response.data.msg=='用户未登录'){
+    localStorage.removeItem('nownav')
+    sessionStorage.removeItem('nownavbg')
+    sessionStorage.removeItem('navIndex')
+    sessionStorage.removeItem('navsub')
     router.replace('/landing');
   }else if(response.data.code==500&&response.data.msg=='用户登录超时'){
+    localStorage.removeItem('nownav')
+    sessionStorage.removeItem('nownavbg')
+    sessionStorage.removeItem('navIndex')
+    sessionStorage.removeItem('navsub')
+    router.replace('/landing');
     router.replace('/landing');
   }
   // if(response.data.code!=200){

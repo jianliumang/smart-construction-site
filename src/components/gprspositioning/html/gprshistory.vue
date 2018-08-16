@@ -262,7 +262,7 @@ export default {
             this.remove=0;
             this.clear();
             this.maplist=[];
-            this.init();
+            this.beforeinit();
             this.clear();
         },
         sidefn(){

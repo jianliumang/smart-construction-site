@@ -4,6 +4,7 @@
     <!-- <div>{{input1}}</div> 
     <input type="text" v-model="input2">
     <button @click="websocketsend(input2)">发送</button> -->
+    <button @click="exportfn3">导出</button>
     </div>
 </template>
 
@@ -29,6 +30,156 @@ export default {
     mounted () {
     },
     methods:{
+        exportfn3(){
+            this.axios({
+                method:"post",
+                url:"http://60.191.29.210:9090/JavaExportExcel/excel/java",
+				data:[{
+                    "agentName": "谷隐",
+                    "commission": 1000000,
+                    "commissionRate": 0.25,
+                    "consignor": "刘建",
+                    "customerName": "方俊",
+                    "customerPaymentMethod": "支付宝",
+                    "deliverGoodsDate": "2018-08-16 14:43:00",
+                    "deliverMode": "快递",
+                    "destinationCountry": "爪洼国",
+                    "destinationPort": "顺风",
+                    "edition": "111111",
+                    "fillingTime": "2018-08-16 14:43:00",
+                    "fineness": "11111",
+                    "freight": 100000,
+                    "goodsNumber": 1000,
+                    "insurancePremium": 10000,
+                    "latestRevisionTime": "2018-08-16 14:43:00",
+                    "listBatchNumber": [
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                    ],
+                    "monthExchangeRate": 1110,
+                    "orderNumber": "61495684652164",
+                    "receivablesdate": "2018-08-16 14:43:00",
+                    "shenzhouContractNumber": "dasfasfag-s958f4",
+                    "specialRequirements": "服务",
+                    "totalPrice": 10010,
+                    "unitPrice": 10010
+                },{
+                    "agentName": "谷隐",
+                    "commission": 1000000,
+                    "commissionRate": 0.25,
+                    "consignor": "刘建",
+                    "customerName": "方俊",
+                    "customerPaymentMethod": "支付宝",
+                    "deliverGoodsDate": "2018-08-16 14:43:00",
+                    "deliverMode": "快递",
+                    "destinationCountry": "爪洼国",
+                    "destinationPort": "顺风",
+                    "edition": "111111",
+                    "fillingTime": "2018-08-16 14:43:00",
+                    "fineness": "11111",
+                    "freight": 100000,
+                    "goodsNumber": 1000,
+                    "insurancePremium": 10000,
+                    "latestRevisionTime": "2018-08-16 14:43:00",
+                    "listBatchNumber": [
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                    ],
+                    "monthExchangeRate": 1110,
+                    "orderNumber": "61495684652164",
+                    "receivablesdate": "2018-08-16 14:43:00",
+                    "shenzhouContractNumber": "dasfasfag-s958f4",
+                    "specialRequirements": "服务",
+                    "totalPrice": 10010,
+                    "unitPrice": 10010
+                },{
+                    "agentName": "谷隐",
+                    "commission": 1000000,
+                    "commissionRate": 0.25,
+                    "consignor": "刘建",
+                    "customerName": "方俊",
+                    "customerPaymentMethod": "支付宝",
+                    "deliverGoodsDate": "2018-08-16 14:43:00",
+                    "deliverMode": "快递",
+                    "destinationCountry": "爪洼国",
+                    "destinationPort": "顺风",
+                    "edition": "111111",
+                    "fillingTime": "2018-08-16 14:43:00",
+                    "fineness": "11111",
+                    "freight": 100000,
+                    "goodsNumber": 1000,
+                    "insurancePremium": 10000,
+                    "latestRevisionTime": "2018-08-16 14:43:00",
+                    "listBatchNumber": [
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                        {
+                        "batch": 110,
+                        "productBatchNumber": "asff4654651sd64f4s",
+                        "shenzhouContractNumber": "dasfasfag-s958f4"
+                        },
+                    ],
+                    "monthExchangeRate": 1110,
+                    "orderNumber": "61495684652164",
+                    "receivablesdate": "2018-08-16 14:43:00",
+                    "shenzhouContractNumber": "dasfasfag-s958f4",
+                    "specialRequirements": "服务",
+                    "totalPrice": 10010,
+                    "unitPrice": 10010
+                }],
+                responseType: 'blob', // 表明返回服务器返回的数据类型
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+			}).then(res => {
+                console.log(res);
+                console.log(typeof res.data)
+                const blob = new Blob([res.data]);
+                const fileName = '统计.xls';
+                const elink = document.createElement('a');
+                elink.download = fileName;
+                elink.style.display = 'none';
+                elink.href = URL.createObjectURL(blob);
+                document.body.appendChild(elink);
+                elink.click();
+                URL.revokeObjectURL(elink.href); // 释放URL 对象
+                document.body.removeChild(elink);
+            });
+        },
         // threadPoxi(){  // 实际调用的方法
         //         //参数
         //         const agentData = "mymessage";

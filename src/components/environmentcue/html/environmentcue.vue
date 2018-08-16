@@ -35,31 +35,40 @@
               </div>
             </el-header> -->
             <el-main>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/temperature.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>温度</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.temperature}}</span><span>℃</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(1)" :disabled="!linktype">实时曲线<span :class="show1?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(1)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show1">
-                        <div id="myChart1" class="echarts"></div>
-                    </el-row>
-                </transition>
+                <template v-for="(weather,index) in weatherlist">
+                    <div class="env-show-main"  :key="weather+index">
+                        <div class="env-icon-bock">
+                            <img :src="weather.imgsrc" alt="">
+                            <div>ID:{{id}}</div>
+                        </div>
+                        <div class="env-type-bock">
+                            <div>{{weather.name}}</div>
+                            <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
+                            <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
+                        </div>
+                        <div class="env-data-bock" v-if="defauldata==null?false:true">
+                            <span class="el-temperature">{{defauldata==null?"111":weather.newdata}}</span><span>{{weather.unit}}</span>
+                        </div>
+                        <div class="env-event-bock">
+                            <el-button type="text" @click="realtimeline(index)" :disabled="!linktype">
+                                实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>
+                            </el-button>
+                            <el-button type="text" @click="hostroitimeline(index)">历史查询</el-button>
+                        </div>
+                    </div>
+                    <transition name="fade" :key="weather+index">
+                        <el-row class="datashow" v-show="weatherlist[index].showtype">
+                            <div :id="'myChart'+index" class="echarts"></div>
+                        </el-row>
+                    </transition>
+                </template>
                 <el-dialog
-                    title="历史曲线"
+                    :title="weatherlist[historynum].name+'历史曲线'"
                     :visible.sync="dialogVisible"
                     width="70%">
                     <div class="main">
                         <div class="block">
-                            <span class="demonstration">{{hostroiname}}历史查询：</span>
+                            <span class="demonstration">{{weatherlist[historynum].name}}历史查询：</span>
                             <el-form :inline="true">
                                 <el-form-item>
                                     <el-date-picker
@@ -84,96 +93,6 @@
                         <el-button @click="dialogVisible = false">退 出</el-button>
                     </span>
                 </el-dialog>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/humidity.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>湿度</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.humidity}}</span><span>RH</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(2)" :disabled="!linktype">实时曲线<span :class="show2?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(2)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show2">
-                        <div id="myChart2" class="echarts"></div>
-                    </el-row>
-                </transition>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/value.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>光照</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.illumination}}</span><span>LUX</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(3)" :disabled="!linktype">实时曲线<span :class="show3?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(3)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show3">
-                        <div id="myChart3" class="echarts"></div>
-                    </el-row>
-                </transition>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/value.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>噪音</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.noise}}</span><span>db</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(4)" :disabled="!linktype">实时曲线<span :class="show4?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(4)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show4">
-                        <div id="myChart4" class="echarts"></div>
-                    </el-row>
-                </transition>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/dustproof.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>PM2.5</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm2}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(5)" :disabled="!linktype">实时曲线<span :class="show5?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(5)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show5">
-                        <div id="myChart5" class="echarts"></div>
-                    </el-row>
-                </transition>
-                <el-row>
-                    <el-col :span="6">
-                        <img src="@/assets/img/dustproof.png" alt="">
-                        <div>ID:{{id}}</div>
-                    </el-col>
-                    <el-col class="el-type" :span="6">
-                        <div>PM10</div>
-                        <div><span>当前状态：</span><span :style="{color:linktype?'green':'#f00'}">{{linktype?"已连接":"未连接"}}</span></div>
-                        <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
-                    </el-col>
-                    <el-col :span="5" v-if="defauldata==null?false:true"><span class="el-temperature">{{defauldata==null?"":defauldata.pm10}}</span><span>ug/m3</span></el-col>
-                    <el-col class="el-data" :span="7"><el-button type="text" @click="realtimeline(6)" :disabled="!linktype">实时曲线<span :class="show6?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span></el-button><el-button type="text" @click="hostroitimeline(6)">历史查询</el-button></el-col>
-                </el-row>
-                <transition name="fade">
-                    <el-row class="datashow" v-show="show6">
-                        <div id="myChart6" class="echarts"></div>
-                    </el-row>
-                </transition>
             </el-main>
         </el-container>
     </div>
@@ -184,28 +103,58 @@ export default {
     data() {
         return {
             regionid:Number,
+            weatherlist:[
+                {
+                    'name':'温度',
+                    'unit':'℃',
+                    'imgsrc':require('@/assets/img/temperature.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                },
+                {
+                    'name':'湿度',
+                    'unit':'RH',
+                    'imgsrc':require('@/assets/img/humidity.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                },
+                {
+                    'name':'光照',
+                    'unit':'LUX',
+                    'imgsrc':require('@/assets/img/value.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                },
+                {
+                    'name':'噪音',
+                    'unit':'db',
+                    'imgsrc':require('@/assets/img/value.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                },
+                {
+                    'name':'PM2.5',
+                    'unit':'ug/m3',
+                    'imgsrc':require('@/assets/img/dustproof.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                },
+                {
+                    'name':'PM10',
+                    'unit':'ug/m3',
+                    'imgsrc':require('@/assets/img/dustproof.png'),
+                    'time': [],
+                    'data': [],
+                    'showtype':false,
+                }],
+            historynum:0,
             linktype:false,
-            temperatureshow: false,
-            show1:false,
-            show2:false,
-            show3:false,
-            show4:false,
-            show5:false,
-            show6:false,
             dialogVisible: false,
-            hostroiname:'',
-            weathtime: [],
-            weathdata: [],
-            humiditydata: [],
-            illuminationdata: [],
-            noisedata: [],
-            pm2_5data: [],
-            pm10data: [],
-            humiditytime: [],
-            illuminationtime: [],
-            noisetime: [],
-            pm2_5time: [],
-            pm10time: [],
             defauldata:null,
             stTime: "",
             enTime: "",
@@ -218,7 +167,6 @@ export default {
             starttimevalue: '',
             endtimevlaue: '',
             havedate : [],
-            // setOption:null,
             id:''
         };
     },
@@ -226,14 +174,11 @@ export default {
         this.regionid = sessionStorage.getItem("regionid");
     },
     mounted() {
-        this.constructionfn();     //根据选择的工地去查找设备，并显示
         this.echartsinfo();
+        this.constructionfn();     //根据选择的工地去查找设备，并显示
         let startTime = this.setPartTime() + " 00:00:00";
         let endTime = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
         this.dates = [startTime, endTime];
-        // setTimeout(()=>{
-        //     this.temperature();
-        // },1000)
         this.realdata = setInterval(()=>{
             this.temperature();
         },3000)
@@ -242,21 +187,13 @@ export default {
     methods: {
         constructioncfn(val){
             //通过下拉列表的change事件去请求选中的设备数据
-            console.log(val)
+            // console.log(val)
             this.constructioncdata.forEach(element => {
                 if(element.equipment_name == val){
-                    this.weathtime=[];
-                    this.weathdata=[];
-                    this.humiditydata=[];
-                    this.illuminationdata=[];
-                    this.noisedata=[];
-                    this.pm2_5data=[];
-                    this.pm10data=[];
-                    this.humiditytime=[];
-                    this.illuminationtime=[];
-                    this.noisetime=[];
-                    this.pm2_5time=[];
-                    this.pm10time=[];
+                    this.weatherlist.forEach(echart=>{
+                        echart.time=[],
+                        echart.data=[]
+                    })
                     this.enviromentalid = element.enviromental_id;
                     this.temperature();
                 }
@@ -269,93 +206,39 @@ export default {
                     regionid:this.regionid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.constructioncdata = res.data.result;
                     this.enviromentalid = res.data.result[0].enviromental_id;
                     this.id = this.constructioncdata[0].serial_number.substring(0,8);
-                    console.log(this.enviromentalid)
                     this.temperature();
                 }   
                 // console.log(res.data.result)
-                })
+            })
         },
         realtimeline(num){
             //实时曲线的显示状态与隐藏状态
-            if(num==1){
-                    this.show1 = !this.show1;
-                    this.weathtime = [];
-                    this.weathdata = [];
-                }else if(num==2){
-                    this.show2 = !this.show2;
-                    this.humiditydata = [];
-                    this.humiditytime = [];
-                }else if(num==3){
-                    this.show3 = !this.show3;
-                    this.illuminationdata =[];
-                    this.illuminationtime =[];
-                }else if(num==4){
-                    this.show4 = !this.show4;
-                    this.noisedata = [];
-                    this.noisetime = [];
-                }else if(num==5){
-                    this.show5 = !this.show5;
-                    this.pm2_5data = [];
-                    this.pm2_5time = [];
-                }else if(num==6){
-                    this.show6 = !this.show6;
-                    this.pm10data = [];
-                    this.pm10time = [];
-                }
-            },
+            var value = this.weatherlist[num];
+            value.showtype=!value.showtype;
+            value.data=[];
+            value.time=[];
+        },
         hostroitimeline(num){
             //历史查询的显示状态
-                if(num==1){
-                    this.hostroiname = '温度';
-                }else if(num==2){
-                    this.hostroiname = '湿度';
-                }else if(num==3){
-                    this.hostroiname = '光照';
-                }else if(num==4){
-                    this.hostroiname = '噪音';
-                }else if(num==5){
-                    this.hostroiname = 'PM2.5';
-                }else if(num==6){
-                    this.hostroiname = 'PM10';
-                }
-                this.dialogVisible = true;
-                setTimeout(this.query,1);
-            },
-        datashow() {
-            this.temperatureshow=!this.temperatureshow;
+            if(num){
+                this.historynum = num;
+            };
+            this.dialogVisible = true;
+            setTimeout(this.query,1);
         },
         temperature() {
             //根据设备编号请求最新一条信息
-            console.log('启用定时器')
-            if(this.show1 == false){
-                this.weathtime=[];
-                this.weathdata=[];
-            };
-            if(this.show2 == false){
-                this.humiditydata = [];
-                this.humiditytime = [];
-            };
-            if(this.show3 == false){
-                this.illuminationdata =[];
-                this.illuminationtime =[];
-            };
-            if(this.show4 == false){
-                this.noisedata = [];
-                this.noisetime = [];
-            };
-            if(this.show5 == false){
-                this.pm2_5data = [];
-                this.pm2_5time = [];
-            };
-            if(this.show6 == false){
-                this.pm10data = [];
-                this.pm10time = [];
-            };
+            this.weatherlist.forEach(value => {
+                if(value.showtype == false){
+                    value.time=[];
+                    value.data=[];
+                }
+            });
             console.log(this.enviromentalid)
             //查找该设备编号的最新一条的环境监控所有数据
             this.$api.seekMachineNumberNewEnvironmentalData({
@@ -363,191 +246,67 @@ export default {
                     enviromental_id:this.enviromentalid
                 }
             }).then(res => {
-                console.log(res)
-                // if(res.data.code==200){
-                    if(res.data.result == null){
-                        this.linktype = false;
-                        // clearInterval(this.realdata);
-                        // return false;
-                    }else if(res.data.code==200){
-                        this.linktype = true;
-                        this.defauldata = res.data.result;
-                        this.weathtime.push(this.defauldata.sendtime);
-                        this.weathdata.push(this.defauldata.temperature);
-                        this.humiditydata.push(this.defauldata.humidity);
-                        this.illuminationdata.push(this.defauldata.illumination);
-                        this.noisedata.push(this.defauldata.noise);
-                        this.pm2_5data.push(this.defauldata.pm2);
-                        this.pm10data.push(this.defauldata.pm10);
-                        this.humiditytime.push(this.defauldata.sendtime);
-                        this.illuminationtime.push(this.defauldata.sendtime);
-                        this.noisetime.push(this.defauldata.sendtime);
-                        this.pm2_5time.push(this.defauldata.sendtime);
-                        this.pm10time.push(this.defauldata.sendtime);
-                    };
-                    console.log(this.weathdata)
-                    this.myChart1.setOption({
-                        xAxis: [{data: this.weathtime}],
-                        series: [{data: this.weathdata}]
+                // console.log(res)
+                if(res.data.result == null&&res.data.code==500){
+                    this.linktype = false;
+                }else if(res.data.code==200){
+                    this.linktype = true;
+                    this.defauldata = res.data.result;
+                    this.weatherlist[0].data.push(this.defauldata.temperature);
+                    this.weatherlist[1].data.push(this.defauldata.humidity);
+                    this.weatherlist[2].data.push(this.defauldata.illumination);
+                    this.weatherlist[3].data.push(this.defauldata.noise);
+                    this.weatherlist[4].data.push(this.defauldata.pm2);
+                    this.weatherlist[5].data.push(this.defauldata.pm10);
+                    this.weatherlist.forEach(value => {
+                        value.time.push(this.defauldata.sendtime);
+                        value.newdata=value.data[value.data.length-1];
                     });
-                    this.myChart2.setOption({
-                        xAxis: [{data: this.humiditytime}],
-                        series: [{data: this.humiditydata}]
+                };
+                this.weatherlist.forEach(echert=>{
+                    echert.myCharts.setOption({
+                        xAxis: [{data: echert.time}],
+                        series: [{data: echert.data}]
                     });
-                    this.myChart3.setOption({
-                        xAxis: [{data: this.illuminationtime}],
-                        series: [{data: this.illuminationdata}]
-                    });
-                    this.myChart4.setOption({
-                        xAxis: [{data: this.noisetime}],
-                        series: [{data: this.noisedata}]
-                    });
-                    this.myChart5.setOption({
-                        xAxis: [{data: this.pm2_5time}],
-                        series: [{data: this.pm2_5data}]
-                    });
-                    this.myChart6.setOption({
-                        xAxis: [{data: this.pm10time}],
-                        series: [{data: this.pm10data}]
-                    });
-                // }      
+                })
             })
         },
         echartsinfo(){
             // 基于准备好的dom，初始化echarts实例
-            this.myChart1 = this.$echarts.init(document.getElementById("myChart1"));
-            this.myChart2 = this.$echarts.init(document.getElementById("myChart2"));
-            this.myChart3 = this.$echarts.init(document.getElementById("myChart3"));
-            this.myChart4 = this.$echarts.init(document.getElementById("myChart4"));
-            this.myChart5 = this.$echarts.init(document.getElementById("myChart5"));
-            this.myChart6 = this.$echarts.init(document.getElementById("myChart6"));
-            // 绘制图表
-            this.myChart1.setOption({
-                title: { text: "今日温度变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "温度",
-                    type: "line",
+            this.weatherlist.forEach((echert,index)=>{
+                echert.myCharts = this.$echarts.init(document.getElementById('myChart'+index));
+                echert.myCharts.setOption({
+                    title: { text: "今日"+echert.name+"变化" },
+                    tooltip: {
+                        trigger: "axis",
+                        axisPointer: {
+                            axis: "x"
+                        }
+                    },
+                    xAxis: {
                     data: []
-                }]
-            });
-            this.myChart2.setOption({
-                title: { text: "今日湿度变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "湿度",
-                    type: "line",
-                    data: []
-                }]
-            });
-            this.myChart3.setOption({
-                title: { text: "今日光照变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "光照",
-                    type: "line",
-                    data: []
-                }]
-            });
-            this.myChart4.setOption({
-                title: { text: "今日噪音变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "噪音",
-                    type: "line",
-                    data: []
-                }]
-            });
-            this.myChart5.setOption({
-                title: { text: "今日PM2.5变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "PM2.5",
-                    type: "line",
-                    data: []
-                }]
-            });
-            this.myChart6.setOption({
-                title: { text: "今日PM10变化" },
-                tooltip: {
-                    trigger: "axis",
-                    axisPointer: {
-                        axis: "x"
-                    }
-                },
-                xAxis: {
-                    data: []
-                },
-                yAxis: {},
-                series: [{
-                    name: "PM10",
-                    type: "line",
-                    data: []
-                }]
-            });
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: echert.name,
+                        type: "line",
+                        data: []
+                    }]
+                });
+            })
         },
         query() {
             //历史查询数据请求
             let myChart = this.$echarts.init(document.getElementById("histrori"));
             var times = [];
-            var temperature = [];
-            var humidity = [];
-            var illumination = [];
-            var noise = [];
-            var pm2_5 = [];
-            var pm10 = [];
+            this.weatherlist.forEach(value => {
+                value.historydata=[];
+            });
             var stTime = this.dates[0];
             var enTime = this.dates[1];
             //get根据设备编号查找时间到另一个时间的环境监控数据
-            console.log(stTime,enTime,this.enviromentalid)
             this.$api.seekDatesEnvironmentalMonitoringData("?startTime="+stTime+"&endTime="+enTime+"&enviromental_id=" + this.enviromentalid).then((response) => {
                 // console.log(response)
-                console.log(response)
                 if(response.data.result.length==0){
                     this.$message({
                         message: '本时间段没有数据',
@@ -555,93 +314,66 @@ export default {
                     });
                 }
                 if(response.data.code==200){
-                    times=[];
-                    temperature=[];
-                    humidity=[];
-                    illumination=[];
-                    noise=[];
-                    pm2_5=[];
-                    pm10=[];
                     if(response.data.result!=null){
                         response.data.result.forEach(element => {
                             times.push(element.sendtime);
-                            temperature.push(element.temperature);
-                            humidity.push(element.humidity);
-                            illumination.push(element.illumination);
-                            noise.push(element.noise);
-                            pm2_5.push(element.pm2);
-                            pm10.push(element.pm10);
+                            this.weatherlist[0].historydata.push(element.temperature);
+                            this.weatherlist[1].historydata.push(element.humidity);
+                            this.weatherlist[2].historydata.push(element.illumination);
+                            this.weatherlist[3].historydata.push(element.noise);
+                            this.weatherlist[4].historydata.push(element.pm2);
+                            this.weatherlist[5].historydata.push(element.pm10);
                         });
-                    }
+                    };
+                    this.weatherlist.forEach((value,index) => {
+                        if(this.historynum==index){
+                            myChart.setOption({
+                                title: {
+                                    text: "历史" + value.name + "变化曲线"
+                                },
+                                tooltip: {
+                                    trigger: "axis",
+                                    axisPointer: {
+                                        axis: "x"
+                                    }
+                                },
+                                legend: {
+                                    data: [value.name]
+                                },
+                                dataZoom: {
+                                    show: true,
+                                    realtime: true,
+                                    showDetail: true,
+                                    y: 36,
+                                    height: 20,
+                                    start: 10,
+                                    end: 20,
+                                    top: "bottom"
+                                },
+                                xAxis: {
+                                    data: times,
+                                    axisLabel: {
+                                        show: true
+                                    }
+                                },
+                                yAxis: {
+                                    type:'value',
+                                    axisLabel:{formatter:'{value}'+value.unit}
+                                },
+                                series: [{
+                                    // 根据名字对应到相应的系列
+                                    name: value.name,
+                                    type: "line",
+                                    data:  value.historydata
+                                }]
+                            });
+                        }
+                    })
                     
-                    var modeldata,
-                    dataname;
-                    if(this.hostroiname=='温度'){
-                        modeldata = temperature;
-                        dataname = '℃';
-                    }else if(this.hostroiname=='湿度'){
-                        modeldata = humidity;
-                        dataname = 'RH';
-                    }else if(this.hostroiname=='光照'){
-                        modeldata = illumination;
-                        dataname = 'LUX';
-                    }else if(this.hostroiname=='噪音'){
-                        modeldata = noise;
-                        dataname = 'db';
-                    }else if(this.hostroiname=='PM2.5'){
-                        modeldata = pm2_5;
-                        dataname = 'ug/m3';
-                    }else if(this.hostroiname=='PM10'){
-                        modeldata = pm10;
-                        dataname = 'ug/m3';
-                    }
-                    myChart.setOption({
-                        title: {
-                            text: "历史" + this.hostroiname + "变化曲线"
-                        },
-                        tooltip: {
-                            trigger: "axis",
-                            axisPointer: {
-                                axis: "x"
-                            },
-                            // formatter:(params) => {
-                            //     console.log(params)
-                            // }
-                        },
-                        legend: {
-                            data: [this.hostroiname]
-                        },
-                        dataZoom: {
-                            show: true,
-                            realtime: true,
-                            showDetail: true,
-                            y: 36,
-                            height: 20,
-                            start: 10,
-                            end: 20,
-                            top: "bottom"
-                        },
-                        xAxis: {
-                            data: times,
-                            axisLabel: {
-                                show: true
-                            }
-                        },
-                        yAxis: {
-                            type:'value',
-                            axisLabel:{formatter:'{value}'+dataname}
-                        },
-                        series: [{
-                            // 根据名字对应到相应的系列
-                            name: this.hostroiname,
-                            type: "line",
-                            data: modeldata
-                        }]
-                    });
                 }
                 
             }).catch(function(error) {
-                console.log(error);
+                // console.log(error);
                 this.$message({
                     message: '图表请求数据失败!',
                     type: 'warning'
@@ -652,7 +384,6 @@ export default {
 
         datatype(){
             setTimeout(() =>{
-                console.log(5555555555)
                 var buttonelement = document.getElementsByClassName("el-picker-panel__icon-btn");
                 for(let i=0;i<buttonelement.length;i++){
                     buttonelement[i].onclick = () => {
@@ -766,24 +497,17 @@ export default {
     height: 40px;
     line-height: 40px;
 }
-.el-aside-nav{
-    /* position: relative; */
-    height: 100%;
-    /* top: -40px;
-    background: #293950; */
-    /* border-bottom: 40px solid #293950; */
-}
 /* .environmentcue .aside-parent{
     background: #293950;
 } */
 .environmentcue .aside-parent img{
     padding-right: 20px;
 }
-.environmentcue .aside-parent+.el-main{
+.environmentcue .el-main{
     height: 100%;
     overflow:auto;
 }
-.environmentcue .aside-parent+.el-main::-webkit-scrollbar{
+.environmentcue .el-main::-webkit-scrollbar{
     display: none;
 }
 .environmentcue .el-header select{
@@ -813,83 +537,8 @@ export default {
     padding: 10px 0px;
 }
 .environmentcue img{
-    /* width: 100px; */
     height: 85%;
     
-}
-.environmentcue .el-col{
-    height: 100%;
-}
-.environmentcue .el-col-6:nth-child(1){
-    text-align: left;
-}
-.environmentcue .el-col-6:nth-child(1) div{
-    color: #999999;
-}
-.environmentcue .el-col-5{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.environmentcue .el-col-5 span:nth-child(1){
-    display: inline-block;
-    font-size: 32px;
-}
-.environmentcue .el-col-5 span:nth-child(2){
-    display: inline-block;
-    font-size: 18px;
-    margin-left: 10px;
-}
-.environmentcue .el-type{
-    height: 100%;
-    /* line-height: 33%; */
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    /* align-items: center; */
-}
-.environmentcue .el-type div:nth-child(1){
-    
-    font-size: 20px;
-    height: 30%;
-    vertical-align: top;
-    /* flex: 5; */
-    /* line-height: 25px; */
-    /* margin: 5px 0 10px 0; */
-}
-.environmentcue .el-type div:nth-child(2){
-    font-size: 14px;
-    color: #999894;
-    height: 40%;
-    /* line-height: 100%; */
-    /* flex:7; */
-}
-.el-type div:nth-child(2) span:nth-child(2){
-    font-size: 14px;
-    
-    /* color: #f00; */
-}
-.environmentcue .el-type div:nth-child(3){
-    font-size: 14px;
-    color: #999894;
-    height: 40%;
-    /* line-height: 100%; */
-    /* flex:7; */
-}
-.environmentcue .el-data{
-    display: flex;
-    justify-content: flex-end;
-}
-.environmentcue .el-data button{
-    font-size: 18px;
-    margin-left: 10px;
-    color: cadetblue;
-    cursor: pointer;
-    display: flex;
-    height: 100%;
-    /* width: 50%; */
-    align-items: center;
 }
 .environmentcue .echarts{
     width: 900px;
@@ -901,6 +550,73 @@ export default {
     height: 400px;
     border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
+}
+/* ---------------循环样式------------ */
+.env-cycle{
+    
+}
+.env-show-main{
+    height: 14%;
+    border-bottom: 2px solid #f5f5f5;
+    padding: 9px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+.env-icon-bock{
+    color: #999999;
+    text-align: left;
+}
+.env-type-bock{
+    height: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.env-type-bock div:nth-child(1){
+    font-size: 20px;
+    height: 30%;
+    vertical-align: top;
+}
+.env-type-bock div:nth-child(2){
+    font-size: 14px;
+    color: #999894;
+    height: 40%;
+}
+.env-type-bock div:nth-child(3){
+    font-size: 14px;
+    color: #999894;
+    height: 40%;
+}
+.env-data-bock{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.env-data-bock span:nth-child(1){
+    display: inline-block;
+    font-size: 32px;
+    width: 80px;
+}
+.env-data-bock span:nth-child(2){
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 24px;
+    width: 80px;
+    text-align: left;
+}
+.env-event-bock{
+    display: flex;
+    justify-content: flex-end;
+}
+.env-event-bock button{
+    font-size: 18px;
+    margin-left: 10px;
+    color: cadetblue;
+    cursor: pointer;
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 /* -------------历史曲线------------- */
 .fade-enter-active, .fade-leave-active {
@@ -914,7 +630,6 @@ export default {
     overflow: hidden;
 }
 .environmentcue .el-dialog{
-    /* width: 1000px!important; */
     margin: auto;
     height: 100%;
     top: -70px;
@@ -942,13 +657,9 @@ export default {
 .environmentcue .temperature{
     width: 90%;
     height: 600px;
-    /* border:1px solid salmon; */
     margin-left: 50px;
 }
 .environmentcue .el-picker-panel{
   left: 25%!important;
-}
-.environmentcue .el-data{
-  float: right;
 }
 </style>
