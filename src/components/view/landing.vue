@@ -19,12 +19,14 @@
 </template>
 
 <script>
+import { Loading } from 'element-ui';
 export default {
     data() {
         return {
             usernameinput: '',
             userpasswinput: '',
-            usermessage:[]
+            usermessage:[],
+            loadinginstace:null
         }
     },
     created(){
@@ -39,12 +41,16 @@ export default {
     },
     methods: {
         login(){
-            console.log(11111)
+            if(this.usernameinput==''||this.userpasswinput==''){
+                return false
+            }
+            this.loadinginstace = Loading.service({ fullscreen: true });
+            // console.log(11111)
             this.$api.userInfo({
                     "username": this.usernameinput,
                     "userpassword": this.userpasswinput
             }).then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if(res.data.code==200){
                     this.usermessage = res.data.result;
                     this.addinfo();
@@ -74,6 +80,7 @@ export default {
             }).then(res => {
                 if(res.data.code==200){
                     sessionStorage.setItem("regionid",res.data.result[0].regionid);
+                    this.loadinginstace.close()
                     this.$router.push('/index');
                 }
                 // this.addinfo();

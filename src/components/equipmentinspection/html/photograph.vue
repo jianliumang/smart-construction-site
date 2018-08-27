@@ -103,7 +103,7 @@ export default {
                         let config = {
                         headers: { "Content-Type": "multipart/form-data" }
                         };
-                        this.url="http://60.191.29.210:9090/EquipmentInspection/inspectionController/insertEquipmentAbnormal?equipmentNumber=" + sessionStorage.getItem("equipmentNumber") + 
+                        this.url="http://192.168.1.88:8080/EquipmentInspection/inspectionController/insertEquipmentAbnormal?equipmentNumber=" + sessionStorage.getItem("equipmentNumber") + 
                         "&inspectionStateNumber=" + '2' + 
                         "&inspectionDate=" + this.setAllTime() + 
                         "&regionid=" + sessionStorage.getItem("regionid") + 
@@ -168,7 +168,7 @@ export default {
         requesterror(){
             this.$http({
                 method: "get",
-                url:"http://60.191.29.210:9090/EquipmentInspection/inspectionController/selectInspectionState",
+                url:"http://192.168.1.88:8080/EquipmentInspection/inspectionController/selectInspectionState",
             })
             .then(res => {
                 this.options = res.data.result;

@@ -63,7 +63,7 @@
                         trigger="click">
                         <div>上传图片：</div>
                         <el-upload
-                            action="http://60.191.29.210:9090/EquipmentInspection/mongoDBController/PictureUploading"
+                            action="http://192.168.1.88:8080/EquipmentInspection/mongoDBController/PictureUploading"
                             list-type="picture-card"
                             show-file-list
                             :limit="1"

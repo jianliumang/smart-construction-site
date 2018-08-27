@@ -56,7 +56,7 @@
             <div class="contranl">
                 <p>云台控制:</p>
                 <div class="video-roulette" title="操纵摄像头方向">
-                    <span @mousedown="pztstart(4)" @mouseup="pztstop(4)"></span><span @mousedown="pztstart(0)" @mouseup="pztstop(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6)" @mouseup="pztstop(6)"></span><span @mousedown="pztstart(2)" @mouseup="pztstop(2)" class="el-icon-arrow-left"></span><span></span><span @mousedown="pztstart(3)" @mouseup="pztstop(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5)" @mouseup="pztstop(5)"></span><span @mousedown="pztstart(1)" @mouseup="pztstop(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7)" @mouseup="pztstop(7)"></span>
+                    <span @mousedown="pztstart(4,$event)" @mouseup="pztstop(4)"></span><span @mousedown="pztstart(0,$event)" @mouseup="pztstop(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6,$event)" @mouseup="pztstop(6)"></span><span @mousedown="pztstart(2,$event)" @mouseup="pztstop(2)" class="el-icon-arrow-left"></span><span @click="videostop" :class="videostoped==20?'start':'stop'"></span><span @mousedown="pztstart(3,$event)" @mouseup="pztstop(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5,$event)" @mouseup="pztstop(5)"></span><span @mousedown="pztstart(1,$event)" @mouseup="pztstop(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7,$event)" @mouseup="pztstop(7)"></span>
                 </div>
                 <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @mousedown.native="pztstart(9)" @mouseup.native="pztstop(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @mousedown.native="pztstart(8)" @mouseup.native="pztstop(8)">放大</el-button></div>
                 <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @mousedown.native="pztstart(10)" @mouseup.native="pztstop(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @mousedown.native="pztstart(11)" @mouseup.native="pztstop(11)">远焦距</el-button></div>
@@ -80,7 +80,7 @@ export default {
             videolistdata:[],
             arr:[],
             speed:1,
-            accessToken:'at.10j588251u2x04t41qecj53kd7nlfxrd-7p140r9vhz-0c72qw2-1bzzsrnxy',
+            accessToken:'at.6lsaptjh71iupcgo0owre3kgamx55cx5-707uvf6k0a-1an8wv3-fyzfcxgud',
             deviceSerial:'C23418950',
             data: [{
                 id:1,
@@ -97,14 +97,17 @@ export default {
                 height:'600'
             },
             buttonbg:1,
-            pztclicktype:true
+            pztclicktype:true,
+            videostoped:20,
+            documentele:null,
             // swf:require('')
         }
     },
     mounted(){
         // this.open();
-        this.equipmentlist();
-        console.log(this.timestampToTime(new Date().getTime()),this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-"))
+        this.requestToken();
+        
+        // console.log(this.timestampToTime(new Date().getTime()),this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-"))
         // this.equipmenchannel()
     },
     methods:{
@@ -114,14 +117,14 @@ export default {
                 width:'900'/num,
                 height:'600'/num
             };
-            console.log('分屏',num)
+            // console.log('分屏',num)
         },
         handleNodeClick(data) {
-            console.log(data);
+            // console.log(data);
         },
         open(){
             var flashvars={
-                f:'rtmp://rtmp.open.ys7.com/openlive/86f5f44023994805b6bdad9015bcbf31',//视频地址
+                f:this.showval,//视频地址
                 a:'',//调用时的参数，只有当s>0的时候有效
                 s:'0',//调用方式，0=普通方法（f=视频地址），1=网址形式,2=xml形式，3=swf形式(s>0时f=网址，配合a来完成对地址的组装)
                 c:'0',//是否读取文本配置,0不是，1是
@@ -161,27 +164,24 @@ export default {
             //获取accessToken
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/getToken",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/getToken",
 				params:{
-					"APPSECRET":"at.axnqm5l96zjtlahkdcowerv436kxtwa1-1vw5gfdzd9-1kjqxqb-eqmbsxeqw",
-					"APPKEY":"C33749283",
+					"APPSECRET":"d9354a3bbad6d2fd409d8785e24632dd",
+					"APPKEY":"ab70e52beb8d47d991292e4d9264ecc7",
 				}
 			}).then(res => {
                 console.log(res)
+                this.accessToken=res.data.result;
+                this.equipmentlist();
             });
         },
         capture(){
             //抓拍
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/capture?deviceSerial=C23418950&channelNo=1&accesstoken="+this.accessToken,
-				// params:{
-				// 	"deviceSerial":this.deviceSerial,
-                //     "channelNo":1,
-                //     "accessToken":this.accessToken,
-				// }
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/capture?deviceSerial=C23418950&channelNo=1&accesstoken="+this.accessToken,
 			}).then(res => {
-                console.log(res);
+                // console.log(res);
                 if(res.data.code==200){
                     var imgurl=res.data.result.data.picUrl;
                     this.download(imgurl);
@@ -192,7 +192,7 @@ export default {
             //设备信息:查询用户下指定设备的基本信息
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/selectEquipmentInFo",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/selectEquipmentInFo",
 				params:{
 					"accessToken":this.accessToken,
 					"deviceSerial":this.deviceSerial,
@@ -200,44 +200,48 @@ export default {
 			}).then(res => {
                 // console.log(res)
                 this.equipmentinfoval=res.data.data
-                console.log(this.equipmentinfoval)
+                // console.log(this.equipmentinfoval)
             });
         },
         equipmentlist(){
             //设备列表:查询用户下设备基本信息列表
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/toselectAllEquipemnt?token="+this.accessToken,
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/toselectAllEquipemnt?token="+this.accessToken,
 			}).then(res => {
                 console.log(res);
-                this.equipmentlistval=res.data.result.data;
-                console.log(this.equipmentlistval);
-                //设备列表二级：设备名
-                res.data.result.data.forEach(ele => {
-                    this.data[0].children.push({
-                        id: this.data[0].id+'.'+1,
-                        label: ele.deviceName,
-                        children: []
+                // if(res.data.result)
+                if(res.data.code==200&&res.data.result.data!=null){
+                    this.equipmentlistval=res.data.result.data;
+                    // console.log(this.equipmentlistval);
+                    //设备列表二级：设备名
+                    res.data.result.data.forEach(ele => {
+                        this.data[0].children.push({
+                            id: this.data[0].id+'.'+1,
+                            label: ele.deviceName,
+                            children: []
+                        })
                     })
-                })
-                this.equipmenchannel()
+                    this.equipmenchannel()
+                }
+                
             });
         },
         equipmenchannel(){
             //获取指定设备的通道信息
             // this.axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded'
-            console.log(222222)
+            // console.log(222222)
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/passageway?accesstoken="+this.accessToken+
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/passageway?accesstoken="+this.accessToken+
 					"&deviceSerial="+this.deviceSerial,
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
                 this.equipmenchannelval=res.data.result.data;
-                console.log(this.equipmenchannelval)
+                // console.log(this.equipmenchannelval)
                 //设备列表二级：通道
                 res.data.result.data.forEach(ele => {
-                    console.log(this.data)
+                    // console.log(this.data)
                     this.data[0].children.forEach(element => {
                         if(ele.deviceName==element.label){
                             element.children.push({
@@ -254,7 +258,7 @@ export default {
             //该接口适用于已经绑定过直播地址的用户，用以获取账号下的视频地址列表
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/selectVoideList",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/selectVoideList",
 				params:{
 					"accessToken":this.accessToken,
 					"pageStart":0,
@@ -263,14 +267,14 @@ export default {
 			}).then(res => {
                 // console.log(res);
                 this.videolistdata=res.data.data;
-                console.log(this.videolistdata)
+                // console.log(this.videolistdata)
                 this.arr = []
                 this.videolistdata.forEach(ele => {
                     if(ele.status==1){
                         this.arr.push(ele)
                     }
                 })
-                console.log(this.arr)
+                // console.log(this.arr)
             });
         },
         openvideo(deviceSerial,channelNo){
@@ -278,13 +282,13 @@ export default {
             var source = deviceSerial+":"+channelNo;
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/openVoidel",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/openVoidel",
 				params:{
 					"accessToken":this.accessToken,
 					"source":source,
 				}
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.data[0].ret=='200'){
                     this.videoshow(deviceSerial,channelNo);
                 }
@@ -293,22 +297,22 @@ export default {
         downvideo(){
             //该接口用于根据序列号和通道号批量关闭直播功能（只支持可观看视频的设备）。
             var source="";
-            console.log(this.arr)
+            // console.log(this.arr)
             this.arr.forEach(ele => {
                 source = source+ele.deviceSerial+":"+ele.channelNo+",";
                 // console.log(source)
             })
-            console.log(source)
+            // console.log(source)
             // var source = deviceSerial+":"+channelNo;
             this.axios({
                 method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/closeVoidel",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/closeVoidel",
 				params:{
 					"accessToken":this.accessToken,
 					"source":source,
 				}
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.data[0].ret=='200'){
                 }
             });
@@ -328,7 +332,7 @@ export default {
 					"source":source,
 				}
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.data[0].ret=='60060'){
                     this.openvideo(res.data.data[0].deviceSerial,res.data.data[0].channelNo);
                     return false;
@@ -347,12 +351,31 @@ export default {
             this.buttonbg=speed;
             this.speed=speed;
         },
-        pztstart(direction){
+        videostop(){
+            // console.log(num,eve)
+            // this.pztstop(this.videostoped);
+            this.axios({
+                method:"get",
+                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+this.videostoped+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
+			}).then(res => {
+                // console.log('关闭云台',res)
+                this.videostoped=20;
+                console.log(this.videostoped)
+            });
+        },
+        pztstart(direction,eve){
+            console.log(eve)
+            if(this.documentele!=null){
+                this.documentele.style.background=''
+            }
+            eve.target.style.background='#f5f5f5'
+            this.documentele=eve.target;
+            this.videostoped=direction;
             if(this.pztclicktype){
                 this.pztclicktype=false;
                 this.axios({
                     method:"get",
-                    url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
+                    url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
                     "&speed="+this.speed+
                     "&deviceSerial="+this.deviceSerial+
                     "&channelNo=1&accesstoken="+this.accessToken,
@@ -360,6 +383,7 @@ export default {
                     console.log('开启云台',res)
                     // setTimeout(this.pztstop(direction),500);
                     setTimeout(()=>{this.pztclicktype=true},1000)
+                    this.documentele.style.background='';
                 });
             }else{
                 this.$message({
@@ -370,12 +394,14 @@ export default {
             
         },
         pztstop(direction){
-            this.axios({
-                method:"get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
-			}).then(res => {
-                console.log('关闭云台',res)
-            });
+            // this.axios({
+            //     method:"get",
+            //     url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
+			// }).then(res => {
+            //     // console.log('关闭云台',res)
+            //     // this.videostoped=20;
+            //     // console.log(this.videostoped)
+            // });
         },
         deletes(){
             this.axios({
@@ -386,7 +412,7 @@ export default {
 					"deviceSerial":this.deviceSerial
 				}
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
             });
         },
         add(){
@@ -399,7 +425,7 @@ export default {
                     "validateCode":"GSHZIH"
 				}
 			}).then(res => {
-                console.log(res)
+                // console.log(res)
             });
         },
         download(src) {
@@ -491,6 +517,7 @@ export default {
 	height: 210px;
 	border-radius: 50%;
 	border: 1px solid rgb(37, 36, 36);
+    overflow: hidden;
 }
 .video-roulette span{
 	display: inline-block;
@@ -515,4 +542,12 @@ export default {
 /* .video-container div{
     border: 1px solid #ccc;
 } */
+.start{
+    background: url('~@/assets/img/start.png') no-repeat 20px center;
+    background-size: 50px 50px;
+}
+.stop{
+    background: url('~@/assets/img/stop.png') no-repeat center center;
+    background-size: 50px 50px;
+}
 </style>

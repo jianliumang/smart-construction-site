@@ -189,9 +189,9 @@ export default {
             this.websock.onclose = this.websocketclose;
         },
         websocketonmessage(e){ //数据接收
-            console.log(e.data)
+            // console.log(e.data)
             this.tableData.push({"news":e.data})
-            console.log(this.tableData)
+            // console.log(this.tableData)
             // const redata = JSON.parse(e.data);
             // console.log(redata.value);
         },
@@ -205,7 +205,7 @@ export default {
                     regionid : this.regionid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.enviromentalid = res.data.result[0].enviromental_id;
                 }
@@ -213,13 +213,13 @@ export default {
         },
         toselectArchitecture(){
             //根据工地查询是否有设置工地数据*
-            console.log(55555555555)
+            // console.log(55555555555)
             this.$api.seekArchitectureData({
                 params:{
                     regionid : this.regionid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.constructiondata = res.data.result;
                     this.remaindays = res.data.result.distanceEnddate;

@@ -98,12 +98,6 @@ export default new Router({
       hidden: false
     },
     {
-      path: '/inspection',
-      name: 'inspection',
-      component: (resolve) => require(['@/components/equipmentinspection/html/inspection.vue'],resolve),
-      hidden: false
-    },
-    {
       path: '/photograph',
       name: 'photograph',
       component: (resolve) => require(['@/components/equipmentinspection/html/photograph.vue'],resolve),
@@ -243,16 +237,22 @@ export default new Router({
               hidden:true
             },
             {
-              path: '/equipmentinspection/inspectionrecord',
+              path: '/equipmentinspection/inspectionrecord?equipmentNumber=10301229&equipmentTypeNumber=1',
               name: '巡检记录',
               component: (resolve) => require(['@/components/equipmentinspection/html/inspectionrecord.vue'],resolve),
               hidden:true
             },
             {
-              path: '/equipmentinspection/qrcode',
+              path: '/equipmentinspection/qrcode?equipmentNumber=10301229&equipmentTypeNumber=1',
               name: '巡检',
               component: (resolve) => require(['@/components/equipmentinspection/html/qrcode.vue'],resolve),
               hidden:true
+            },
+            {
+              path: '/equipmentinspection/inspection',
+              name: 'inspection',
+              component: (resolve) => require(['@/components/equipmentinspection/html/inspection.vue'],resolve),
+              hidden: false
             },
           ]
         },

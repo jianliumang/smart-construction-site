@@ -74,7 +74,7 @@ export default {
       this.regionid = sessionStorage.getItem("regionid");
     },
     mounted() {
-        console.log(this.content)
+        // console.log(this.content)
         // this.alldata()
         // console.log(document.styleSheets)
         // this.reuquecss()
@@ -110,11 +110,11 @@ export default {
             for(var key in needcss){
                 // console.log(needcss[key])
                 if(needcss[key].name=="change"){
-                    console.log(needcss[key]);
+                    // console.log(needcss[key]);
                     var end = "100% { transform: translateZ(-10em) rotateX(0deg) rotateY("+this.rotatevalue+"deg); }";
                     needcss[key].deleteRule("100%");
                     needcss[key].appendRule(end)
-                    console.log(needcss[key].cssText)
+                    // console.log(needcss[key].cssText)
                 }
             };
         }

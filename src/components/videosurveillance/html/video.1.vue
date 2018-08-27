@@ -103,7 +103,7 @@ export default {
 			//根据工地请求获取所有的摄像头
         	this.$http
                 .get(
-                    "http://60.191.29.210:9090/RestIOTAPI/videomonitor/toselectVideoMonitor?regionid=" + this.regionid
+                    "http://192.168.1.88:8080/RestIOTAPI/videomonitor/toselectVideoMonitor?regionid=" + this.regionid
                 )
                 .then(res => {
 					this.videolist = res.data.result;

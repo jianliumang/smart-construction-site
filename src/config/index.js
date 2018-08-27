@@ -2,7 +2,7 @@ import qrcodeapi from './qrcodeapi'
 import api from './api'
 import axios from '../common/axiosbreak/axiosbreak.js'
 const baseUrl = 'http://60.191.29.210:9090/EquipmentInspection/'
-const comurl = 'http://60.191.29.210:9090/RestIOTAPI/'
+const comurl = 'http://192.168.1.88:8080/RestIOTAPI/'//'http://60.191.29.210:9090/RestIOTAPI/'
 for (const key in qrcodeapi) {
     // if(key==pictureupload){
     //     qrcodeapi[key] = baseUrl + qrcodeapi[key];

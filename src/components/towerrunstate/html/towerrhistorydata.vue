@@ -151,7 +151,7 @@ export default {
         towerrrequest(){
             this.$http({
                 method: "get",
-                url:"http://60.191.29.210:9090/RestIOTAPI/workingcycle/toselectAllTowerCraneWorkingCycle?devicesn=" + this.devicesn
+                url:"http://192.168.1.88:8080/RestIOTAPI/workingcycle/toselectAllTowerCraneWorkingCycle?devicesn=" + this.devicesn
             })
             .then(res => {
                 // console.log(res)

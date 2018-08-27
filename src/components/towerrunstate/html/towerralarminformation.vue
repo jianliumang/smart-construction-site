@@ -46,8 +46,8 @@
             :title="'塔吊预警回放：'+typename"
             :visible.sync="dialogVisible">
             <span>
-                <button @click="resetfn">重置</button>
-                <button @click="startfn">开始</button>
+                <el-button @click="startfn" size="mini">开始</el-button>
+                <el-button @click="resetfn" size="mini">重置</el-button>
                 <tiaoshi :content="contentdata"></tiaoshi>
             </span>
         </el-dialog>
@@ -102,7 +102,7 @@ export default {
         },
         handleClick(row) {
             //点击回放
-            console.log(this.timestampToTime(Date.parse(row.startTime.replace(/-/g,"/"))),this.timestampToTime(Date.parse(row.endTime.replace(/-/g,"/"))))
+            // console.log(this.timestampToTime(Date.parse(row.startTime.replace(/-/g,"/"))),this.timestampToTime(Date.parse(row.endTime.replace(/-/g,"/"))))
             this.dialogVisible = true;
             this.devicesn = row.devicesn;
             if(!!window.ActiveXObject || "ActiveXObject" in window){ 
@@ -133,13 +133,8 @@ export default {
                 alert('本时间段只有一条数据')
             }
         },
-        // handleClose(done) {
-        //     this.$confirm('确认关闭？').then(_ => {
-        //         done();
-        //     }).catch(_ => {});
-        // },
         replayfn(){
-            console.log(this.alarmStarttime,this.alarmEndtime)
+            // console.log(this.alarmStarttime,this.alarmEndtime)
             this.$api.alarmReplay({
                 params:{
                     deviceSN:this.devicesn,
@@ -147,7 +142,7 @@ export default {
                     alarmEndtime:this.alarmEndtime
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.result.length==0){
                     return false;
                 }
@@ -190,7 +185,7 @@ export default {
                     device_sn:this.devicesn
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     res.data.result.reverse().forEach(element => {
                         this.backData.push({
@@ -264,61 +259,6 @@ export default {
 .alarm-round div{
     position: relative;
 }
-.round-top-center{
-    top: -35px;
-}
-.round-right-top{
-    top: 0px;
-    left: 165px;
-}
-.round-right-center{
-    top: 130px;
-    left: 245px;
-}
-.round-right-bottom{
-    top: 260px;
-    left: 165px;
-}
-.round-bottom-center{
-    top: 300px;
-}
-.round-left-bottom{
-    top: 210px;
-    left: -170px;
-}
-.round-left-center{
-    top: 17px;
-    left: -237px;
-}
-.round-left-top{
-    top: -170px;
-    left: -170px;
-}
-.round-crosswise{
-    background: orangered;
-    width: 230px;
-    height: 5px;
-    top: -29px;
-    left: 160px;
-    transform: rotate(0deg);
-    transform-origin:17% center;
-}
-.round-center{
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    border: 3px solid orangered;
-    background: #fff;
-    top: -7px;
-    left: 30px;
-}
-.round-goods{
-    width: 11px;
-    height: 11px;
-    background: #ccc;
-    top: -22px;
-    left: 50px;
-}
 .alarm-demonstrate{
     width: 17px;
     position: relative;
@@ -349,8 +289,7 @@ export default {
     width: 17px;
     height: 20px;
 }
-
-/* tr th:nth-child(1){
-    width: 
-} */
+.towerralarminformation .el-dialog .el-button{
+    margin-bottom: 10px;
+}
 </style>

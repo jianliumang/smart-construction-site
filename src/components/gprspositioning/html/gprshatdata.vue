@@ -28,8 +28,7 @@
         <el-dialog
             title="修改信息"
             :visible.sync="dialogVisible"
-            width="1200px"
-            :before-close="handleClose">
+            width="1200px">
             <div>
                 <div class="res-info">
                     <span>安全帽编号：</span><span>{{revisehatnumber}}</span>
@@ -98,20 +97,13 @@ export default {
     methods:{
         handleClick(row) {
             //点击修改
-            console.log(row)
+            // console.log(row)
             // console.log(this.revisehatworksite)
             this.revisehatnumber = row.hatnumber;
             this.revisehatname = row.name;
             this.revisehatworksite = row.worksite;
             this.dialogVisible = true;
             this.groupvalue = row.groupingnumber;
-        },
-        handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
         },
         datashow(){
             //根据页面条数size值与页面数值展现数据
@@ -143,7 +135,7 @@ export default {
                     regionid:this.regionid
                 }
             }).then(res => {
-                console.log(res);
+                // console.log(res);
                 if(res.data.code==200){
                     res.data.result.forEach(element => {
                         this.backData.push({
@@ -160,10 +152,10 @@ export default {
         },
         groupinforequest(){
             //修改功能中的分组下拉列表
-            console.log(7777777)
+            // console.log(7777777)
             this.options = [];
             this.$api.seekAllGroup().then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.options=res.data.result
                     // this.groupvalue = res.data.result[0].groupingnumber;
@@ -252,7 +244,7 @@ export default {
     text-align: right;
     width: 100px;
 }
-.res-info span:last-child{
+.res-info:nth-child(1) span:last-child{
     width: 200px;
     text-align: left;
 }

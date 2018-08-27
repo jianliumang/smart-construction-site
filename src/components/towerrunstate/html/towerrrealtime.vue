@@ -93,7 +93,7 @@ export default {
             },1000)
         },
         snrequest(){
-            console.log(this.deviceed)
+            // console.log(this.deviceed)
             this.$api.seekNewTowerData({
                 params:{
                     device_sn:this.deviceed
@@ -101,7 +101,7 @@ export default {
             }).then(res => {
                 if(res.data.code==200){
                     this.towerdata = res.data.result;
-                    console.log(this.towerdata)
+                    // console.log(this.towerdata)
                     this.contentdata = {
                         showtime:this.requesttype?0:10,
                         rotatevalue:res.data.result.rotation,
@@ -120,8 +120,8 @@ export default {
                     regionid:this.regionid
                 }
             }).then(res => {
-                console.log(33333333)
-                console.log(res)
+                // console.log(33333333)
+                // console.log(res)
                 if(res.data.code==200){
                     // res.data.result.forEach(element => {
                     //     if(this.devicesn.indexOf(element.deviceSN)==-1){
@@ -136,9 +136,9 @@ export default {
                     //     }
                     // });
                     this.devicesn=res.data.result
-                    console.log(this.devicesn)
+                    // console.log(this.devicesn)
                     this.deviceed = this.devicesn[0].deviceSN;
-                    console.log(this.deviceed)
+                    // console.log(this.deviceed)
                     this.snrequest()
                     this.changedevicesn();
                 }

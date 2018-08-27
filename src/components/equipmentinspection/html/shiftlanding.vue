@@ -45,7 +45,7 @@ export default {
         login(){
             this.$http({
                 method: "post",
-                url:"http://60.191.29.210:9090/EquipmentInspection/SecurityInspector/selectUser",
+                url:"http://192.168.1.88:8080/EquipmentInspection/SecurityInspector/selectUser",
                 data:{
                     "username": this.usernameinput,
                     "userpassword": this.userpasswinput

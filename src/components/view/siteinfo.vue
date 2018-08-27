@@ -64,13 +64,13 @@ export default {
         },
         toselectArchitecture(){
             //根据工地查询是否有设置工地数据*
-            console.log(55555555555)
+            // console.log(55555555555)
             this.$api.seekArchitectureData({
                 params:{
                     regionid : this.regionid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.constructiondata = res.data.result;
                     this.form.area = this.constructiondata.coveredArea;
@@ -111,9 +111,9 @@ export default {
             //设置功能中的工程类别分组下拉列表
             this.options = [];
             this.$api.seekEngineeringCategory().then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
-                    console.log(res.data.result)
+                    // console.log(res.data.result)
                     res.data.result.forEach(element => {
                         this.options.push({
                             value: element.engineeringCategoryId,

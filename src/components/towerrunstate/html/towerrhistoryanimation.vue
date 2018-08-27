@@ -117,7 +117,7 @@ export default {
             this.playback.forEach(element=>{
                 var playvalue = element.playbackid+'----'+'时间：'+element.lifting_time+'--'+element.drop_time;
                 if(this.selected == playvalue){
-                    console.log(element)
+                    // console.log(element)
                     this.towerdata = element
                     this.contentdata = {
                         showtime:0,
@@ -155,7 +155,7 @@ export default {
                     regionid:this.regionid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.devicesn=res.data.result;
                     this.deviceed=res.data.result[0].deviceSN;
@@ -180,7 +180,7 @@ export default {
                     "endtime":this.dates[1],
                     "starttime":this.dates[0]
                 }).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if(res.data.code==200){
                         this.playback = res.data.result;
                     }

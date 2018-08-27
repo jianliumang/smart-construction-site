@@ -119,7 +119,7 @@ export default {
         requesthavetime(){
             this.$http({
             method: "post",
-            url:"http://60.191.29.210:9090/RestIOTAPI/environmentalmonitoring/toselectDataExistDate?enviromentalid=2"
+            url:"http://192.168.1.88:8080/RestIOTAPI/environmentalmonitoring/toselectDataExistDate?enviromentalid=2"
             })
             .then(res => {
                 this.havedate = res.data.result;

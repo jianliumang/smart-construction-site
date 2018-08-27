@@ -51,6 +51,19 @@
  export default {
     data() {
       return {
+        titlelist:{
+          'installationPosition':'安装位置',
+          'towercraneName':'设备名称',
+          'recordNumber':'设备编号',
+          'licence':'许可证',
+          'towerDriver':'塔机司机',
+          'manufacturer':'制造商',
+          'qualificationCertificateNumber':'资格证照片编号',
+          'factoryNumber':'出厂编号',
+          'acceptanceDate':'验收日期',
+          'installDate':'安装日期',
+          'propertyRightSunit':'设备产权单位'
+        },
         tableData: [{
                 name: '安装位置',
                 value: '8# 楼'
@@ -119,7 +132,7 @@
         //   this.$router.push('/shiftlanding');
         //   return false;
         // }
-          this.$router.push('/inspection');
+          this.$router.push('/equipmentinspection/inspection');
       },
       showdata(){
         //获取由url带来的信息进行请求
@@ -141,7 +154,13 @@
                   document.write("该数据为空");
                   return false;
                 }
-                // this.tableData =[res.data.result];
+                this.tableData =[];
+                for(var key in this.titlelist){
+                  this.tableData.push({
+                    name:this.titlelist[key],
+                    value:res.data.result[key]
+                  })
+                }
                 console.log(res)
                 sessionStorage.setItem("regionid",res.data.result.regionid);
                 this.judgeinspection();

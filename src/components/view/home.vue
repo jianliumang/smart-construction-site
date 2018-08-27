@@ -17,11 +17,12 @@
                             </el-option>
                         </el-select>
                     </p>
-                    <p>
-                        <span>晴</span><span></span><span>31~35℃</span>
-                    </p>
+                   
                 </div>
                 <div class="user-info">
+                     <p>
+                        <span>晴</span><span></span><span>31~35℃</span>
+                    </p>
                     <el-dropdown trigger="hover" @command="handleCommand">
                         <span class="topimg"></span>
                         <el-dropdown-menu slot="dropdown">
@@ -39,8 +40,8 @@
         <el-container>
             <div class="aside-nav">
                 <div class="" v-show="fullscreen">
-                    <el-radio-group :class="isCollapse?'':'nav-menu'" v-model="isCollapse" v-show="nownavbg!='首页'">
-                        <el-button @click="isCollapse=!isCollapse;" type="info"></el-button>
+                    <el-radio-group :class="isCollapse?'nav-menu-change':'nav-menu'" v-model="isCollapse" v-show="nownavbg!='首页'">
+                        <el-button @click="isCollapse=!isCollapse;" type="info" :class="isCollapse?'nav-button':''"></el-button>
                     </el-radio-group>
                     <el-menu :default-openeds="[nownav]" router :default-active="nownav" text-color="#fff" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" @select="handSelect" :collapse="isCollapse" background-color="#174566" active-text-color="#ffd04b" :style="{'border-top': nownavbg=='首页'?'46px solid #174566':'46px solid #4d6ad6'}">
                         <template v-for="route in $router.options.routes" router v-if="route.hidden">
@@ -56,7 +57,7 @@
                                         <img class="img-index" :src="xRoute.icon" alt="" :style="{'position':isCollapse?'relative':'','left':'0px','right':'0px','margin':isCollapse?'0px auto':'0px 10px 0px 0px'}">
                                         <span slot="title" class="title-text">{{xRoute.name}}</span>
                                     </template>
-                                    <el-menu-item v-if="xRoute.children" v-for="(cRoute, cIndex) in xRoute.children"  :key="cIndex" :index="cRoute.name" :route="cRoute" :class="navsub==cRoute.name?'is-active':''">
+                                    <el-menu-item v-if="cRoute.hidden" v-for="(cRoute, cIndex) in xRoute.children"  :key="cIndex" :index="cRoute.name" :route="cRoute" :class="navsub==cRoute.name?'is-active':''">
                                         <span slot="title" >{{cRoute.name}}</span>
                                     </el-menu-item>
                                 </el-submenu>
@@ -128,7 +129,7 @@ export default {
         //     })
         // },
         handSelect(index,path){
-            console.log(index,path);
+            // console.log(index,path);
             var arr = [];
             this.$router.options.routes.forEach(element => {
                 if(element.hidden){
@@ -143,7 +144,7 @@ export default {
             localStorage.setItem("nownav",path[0]);
             var index=arr.indexOf(path[0]);
             this.navbgstyle(index+1)
-            console.log(arr)
+            // console.log(arr)
             if(path.length==1){
                 this.nownavbg==index;
             }
@@ -151,7 +152,7 @@ export default {
             sessionStorage.setItem('navsub',path[1])
         },
         navbgstyle(index){
-            console.log(index)
+            // console.log(index)
             var firstspanele=document.getElementsByClassName('firstientification');
             var lastspanele=document.getElementsByClassName('lastientification');
             var liele=document.getElementsByClassName('el-menu')[0].getElementsByClassName('first-title');
@@ -171,7 +172,7 @@ export default {
             lastspanele[index-1].style.display='none';
         },
         handleOpen(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
             this.nownav=key;
             localStorage.setItem("nownav",key);
             var index;
@@ -184,7 +185,7 @@ export default {
             this.navbgstyle(index+1)
         },
         handleClose(key, keyPath) {
-            console.log(key, keyPath);
+            // console.log(key, keyPath);
         },
         handleCommand(command) {
             if(command=='exit'){
@@ -212,12 +213,12 @@ export default {
                     powerid : this.powerid
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.selectdata = res.data.result;
                     this.selectvalue = this.regionid;
                     // this.showname();
-                    console.log(this.selectdata)
+                    // console.log(this.selectdata)
                 }
             })
         },
@@ -226,7 +227,7 @@ export default {
     //监听路由
         $route: {
             handler: function (val, oldVal) {
-                console.log(val,oldVal)
+                // console.log(val,oldVal)
                 this.nownavbg=val.name;
                 sessionStorage.setItem("nownavbg",val.name)
                 if(val.name=='首页'){
@@ -275,9 +276,10 @@ export default {
     justify-content: center;
 }
 .title-cneter{
-    width: 1400px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    padding: 0px 30px
 }
 #title{
     text-align: right;
@@ -318,21 +320,21 @@ export default {
     margin: 0px;
     height: 100%;
 }
-.title-cneter div:nth-child(2) p:nth-child(2){
+.title-cneter div:nth-child(3) p{
     display: flex;
     align-items: center;
 }
-.title-cneter div:nth-child(2) p:nth-child(2) span{
+.title-cneter div:nth-child(3) p span{
     padding: 0 10px;
 }
-.title-cneter div:nth-child(2) p:nth-child(2) span:nth-child(2){
+.title-cneter div:nth-child(3) p span:nth-child(2){
     display: inline-block;
     width: 40px;
     height: 30px;
     background: url('~@/assets/img/weather.png') no-repeat 0 center;
     background-size: 100% 100%;
 }
-.title-cneter div:nth-child(2) img{
+.title-cneter div:nth-child(3) img{
     margin: 10px 0px 0px 10px;
     vertical-align: top;
     cursor: pointer;
@@ -444,13 +446,17 @@ export default {
     right: 12px;
 }
 .aside-nav .el-radio-group .el-button{
-    background: url('~@/assets/img/navtit1.png');
+    background: url('~@/assets/img/navtit1.png') no-repeat center center;
     background-size: 100% 100%;
     width: 100%;
     height: 100%;
     padding: 0px;
     border-radius: 0px;
     border: 1px solid #fff;
+}
+.nav-button{
+    background-size: 25px 25px!important;
+    border: none!important;
 }
 .img-index{
     padding: 4px;
@@ -472,6 +478,12 @@ export default {
     transform: rotateZ(90deg);
     right: -12px!important;
     
+}
+.nav-menu-change{
+    width: 50px!important;
+    height: 46px!important;
+    top: 0px!important;
+    right: 0px!important;
 }
 .home .el-main{
     padding: 10px;

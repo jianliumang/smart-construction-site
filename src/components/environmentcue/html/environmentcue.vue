@@ -50,7 +50,12 @@
                             <span class="el-temperature">{{defauldata==null?"111":weather.newdata}}</span><span>{{weather.unit}}</span>
                         </div>
                         <div class="env-event-bock">
-                            <el-button type="text" @click="realtimeline(index)" :disabled="!linktype">
+                            <!-- <el-tooltip class="item" effect="dark" content="Top Center 提示文字" placement="top">
+                                <el-button type="text" @click="realtimeline(index)" :disabled="!linktype" >
+                                    实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>
+                                </el-button>
+                            </el-tooltip> -->
+                            <el-button type="text" @click="realtimeline(index)" :disabled="!linktype" >
                                 实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>
                             </el-button>
                             <el-button type="text" @click="hostroitimeline(index)">历史查询</el-button>
@@ -239,7 +244,7 @@ export default {
                     value.data=[];
                 }
             });
-            console.log(this.enviromentalid)
+            // console.log(this.enviromentalid)
             //查找该设备编号的最新一条的环境监控所有数据
             this.$api.seekMachineNumberNewEnvironmentalData({
                 params:{
@@ -399,55 +404,15 @@ export default {
             // var dateelement = document.getElementsByClassName("el-date-range-picker__header");
             // console.log(dateelement)
             // for(let o=0;o<dateelement.length;o++){
+                
             //     var year = dateelement[o].getElementsByTagName("div")[0].innerHTML.substring(0,4);
             //     var months = dateelement[o].getElementsByTagName("div")[0].innerHTML.substring(7,8);
             //     console.log(dateelement[o].nextSbiling.spanelement[i])
-
-
-
-                // this.havedate.forEach(element => {
-                //     if(year == element.substring(0,4) && months == element.substring(6,7)){
-                //         var day = element.substring(8,10);
-                //         if(day<10){
-                //             day = element.substring(8,10).substring(1);
-                //         };
-                //         var spanelement = document.getElementsByClassName("available");
-                //         for(let i=0;i<spanelement.length-10;i++){
-                //             dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#000";
-                //         };
-                //         setTimeout(() => {
-                //             for(let i=0;i<spanelement.length-10;i++){
-                //             if(spanelement[i].children[0].children[0].innerText==day){
-                //                 dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#f00";
-                //             }
-                //         }
-                //         },10)
-                        
-                //     }else{
-                //         var spanelement = document.getElementsByClassName("available");
-                //         for(let i=0;i<spanelement.length-10;i++){
-                //             dateelement[o].nextSbiling.spanelement[i].children[0].children[0].style.color="#000";
-                //         };
-                //         var spanelement2 = document.getElementsByClassName("normal");
-                //         for(let i=0;i<spanelement2.length;i++){
-                //             dateelement[o].nextSbiling.spanelement2[i].children[0].children[0].style.color="#ccc";
-                //         };
-                //         var spanelement3 = document.getElementsByClassName("prev-month");
-                //         for(let i=0;i<spanelement3.length;i++){
-                //             dateelement[o].nextSbiling.spanelement3[i].children[0].children[0].style.color="#ccc";
-                //         };
-                //     }
-                // });
-                // // console.log(document.getElementsByClassName("today")[0].children[0].children[0])
-                // if(document.getElementsByClassName("today")[0].children[0].children[0]!=undefined){
-                //     document.getElementsByClassName("today")[0].children[0].children[0].style.color="blue"
-                // }
-
             // }
         },
         requesthavetime(){
             this.$api.withMachineNumberHasDataDayPost("?enviromentalid=2").then(res => {
-                console.log(res)
+                // console.log(res)
                 this.havedate = res.data.result;
             })
         }

@@ -18,11 +18,11 @@ export default {
     },
     mounted(){
         this.open();
-        console.log(this.index)
+        // console.log(this.index)
     },
     methods:{
         open(){
-            console.log(33333)
+            // console.log(33333)
             var flashvars={
                 f:this.content,//视频地址at.10j588251u2x04t41qecj53kd7nlfxrd-7p140r9vhz-0c72qw2-1bzzsrnxy
                 a:'',//调用时的参数，只有当s>0的时候有效

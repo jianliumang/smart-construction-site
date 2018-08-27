@@ -268,7 +268,7 @@ export default {
             console.log(row);
         },
         normalfn(){
-            this.$router.push('/qrcode?equipmentNumber='+this.equipmentNumber+'&equipmentTypeNumber='+this.equipmentTypeNumber);
+            this.$router.push('/equipmentinspection/qrcode?equipmentNumber='+this.equipmentNumber+'&equipmentTypeNumber='+this.equipmentTypeNumber);
         }
     },
     

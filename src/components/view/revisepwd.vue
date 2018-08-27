@@ -78,7 +78,7 @@ export default {
                     'userpassword':this.userNewPwd,
                     'userid':sessionStorage.getItem('userid')
                 }).then(res=>{
-                    console.log(res)
+                    // console.log(res)
                     if(res.data.code==200){
                         this.$message({
                             message: '恭喜你，修改成功',

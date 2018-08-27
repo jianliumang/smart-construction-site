@@ -321,8 +321,8 @@ export default {
         },
         clickinfo() {
             //根据安全帽编号与时间段查询历史数据
-            console.log(this.hatnumber);
-            console.log(this.endtimevlaue=='2018-06-28 20:00:00')
+            // console.log(this.hatnumber);
+            // console.log(this.endtimevlaue=='2018-06-28 20:00:00')
             this.mapindex = 0;
             this.rundate = 1000;
             this.restart =0;
@@ -336,7 +336,7 @@ export default {
                     endtime:this.endtimevlaue
                 }
             }).then(res => {
-                console.log(res)
+                // console.log(res)
                 if(res.data.code==200){
                     this.historydata=res.data.result;
                     if(res.data.result.length==0){
@@ -497,12 +497,13 @@ export default {
         },
 
 
-
+        
         startdatachange(){
             var time = new Date(this.starttimevalue).getTime() + 86400000;
             this.endtimevlaue = this.timestampToTime(time);
         },
-        datatype(){
+        datatype(com){
+            // console.log(com,com.popperElm);
             setTimeout(() =>{
                 var buttonelement = document.getElementsByClassName("el-picker-panel__icon-btn");
                 for(let i=0;i<buttonelement.length;i++){
@@ -561,7 +562,7 @@ export default {
         requesthavetime(){
             this.$http({
             method: "post",
-            url:"http://60.191.29.210:9090/RestIOTAPI/environmentalmonitoring/toselectDataExistDate?enviromentalid=2"
+            url:"http://192.168.1.88:8080/RestIOTAPI/environmentalmonitoring/toselectDataExistDate?enviromentalid=2"
             })
             .then(res => {
                 this.havedate = res.data.result;
