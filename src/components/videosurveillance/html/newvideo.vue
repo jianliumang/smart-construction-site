@@ -1,26 +1,5 @@
 <template>
     <div class="newvideo">
-        <!-- <div class="aside-parent">
-            <el-aside id="videoaside" class="el-aside-nav" width="200px" style="overflow:hidden">
-                <el-menu
-                :default-openeds="['1']"
-                default-active="2"
-                class="el-menu-vertical-demo"
-                background-color="#293950"
-                text-color="#fff"
-                active-text-color="#e45823">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i>
-                                <img src="@/assets/img/nav006.png" alt="">
-                            </i>
-                            <span>视频监控</span>
-                        </template>
-                        <el-tree :data="data" node-key="id" :default-expanded-keys="[1,'1.1']" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
-        </div> -->
         <el-tree :data="data" node-key="id" :default-expanded-keys="[1,'1.1']" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
         <div class="video-main">
             <div class="video-center">
@@ -38,7 +17,6 @@
                     <button @click="videonum(1)">一分屏</button>
                     <button @click="videonum(2)">四分屏</button>
                     <button @click="capture">抓拍</button>
-                    <!-- <button @mouseup="up">1111</button> -->
                     <!-- <button @click="equipmentinfo">设备信息</button>
                     <button @click="equipmentlist">设备列表</button>
                     <button @click="equipmenchannel">设备通道</button>
@@ -55,19 +33,20 @@
             </div>
             <div class="contranl">
                 <p>云台控制:</p>
+                <!-- <div class="video-roulette" title="操纵摄像头方向">
+                    <span @mousedown="pztstart(4,$event)" @mouseup="pztstop(4)"></span><span @mousedown="pztstart(0,$event)" @mouseup="pztstop(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6,$event)" @mouseup="pztstop(6)"></span><span @mousedown="pztstart(2,$event)" @mouseup="pztstop(2)" class="el-icon-arrow-left"></span><span @click="videostop" :class="videostoped==20?'start':'stop'"></span><span @mousedown="pztstart(3,$event)" @mouseup="pztstop(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5,$event)" @mouseup="pztstop(5)"></span><span @mousedown="pztstart(1,$event)" @mouseup="pztstop(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7,$event)" @mouseup="pztstop(7)"></span>
+                </div> -->
                 <div class="video-roulette" title="操纵摄像头方向">
                     <span @mousedown="pztstart(4,$event)" @mouseup="pztstop(4)"></span><span @mousedown="pztstart(0,$event)" @mouseup="pztstop(0)" class="el-icon-arrow-up"></span><span @mousedown="pztstart(6,$event)" @mouseup="pztstop(6)"></span><span @mousedown="pztstart(2,$event)" @mouseup="pztstop(2)" class="el-icon-arrow-left"></span><span @click="videostop" :class="videostoped==20?'start':'stop'"></span><span @mousedown="pztstart(3,$event)" @mouseup="pztstop(3)" class="el-icon-arrow-right"></span><span @mousedown="pztstart(5,$event)" @mouseup="pztstop(5)"></span><span @mousedown="pztstart(1,$event)" @mouseup="pztstop(1)" class="el-icon-arrow-down"></span><span @mousedown="pztstart(7,$event)" @mouseup="pztstop(7)"></span>
                 </div>
-                <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @mousedown.native="pztstart(9)" @mouseup.native="pztstop(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @mousedown.native="pztstart(8)" @mouseup.native="pztstop(8)">放大</el-button></div>
-                <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @mousedown.native="pztstart(10)" @mouseup.native="pztstop(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @mousedown.native="pztstart(11)" @mouseup.native="pztstop(11)">远焦距</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-zoom-out" @mousedown.native="pztstart(9,$event)" @mouseup.native="pztstop(9)">缩小</el-button><el-button type="primary" icon="el-icon-zoom-in" @mousedown.native="pztstart(8,$event)" @mouseup.native="pztstop(8)">放大</el-button></div>
+                <div class="video-span"><el-button type="primary" icon="el-icon-d-arrow-left" @mousedown.native="pztstart(10,$event)" @mouseup.native="pztstop(10)">近焦距</el-button><el-button type="primary" icon="el-icon-d-arrow-right" @mousedown.native="pztstart(11,$event)" @mouseup.native="pztstop(11)">远焦距</el-button></div>
                 <div class="video-span"><el-button :class="buttonbg==0?'button-bg':''" type="primary" icon="el-icon-remove" @click="speedclick(0)">慢</el-button><el-button :class="buttonbg==1?'button-bg':''" type="primary" icon="el-icon-share" @click="speedclick(1)">适中</el-button><el-button :class="buttonbg==2?'button-bg':''" type="primary" icon="el-icon-circle-plus"  @click="speedclick(2)">快</el-button></div>
             </div>
         </div>
     </div>
 </template>
 <script>
-// import offlights from '../../../../static/js/offlights.js'
-// import ckplayer from '../../../../static/ckplayer/ckplayer.js'
 import subvideo from './subvideo.vue'
 export default {
     data(){
@@ -100,13 +79,21 @@ export default {
             pztclicktype:true,
             videostoped:20,
             documentele:null,
+            pztrestype:false,
+            pzttype:'',
+            pztstoptype:true
             // swf:require('')
         }
     },
     mounted(){
         // this.open();
         this.requestToken();
-        
+        // this.axios({
+        //             method:"get",
+        //             url:"http://192.168.1.88:8080/RestIOTAPI/videomonitor/toselectListVideoMonitor"
+        //         }).then(res => {
+        //             console.log(res)
+        //         });
         // console.log(this.timestampToTime(new Date().getTime()),this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-"))
         // this.equipmenchannel()
     },
@@ -364,11 +351,13 @@ export default {
             });
         },
         pztstart(direction,eve){
-            console.log(eve)
-            if(this.documentele!=null){
-                this.documentele.style.background=''
+            // console.log(eve)
+            if(direction<9){
+                if(this.documentele!=null){
+                    this.documentele.style.background=''
+                }
+                eve.target.style.background='#f5f5f5'
             }
-            eve.target.style.background='#f5f5f5'
             this.documentele=eve.target;
             this.videostoped=direction;
             if(this.pztclicktype){
@@ -380,12 +369,24 @@ export default {
                     "&deviceSerial="+this.deviceSerial+
                     "&channelNo=1&accesstoken="+this.accessToken,
                 }).then(res => {
-                    console.log('开启云台',res)
+                    this.pzttype='start';
+                    // console.log('开启云台',res)
                     // setTimeout(this.pztstop(direction),500);
-                    setTimeout(()=>{this.pztclicktype=true},1000)
-                    this.documentele.style.background='';
+                    setTimeout(()=>{
+                        this.pztclicktype=true;
+                        if(direction<9){
+                            this.documentele.style.background='';
+                        }
+                    },1000);
+                    // console.log('开始',this.pztrestype)
+                    if(this.pztrestype){
+                        this.pztstop(direction); 
+                    }
+                    this.pztrestype=false;
                 });
             }else{
+                this.pzttype='start';
+                this.pztstoptype=false;
                 this.$message({
                     message: '点击太频繁了,请间隔1秒',
                     type: 'warning'
@@ -394,14 +395,23 @@ export default {
             
         },
         pztstop(direction){
-            // this.axios({
-            //     method:"get",
-            //     url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
-			// }).then(res => {
-            //     // console.log('关闭云台',res)
-            //     // this.videostoped=20;
-            //     // console.log(this.videostoped)
-            // });
+            if(this.pztstoptype){
+                if(this.pzttype!='start'){
+                    this.pztrestype=true;
+                }
+                this.pzttype='stop';
+                this.axios({
+                    method:"get",
+                    url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
+                }).then(res => {
+                    // console.log('关闭云台',res)
+                    // this.videostoped=20;
+                    // console.log(this.videostoped)
+                    // console.log('停止',this.pztrestype)
+                });
+            }else{
+                this.pztstoptype=true;
+            }
         },
         deletes(){
             this.axios({

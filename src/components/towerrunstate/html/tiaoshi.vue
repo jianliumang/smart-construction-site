@@ -355,12 +355,12 @@ export default {
 .ani-center{
     height: 700px;
 }
-.ani-timebox{
+.towerrani .ani-timebox{
     display: inline-block;
     width: 550px;
     height: 42px;
 }
-.ani-timebox form,.towerrani .el-form-item{
+.towerrani .ani-timebox form,.towerrani .el-form-item{
     height: 42px;
     margin-bottom: 0px;
 }

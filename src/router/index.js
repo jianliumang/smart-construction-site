@@ -171,6 +171,12 @@ export default new Router({
           component: (resolve) => require(['@/components/towerrunstate/html/towerrunstate.vue'],resolve),
           children:[
             {
+              path: '/towerrunstate/towerrrealtime',
+              name: '塔吊实时动画',
+              component: (resolve) => require(['@/components/towerrunstate/html/towerrrealtime.vue'],resolve),
+              hidden:true
+            },
+            {
               path: '/towerrunstate/towerrhistoryanimation',
               name: '塔吊历史动画',
               component: (resolve) => require(['@/components/towerrunstate/html/towerrhistoryanimation.vue'],resolve),
@@ -180,12 +186,6 @@ export default new Router({
               path: '/towerrunstate/towerrhistorydata',
               name: '塔吊历史数据',
               component: (resolve) => require(['@/components/towerrunstate/html/towerrhistorydata.vue'],resolve),
-              hidden:true
-            },
-            {
-              path: '/towerrunstate/towerrrealtime',
-              name: '塔吊实时动画',
-              component: (resolve) => require(['@/components/towerrunstate/html/towerrrealtime.vue'],resolve),
               hidden:true
             },
             {

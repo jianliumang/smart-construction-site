@@ -519,12 +519,12 @@ export default {
 .ani-center{
     height: 700px;
 }
-.ani-timebox{
+.towerbackani .ani-timebox{
     display: inline-block;
     width: 550px;
     height: 42px;
 }
-.ani-timebox form,.towerbackani .el-form-item{
+.towerbackani .ani-timebox form,.towerbackani .el-form-item{
     height: 42px;
     margin-bottom: 0px;
 }

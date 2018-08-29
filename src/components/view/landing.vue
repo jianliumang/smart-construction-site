@@ -45,19 +45,13 @@ export default {
                 return false
             }
             this.loadinginstace = Loading.service({ fullscreen: true });
-            // console.log(11111)
             this.$api.userInfo({
                     "username": this.usernameinput,
                     "userpassword": this.userpasswinput
             }).then(res => {
-                // console.log(res.data)
                 if(res.data.code==200){
                     this.usermessage = res.data.result;
                     this.addinfo();
-                    // this.powerrequest();
-                    // setTimeout(() => {
-                    //     this.$router.push('/index');
-                    // },1000)
                 }
             })
         },
@@ -83,7 +77,6 @@ export default {
                     this.loadinginstace.close()
                     this.$router.push('/index');
                 }
-                // this.addinfo();
             })
         },
     }

@@ -169,7 +169,7 @@ export default {
     created(){
         this.regionid = sessionStorage.getItem("regionid");
         //页面刚进入时开启长连接
-        this.initWebSocket()
+        // this.initWebSocket()
     },
     mounted(){
         this.bordercss();
@@ -357,7 +357,7 @@ export default {
     color: #fff;
     width: 20%!important;
 }
-.el-form-item__content{
+.index .el-form-item__content{
     margin-left: 20%!important;
 }
 .el-setup .el-select{

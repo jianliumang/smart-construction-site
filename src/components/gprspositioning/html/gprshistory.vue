@@ -627,6 +627,9 @@ export default {
     border-bottom: 3px solid #e45823;
     padding-bottom: 5px;
 }
+.infotit+.block+.block{
+    margin: 3px 0px;
+}
 .gprshistory .el-date-picker{
     display: inline-block;
 }
@@ -684,7 +687,7 @@ export default {
     padding: 0px 30px;
 }
 .showdata .el-row{
-    padding: 10px 0px;
+    padding: 9px 0px;
 }
 .showdata .el-row .el-col:nth-child(1){
     text-align: right;

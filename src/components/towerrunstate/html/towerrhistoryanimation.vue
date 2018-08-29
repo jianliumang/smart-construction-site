@@ -3,15 +3,17 @@
     <div class="ani-animation">
         <el-row class="ani-headers">
             <div id="ani-select">
-                <span>请选择设备:&nbsp;&nbsp;</span>
-                <el-select @change="changedevicesn" v-model="deviceed">
-                            <el-option
-                            v-for="item in devicesn"
-                            :key="item.id"
-                            :label="item.deviceSN"
-                            :value="item.deviceSN">
-                            </el-option>
-                        </el-select>
+                <div>
+                    <span>请选择设备:&nbsp;&nbsp;</span>
+                    <el-select @change="changedevicesn" v-model="deviceed">
+                        <el-option
+                        v-for="item in devicesn"
+                        :key="item.id"
+                        :label="item.deviceSN"
+                        :value="item.deviceSN">
+                        </el-option>
+                    </el-select>
+                </div>
                 <div class="ani-timebox">
                     <el-form :inline="true">
                         <el-form-item>
@@ -32,15 +34,16 @@
                         <!-- <el-form-item><el-button @click="maketime">查询</el-button></el-form-item> -->
                     </el-form>
                 </div>
-                <select class="select-footer" @change="changetime" v-model="selected">
-                    <option disabled value="">该时间段完成的工作</option>
-                    <option v-for="(play,index) in playback" :key="index" :value="play.playbackid+'----'+'时间：'+play.lifting_time+'--'+play.drop_time">
-                        <!-- {{ play.showtime play.playbackid+"-"+'时间：'+play.lifting_time+'-'+play.drop_time}} -->
-                        {{play.playbackid}}----时间：{{play.lifting_time}}--{{play.drop_time}}
-                    </option>
-                </select>
+                <el-select class="select-footer" v-model="selected" @change="changetime" placeholder="该时间段完成的工作">
+                    <el-option
+                    v-for="(play,index) in playback"
+                    :key="index"
+                    :label="play.playbackid+'----'+'时间：'+play.lifting_time+'--'+play.drop_time"
+                    :value="play.playbackid+'----'+'时间：'+play.lifting_time+'--'+play.drop_time">
+                    </el-option>
+                </el-select>
                 <el-input-number @change="speedchange" :min="1" size="mini" v-model="speed"></el-input-number>
-                <button @click="oldani">开始</button>
+                <el-button @click="oldani" size="mini" type="info" plain>开始</el-button>
             </div>
         </el-row>
         <div class="tower-center">
@@ -208,12 +211,12 @@ export default {
 .ani-center{
     height: 700px;
 }
-.ani-timebox{
+.towerrhistoryani .ani-timebox{
     display: inline-block;
-    width: 550px;
+    /* width: 550px; */
     height: 42px;
 }
-.ani-timebox form,.towerrhistoryani .el-form-item{
+.towerrhistoryani .ani-timebox form,.towerrhistoryani .el-form-item{
     height: 42px;
     margin-bottom: 0px;
 }
@@ -221,9 +224,11 @@ export default {
 .tower-center{
     height: 700px;
     text-align: left;
+    display: flex;
 }
 .tower-datashow{
-    width: 530px;
+    flex: 1;
+    max-width: 530px;
     height: 800px;
     display: inline-block;
     vertical-align: top;
@@ -279,6 +284,9 @@ export default {
 #ani-select{
     height: 42px;
     line-height: 42px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 #ani-select select{
     width: 120px;
