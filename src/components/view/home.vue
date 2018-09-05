@@ -79,7 +79,7 @@ import indexbg from '@/assets/img/indexbg.png'
 import fullscreen1 from '@/assets/img/fullscreen1.png'
 import fullscreen2 from '@/assets/img/fullscreen2.png'
 
-// import bus from '../../assets/js/event.js'
+import bus from '../../assets/js/event.js'
 export default {
     data() {
         return {
@@ -117,17 +117,36 @@ export default {
         }else{
             this.isCollapse=true
         }
+        //页面刚进入时开启长连接
+        this.initWebSocket()
     },
     mounted(){
         this.powerrequest();
         // this.rective()
     },
     methods: {
-        // rective(){
-        //     bus.$on('component',(data)=>{
-        //         console.log(data);
-        //     })
-        // },
+        rective(val){
+            bus.$emit('infodata',val)
+        },
+        initWebSocket(){ //初始化weosocket
+            this.websock = new WebSocket("ws://192.168.1.88:8080/RestIOTAPI/websocket");
+            this.websock.onopen = this.websocketonopen;
+            // this.websock.onerror = this.websocketonerror;
+            this.websock.onmessage = this.websocketonmessage; 
+            this.websock.onclose = this.websocketclose;
+            
+        },
+        websocketonopen(){
+            console.log('连接成功')
+        },
+        websocketonmessage(e){ //数据接收
+            console.log(e);
+            // console.log('数据接收')
+            this.rective(e);
+        },
+        websocketclose(e){
+            console.log('断开连接')
+        },
         handSelect(index,path){
             // console.log(index,path);
             var arr = [];
@@ -194,7 +213,7 @@ export default {
                 sessionStorage.removeItem('nownavbg')
                 sessionStorage.removeItem('navIndex')
                 sessionStorage.removeItem('navsub')
-                this.$router.push('/landing')
+                this.$router.push('/login')
             }else if(command=='siteinfo'){
                 this.$router.push('/siteinfo');
             }else{
@@ -239,7 +258,8 @@ export default {
         }
     },
     beforeDestroy(){
-        // sessionStorage.removeItem('navIndex')
+        // sessionStorage.removeItem('navIndex');
+        this.websock.close();
     }
 }
 </script>

@@ -40,14 +40,14 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
     sessionStorage.removeItem('nownavbg')
     sessionStorage.removeItem('navIndex')
     sessionStorage.removeItem('navsub')
-    router.replace('/landing');
+    router.replace('/login');
   }else if(response.data.code==500&&response.data.msg=='用户登录超时'){
     localStorage.removeItem('nownav')
     sessionStorage.removeItem('nownavbg')
     sessionStorage.removeItem('navIndex')
     sessionStorage.removeItem('navsub')
-    router.replace('/landing');
-    router.replace('/landing');
+    router.replace('/login');
+    router.replace('/login');
   }
   // if(response.data.code!=200){
   //   Message.error({
@@ -61,16 +61,16 @@ axios.interceptors.response.use(response => {// 响应成功关闭loading
     // console.log(error.response);
     if (error.response) {
       // if(error.response.data.result==null){
-      //   this.$router.replace('/landing');
+      //   this.$router.replace('/login');
       // }
       switch (error.response.status) {
         case 500:
-          router.replace('/landing');  
+          router.replace('/login');  
         case 401://token过期，清除token并跳转到登录页面
           localStorage.clear();
           var baurl = window.location.href;
       　　　　 router.replace({
-                path: '/landing',
+                path: '/login',
                 query: { backUrl: baurl }
               });           
           return;

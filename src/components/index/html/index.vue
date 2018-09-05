@@ -154,6 +154,7 @@
 
 <script>
 import indexbg from '@/assets/img/indexbg.png'
+import bus from '../../../assets/js/event.js'
 export default {
     data(){
         return{
@@ -179,25 +180,41 @@ export default {
         this.realdata = setInterval(()=>{
           this.towerrrequest();
         },60000);
+        this.receive();
     },
     methods:{
-        initWebSocket(){ //初始化weosocket
-            this.websock = new WebSocket("ws://60.191.29.210:9090/RestIOTAPI/websocket");
-            // this.websock.onopen = this.websocketonopen;
-            // this.websock.onerror = this.websocketonerror;
-            this.websock.onmessage = this.websocketonmessage; 
-            this.websock.onclose = this.websocketclose;
+        receive(){
+            bus.$on('infodata',(data)=>{
+                console.log(data)
+                if(this.tableData.length>=4){
+                    this.tableData.pop();
+                }
+                this.tableData.unshift({"news":data.data});
+            })
         },
-        websocketonmessage(e){ //数据接收
-            // console.log(e.data)
-            this.tableData.push({"news":e.data})
-            // console.log(this.tableData)
-            // const redata = JSON.parse(e.data);
-            // console.log(redata.value);
-        },
-        websocketclose(e){
-
-        },
+        // initWebSocket(){ //初始化weosocket
+        //     this.websock = new WebSocket("ws://192.168.1.88:8080/RestIOTAPI/websocket");
+        //     this.websock.onopen = this.websocketonopen;
+        //     // this.websock.onerror = this.websocketonerror;
+        //     this.websock.onmessage = this.websocketonmessage; 
+        //     this.websock.onclose = this.websocketclose;
+            
+        // },
+        // websocketonopen(){
+        //     console.log('连接成功')
+        // },
+        // websocketonmessage(e){ //数据接收
+        //     console.log(e)
+        //     // console.log('数据接收')
+        //     if(this.tableData.length>=4){
+        //         this.tableData.pop();
+        //     }
+        //     this.tableData.unshift({"news":e.data});
+        //     // const redata = JSON.parse(e.data);
+        // },
+        // websocketclose(e){
+        //     console.log('断开连接')
+        // },
         constructionfn(){
         //根据选择的工地去查找设备
             this.$api.withConstructionNumberResInfo({
@@ -234,6 +251,7 @@ export default {
                 }
             }).then(res => {
                 if(res.data.code==200){
+                    // console.log(res)
                     this.defauldata = res.data.result;
                 }
             })
@@ -280,7 +298,8 @@ export default {
         document.querySelector('body').removeAttribute('class');
         clearInterval(this.realdata);
         //页面销毁时关闭长连接
-        this.websocketclose();
+        // this.websocketclose();
+        // this.websock.close();
     },
 }
 </script>

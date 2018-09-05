@@ -38,6 +38,20 @@ Vue.config.productionTip = false
 
 window.eventBus = new Vue();
 
+router.beforeEach((to,from,next) => {
+  if(to.matched.some(res => res.meta.requireAuth)){
+    if(localStorage.getItem('token')) {
+      next();
+    } else {
+      next({
+        path: '/login'
+      });
+    }
+  } else {
+    next();
+  }
+})
+
 promise.polyfill();
 /* eslint-disable no-new */
 new Vue({

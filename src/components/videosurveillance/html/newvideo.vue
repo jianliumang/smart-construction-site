@@ -96,8 +96,22 @@ export default {
         //         });
         // console.log(this.timestampToTime(new Date().getTime()),this.setAllTime().replace(/-|:/gi, "").replace(/\s/gi, "-"))
         // this.equipmenchannel()
+        // this.test()
     },
     methods:{
+        test(){
+            this.axios({
+                    method:"post",
+                    url:"https://open.ys7.com/api/lapp/device/list",
+                    params: {
+                        'accessToken':this.accessToken,
+                        'pageStart':0,
+                        'pageSize':10
+                    }
+                }).then(res => {
+                    console.log('测试',res)
+                });
+        },
         videonum(num){
             this.shownum={
                 num:num,
@@ -193,16 +207,21 @@ export default {
         equipmentlist(){
             //设备列表:查询用户下设备基本信息列表
             this.axios({
-                method:"get",
-                url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/toselectAllEquipemnt?token="+this.accessToken,
-			}).then(res => {
+                method:"post",
+                url:"https://open.ys7.com/api/lapp/device/list",
+                params: {
+                    'accessToken':this.accessToken,
+                    'pageStart':0,
+                    'pageSize':10
+                }
+            }).then(res => {
                 console.log(res);
                 // if(res.data.result)
-                if(res.data.code==200&&res.data.result.data!=null){
-                    this.equipmentlistval=res.data.result.data;
+                if(res.data.code==200&&res.data.data!=null){
+                    this.equipmentlistval=res.data.data;
                     // console.log(this.equipmentlistval);
                     //设备列表二级：设备名
-                    res.data.result.data.forEach(ele => {
+                    res.data.data.forEach(ele => {
                         this.data[0].children.push({
                             id: this.data[0].id+'.'+1,
                             label: ele.deviceName,
@@ -363,12 +382,16 @@ export default {
             if(this.pztclicktype){
                 this.pztclicktype=false;
                 this.axios({
-                    method:"get",
-                    url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/startControlPTZ?direction="+direction+
-                    "&speed="+this.speed+
-                    "&deviceSerial="+this.deviceSerial+
-                    "&channelNo=1&accesstoken="+this.accessToken,
-                }).then(res => {
+                method:"post",
+                url:"https://open.ys7.com/api/lapp/device/ptz/start",
+                params: {
+                    'accessToken':this.accessToken,
+                    'deviceSerial':this.deviceSerial,
+                    'channelNo':1,
+                    'direction':direction,
+                    'speed':this.speed
+                }
+            }).then(res => {
                     this.pzttype='start';
                     // console.log('开启云台',res)
                     // setTimeout(this.pztstop(direction),500);
@@ -401,8 +424,14 @@ export default {
                 }
                 this.pzttype='stop';
                 this.axios({
-                    method:"get",
-                    url:"http://192.168.1.88:8080/RestIOTAPI/yingshiyun/stopControlPTZ?direction="+direction+"&deviceSerial="+this.deviceSerial+"&channelNo=1&accesstoken="+this.accessToken,
+                    method:"post",
+                    url:"https://open.ys7.com/api/lapp/device/ptz/stop",
+                    params: {
+                        'accessToken':this.accessToken,
+                        'deviceSerial':this.deviceSerial,
+                        'channelNo':1,
+                        'direction':direction
+                    }
                 }).then(res => {
                     // console.log('关闭云台',res)
                     // this.videostoped=20;

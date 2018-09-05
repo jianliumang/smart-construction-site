@@ -142,10 +142,13 @@
 // import AMap from 'AMap'
 // console.log(AMap)
 import man from "@/assets/img/man.png"
+import mass from "@/assets/img/mass0.png"
+import { Loading } from 'element-ui';
 export default {
     name: "gprshistory",
     data() {
         return {
+            mass:mass,
             imgurl: man,
             regionid:Number,
             value8: 50,
@@ -176,22 +179,20 @@ export default {
             starttimevalue: '',
             endtimevlaue: '',
             havedate : [],
-            historydata:[]
+            historydata:[],
+            southwestlng:null,
+            southwestlat:null,
+            northeastlng:null,
+            northeastlat:null,
+            zoom:null,
         };
     },
     created() {
         this.regionid = sessionStorage.getItem("regionid");
         },
     mounted() {
-        // var elebody = document.body;
-        // var elemap = document.getElementById("showmap");
-        // elemap.style.height = elebody.clientHeight-120+'px';
-        // elemap.style.width = elebody.clientWidth-600+'px';
-        // console.log(elebody.clientWidth-600)
-        // console.log(this.imgurl)
         this.starttimevalue = this.setPartTime() + " 00:00:00";
         this.endtimevlaue = this.setPartTime() ? this.setAllTime() : this.setPartTime() + " 23:59:59";
-        // this.dates = [startTime, endTime];
         this.askforgroup();
         this.beforeinit();
 
@@ -238,7 +239,7 @@ export default {
             this.mapindex = 0;
             this.restart =this.restart+1;
             this.start = 1;
-            this.init()
+            this.rungps()
         },
         stopfn(){
             //暂停
@@ -249,7 +250,7 @@ export default {
             //恢复
             this.mapindex = this.mapindex-1;
             this.start = 1;
-            this.init();
+            this.rungps();
         },
         removefn(){
             //清除轨迹
@@ -281,7 +282,7 @@ export default {
             }else{
                 this.mapindex = this.mapindex-1;
             }
-            this.init()
+            this.rungps()
         },
         changegroup(){
             //根据选组展示组员信息
@@ -323,6 +324,7 @@ export default {
             //根据安全帽编号与时间段查询历史数据
             // console.log(this.hatnumber);
             // console.log(this.endtimevlaue=='2018-06-28 20:00:00')
+            this.loadinginstace = Loading.service({ fullscreen: true });
             this.mapindex = 0;
             this.rundate = 1000;
             this.restart =0;
@@ -336,8 +338,9 @@ export default {
                     endtime:this.endtimevlaue
                 }
             }).then(res => {
-                // console.log(res)
+                console.log(res)
                 if(res.data.code==200){
+                    this.loadinginstace.close();
                     this.historydata=res.data.result;
                     if(res.data.result.length==0){
                         this.$message({
@@ -348,6 +351,7 @@ export default {
                      res.data.result.forEach(element => {
                         this.maplist.push([element.east_longitude,element.north_latitude])
                     })
+                    this.beforeinit();
                     this.init();
                 }
             });
@@ -361,97 +365,18 @@ export default {
                 resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
-                layers: [new AMap.TileLayer.Satellite()], //地图图层（卫星图层）
+                layers: [new AMap.TileLayer()], //地图图层（卫星图层）  new AMap.TileLayer.Satellite()
                 zoom: 16 //地图显示的缩放级别
             });
         },
-        init() {
-        
-            if(this.maplist.length==0){
-                return false;
-            }
-            //对地图的右上角，左下角的东经，北纬进行监控，对地图的缩放级别进行监控
-            var southwestlng;
-            var southwestlat;
-            var northeastlng;
-            var northeastlat;
-            var zoom;
-            //地图加载时进行监控
-            this.map.on("complete", () => {
-                var currentZoom = this.map.getBounds();
-                zoom = this.map.getZoom();
-                southwestlng = currentZoom.southwest.lng;
-                southwestlat = currentZoom.southwest.lat;
-                northeastlng = currentZoom.northeast.lng;
-                northeastlat = currentZoom.northeast.lat;
-            });
-            //地图缩放时进行监控
-            this.map.on("zoomend", () => {
-                var currentZoom = this.map.getBounds();
-                zoom = this.map.getZoom();
-                this.map.setZoom(zoom);
-                southwestlng = currentZoom.southwest.lng;
-                southwestlat = currentZoom.southwest.lat;
-                northeastlng = currentZoom.northeast.lng;
-                northeastlat = currentZoom.northeast.lat;
-            });
-            //地图平移时进行监控
-            this.map.on("moveend", () => {
-                var currentZoom = this.map.getBounds();
-                zoom = this.map.getZoom();
-                southwestlng = currentZoom.southwest.lng;
-                southwestlat = currentZoom.southwest.lat;
-                northeastlng = currentZoom.northeast.lng;
-                northeastlat = currentZoom.northeast.lat;
-            });
-            //线条轨迹
-            var polyline = new AMap.Polyline({
-                path: this.maplist, //设置线覆盖物路径
-                strokeColor: "#3366FF", //线颜色
-                strokeOpacity: 1, //线透明度
-                strokeWeight: 5, //线宽
-                strokeStyle: "solid", //线样式
-                strokeDasharray: [10, 5] //补充线样式
-            });
-            polyline.setMap(this.map);
-            var icon = new AMap.Icon({
-                size: new AMap.Size(40, 50),    // 图标尺寸
-                image: '/static/img/man.07ada0e.png',  // Icon的图像
-                imageOffset: new AMap.Pixel(0, -60),  // 图像相对展示区域的偏移量，适于雪碧图等
-                imageSize: new AMap.Size(40, 50)   // 根据所设置的大小拉伸或压缩图片
-            });
-            // console.log(icon)
-
-            var content = '<img src="@/assets/img/man.png" alt="" />';
-            //第一个点
-            if(this.markertype == 0){
-                var placedata = [this.maplist[this.mapindex]];
-                this.marker1 = new AMap.Marker({
-                    position: new AMap.LngLat(placedata[0].lng, placedata[0].lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-                    offset: new AMap.Pixel(-17, -60),
-                    icon: new AMap.Icon({
-                        image: this.imgurl,  // Icon的图像
-                        size: new AMap.Size(40,60),  // 图标尺寸
-                        imageSize: new AMap.Size(40, 60) // 根据所设置的大小拉伸或压缩图片
-                    }), // 添加 Icon 图标 URL
-                    // content: content,
-                    title: "北京"
-                });
-                this.map.add(this.marker1);
-                this.markertype = 1;
-            }
-            
-            if (this.restart==0) {
-                this.map.setCenter(this.maplist[0]);
-            };
-            //将创建的点标记添加到已有的地图实例：
+        rungps(){
             //位置移动
-            if(this.start==1){
+            // if(this.start==1){
             this.trajectory = setInterval(() => {
-                this.map.setZoom(zoom);
+                this.map.setZoom(this.zoom);
                 var nowsouthwestlng = this.maplist[this.mapindex].lng;
                 var nowsouthwestlat = this.maplist[this.mapindex].lat;
-                if (nowsouthwestlng < southwestlng || nowsouthwestlng > northeastlng || nowsouthwestlat < southwestlat || nowsouthwestlat > northeastlat
+                if (nowsouthwestlng < this.southwestlng || nowsouthwestlng > this.northeastlng || nowsouthwestlat < this.southwestlat || nowsouthwestlat > this.northeastlat
                 ) {
                     this.map.setCenter(this.maplist[this.mapindex]);
                 };
@@ -462,7 +387,115 @@ export default {
                 this.start = 0;
                 };
             }, this.rundate);
+            // }
+        },
+        onmap(){
+            //监听地图变化
+            var currentZoom = this.map.getBounds();
+            this.zoom = this.map.getZoom();
+            this.southwestlng = currentZoom.southwest.lng;
+            this.southwestlat = currentZoom.southwest.lat;
+            this.northeastlng = currentZoom.northeast.lng;
+            this.northeastlat = currentZoom.northeast.lat;
+        },
+        init() {
+            this.loadinginstace.close();
+            if(this.maplist.length==0){
+                return false;
             }
+            //对地图的右上角，左下角的东经，北纬进行监控，对地图的缩放级别进行监控
+            
+            //地图加载时进行监控
+            this.map.on("complete", this.onmap);
+            //地图缩放时进行监控
+            this.map.on("zoomend", this.onmap);
+            //地图平移时进行监控
+            this.map.on("moveend", this.onmap);
+            //线条轨迹
+            // var canvasDir = document.createElement('canvas')
+            // var width = 24;
+            // canvasDir.width = width;
+            // canvasDir.height = width;
+            // var context = canvasDir.getContext('2d');
+            // context.strokeStyle = 'red';
+            // context.lineJoin = 'round';
+            // context.lineWidth = 8;
+            // context.moveTo(-4, width - 4);
+            // context.lineTo(width / 2, 6);
+            // context.lineTo(width + 4, width - 4);
+            // context.stroke();
+
+            var polyline = new AMap.Polyline({
+                path: this.maplist, //设置线覆盖物路径
+                // showDir:true,
+                // dirImg:canvasDir,
+                strokeColor: "#3366FF", //线颜色
+                strokeOpacity: 1, //线透明度
+                strokeWeight: 5, //线宽
+                strokeStyle: "solid", //线样式
+                strokeDasharray: [10, 5] //补充线样式
+            });
+            polyline.setMap(this.map);
+            // var passdPolyline = new AMap.Polyline({
+            //     map: this.map,
+            //     showDir:true,
+            //     dirImg:canvasDir,
+            //     // path: this.maplist, //设置线覆盖物路径
+            //     strokeColor: "#f00", //线颜色
+            //     // strokeOpacity: 1, //线透明度
+            //     strokeWeight: 5, //线宽
+            //     // strokeStyle: "solid", //线样式
+            //     strokeDasharray: [10, 5] //补充线样式
+            // });
+            
+            // var icon = new AMap.Icon({
+            //     size: new AMap.Size(40, 50),    // 图标尺寸
+            //     image: '/static/img/man.07ada0e.png',  // Icon的图像
+            //     imageOffset: new AMap.Pixel(0, -60),  // 图像相对展示区域的偏移量，适于雪碧图等
+            //     imageSize: new AMap.Size(40, 50)   // 根据所设置的大小拉伸或压缩图片
+            // });
+            // // console.log(icon)
+
+            var content = '<img src="@/assets/img/man.png" alt="" />';
+            //第一个点
+            // if(this.markertype == 0){
+                var placedata = [this.maplist[this.mapindex]];
+                this.marker1 = new AMap.Marker({
+                    position: new AMap.LngLat(placedata[0].lng, placedata[0].lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
+                    offset: new AMap.Pixel(-17, -60),
+                    icon: new AMap.Icon({
+                        image: this.imgurl,  // Icon的图像
+                        size: new AMap.Size(40,60),  // 图标尺寸
+                        imageSize: new AMap.Size(40, 60) // 根据所设置的大小拉伸或压缩图片
+                    }), // 添加 Icon 图标 URL
+                    // content: content,
+                    title: "北京",
+                    // autoRotation: true
+                });
+                this.map.add(this.marker1);
+                this.markertype = 1;
+            // }
+            
+            if (this.restart==0) {
+                this.map.setCenter(this.maplist[0]);
+            };
+            //将创建的点标记添加到已有的地图实例：
+            
+            // this.marker1.on('moving',function(e){
+            //     passdPolyline.setPath(e.passedPath)
+            // })
+            // AMap.event.addDomListener(document.getElementById('start1'), 'click', () => {
+            //     this.marker1.moveAlong(this.maplist, 500);
+            // }, false);
+            // AMap.event.addDomListener(document.getElementById('pause1'), 'click', () => {
+            //     this.marker1.pauseMove();
+            // }, false);
+            // AMap.event.addDomListener(document.getElementById('resume1'), 'click', () => {
+            //     this.marker1.resumeMove();
+            // }, false);
+            // AMap.event.addDomListener(document.getElementById('stop1'), 'click', () => {
+            //     this.marker1.stopMove();
+            // }, false);
             //移动点下的说明
             this.marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
                 offset: new AMap.Pixel(-50, 60),//修改label相对于maker的位置
@@ -472,25 +505,47 @@ export default {
                 this.map.setFitView();
             }
             this.zoomtype = 1;
+            // 创建样式对象
+
+            var styleObject = [{
+                url: this.mass,
+                anchor: new AMap.Pixel(5, 5),
+                size: new AMap.Size(10, 10)
+            }];
+            var data = [];
+            this.maplist.forEach(ele => {
+                data.push({
+                    lnglat: ele
+                })
+            });
+            var massMarks = new AMap.MassMarks(data,{
+                zIndex: 5,  // 海量点图层叠加的顺序120
+                // zooms: [3, 19],  // 在指定地图缩放级别范围内展示海量点图层
+                style: styleObject  // 设置样式对象
+            });
+            // massMarks.setData(data);
+            console.log(massMarks,AMap)
+            // 将海量点添加至地图实例
+            massMarks.setMap(this.map);
             //圆点轨迹
-            for (var i = 0; i < this.maplist.length; i += 1) {
-                var center = this.maplist[i];
-                var circleMarker = new AMap.CircleMarker({
-                center: center, // 中心位置
-                radius: 5,
-                // radius: 10 + Math.random() * 10,
-                strokeColor: "white",
-                strokeWeight: 2,
-                strokeOpacity: 0.5,
-                fillColor: "#f00", //rgba(0,0,255,1)
-                fillOpacity: 1, //0.5
-                zIndex: 10,
-                bubble: true,
-                cursor: "pointer",
-                clickable: true
-                });
-                circleMarker.setMap(this.map);
-            };
+            // for (var i = 0; i < this.maplist.length; i += 1) {
+            //     var center = this.maplist[i];
+            //     var circleMarker = new AMap.CircleMarker({
+            //     center: center, // 中心位置
+            //     radius: 5,
+            //     // radius: 10 + Math.random() * 10,
+            //     strokeColor: "white",
+            //     strokeWeight: 2,
+            //     strokeOpacity: 0.5,
+            //     fillColor: "#f00", //rgba(0,0,255,1)
+            //     fillOpacity: 1, //0.5
+            //     zIndex: 10,
+            //     bubble: true,
+            //     cursor: "pointer",
+            //     clickable: true
+            //     });
+            //     circleMarker.setMap(this.map);
+            // };
         },
         clear() {
                 clearInterval(this.trajectory);
@@ -598,6 +653,9 @@ export default {
     font-size: 18px;
     padding: 3px 10px;
     cursor:pointer;
+}
+.gprshistory .map .amap-drags{
+    transform: rotate(0deg)!important;
 }
 .gprshistory #container{
     transition: all 3000s ease;

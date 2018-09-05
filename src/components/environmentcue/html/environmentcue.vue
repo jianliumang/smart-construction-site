@@ -47,14 +47,21 @@
                             <div><span>更新时间：</span><span>{{defauldata==null?"":defauldata.sendtime}}</span></div>
                         </div>
                         <div class="env-data-bock" v-if="defauldata==null?false:true">
-                            <span class="el-temperature">{{defauldata==null?"111":weather.newdata}}</span><span>{{weather.unit}}</span>
+                            <span></span>
+                            <span class="el-temperature" :style="{'color':weather.newdata>=weather.critical?'red':''}">{{defauldata==null?"111":weather.newdata}}</span><span>{{weather.unit}}</span>
+                            <div class="div-position">实时</div>
+                        </div>
+                        <div class="env-data-bock" v-if="defauldata==null?false:true">
+                            <el-input v-show="weather.criticaltype" v-model="weather.critical"></el-input>
+                            <span v-show="!weather.criticaltype" class="el-temperature">{{weather.critical}}</span><span>{{weather.unit}}</span>
+                            <div class="env-hack div-position">
+                                <div @click="hackchange(index)" v-show="!weather.criticaltype">修改</div>
+                                <div @click="hack(index)" v-show="weather.criticaltype">保存</div>
+                                <div @click="hackchange(index)" v-show="weather.criticaltype">取消</div>
+                            </div>
+                            <div class="div-position">临界</div>
                         </div>
                         <div class="env-event-bock">
-                            <!-- <el-tooltip class="item" effect="dark" content="Top Center 提示文字" placement="top">
-                                <el-button type="text" @click="realtimeline(index)" :disabled="!linktype" >
-                                    实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>
-                                </el-button>
-                            </el-tooltip> -->
                             <el-button type="text" @click="realtimeline(index)" :disabled="!linktype" >
                                 实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>
                             </el-button>
@@ -111,6 +118,9 @@ export default {
             weatherlist:[
                 {
                     'name':'温度',
+                    'alias':'temperature',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'℃',
                     'imgsrc':require('@/assets/img/temperature.png'),
                     'time': [],
@@ -119,6 +129,9 @@ export default {
                 },
                 {
                     'name':'湿度',
+                    'alias':'humidity',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'RH',
                     'imgsrc':require('@/assets/img/humidity.png'),
                     'time': [],
@@ -127,6 +140,9 @@ export default {
                 },
                 {
                     'name':'光照',
+                    'alias':'illumination ',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'LUX',
                     'imgsrc':require('@/assets/img/value.png'),
                     'time': [],
@@ -135,6 +151,9 @@ export default {
                 },
                 {
                     'name':'噪音',
+                    'alias':'noise',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'db',
                     'imgsrc':require('@/assets/img/value.png'),
                     'time': [],
@@ -143,6 +162,9 @@ export default {
                 },
                 {
                     'name':'PM2.5',
+                    'alias':'PM2',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'ug/m3',
                     'imgsrc':require('@/assets/img/dustproof.png'),
                     'time': [],
@@ -151,6 +173,9 @@ export default {
                 },
                 {
                     'name':'PM10',
+                    'alias':'PM10',
+                    'critical':'',
+                    'criticaltype':false,
                     'unit':'ug/m3',
                     'imgsrc':require('@/assets/img/dustproof.png'),
                     'time': [],
@@ -188,8 +213,51 @@ export default {
             this.temperature();
         },3000)
         this.requesthavetime();
+        this.selectThreshold()
     },
     methods: {
+        hack(index){
+            //修改临界值
+            var obj = {
+                "enviromental_id": 1,
+                "humidity": this.weatherlist[1].critical,
+                "illumination": this.weatherlist[2].critical,
+                "noise": this.weatherlist[3].critical,
+                "pm10": this.weatherlist[5].critical,
+                "pm2": this.weatherlist[4].critical,
+                "regionid": this.regionid,
+                "temperature": this.weatherlist[0].critical
+            }
+            this.$api.updateEnvironmentalThreshold(obj).then(res => {
+                // console.log(res)
+            });
+            this.weatherlist[index].criticaltype=!this.weatherlist[index].criticaltype;
+        },
+        hackchange(index){
+            //切换临界值显示状态
+            this.weatherlist[index].criticaltype=!this.weatherlist[index].criticaltype;
+            if(!this.weatherlist[index].criticaltype){
+                this.selectThreshold();
+            }
+        },
+        selectThreshold(){
+            //获取临界值数据
+            this.$api.selectEnvironmentalThreshold({
+                params:{
+                    'enviromental_id':1,
+                    'regionid':this.regionid
+                }
+            }).then(res => {
+                if(res.data.code==200){
+                    this.weatherlist[0].critical=res.data.result.temperature;
+                    this.weatherlist[1].critical=res.data.result.humidity;
+                    this.weatherlist[2].critical=res.data.result.illumination;
+                    this.weatherlist[3].critical=res.data.result.noise;
+                    this.weatherlist[4].critical=res.data.result.pm2;
+                    this.weatherlist[5].critical=res.data.result.pm10;
+                };
+            })
+        },
         constructioncfn(val){
             //通过下拉列表的change事件去请求选中的设备数据
             // console.log(val)
@@ -248,10 +316,11 @@ export default {
             //查找该设备编号的最新一条的环境监控所有数据
             this.$api.seekMachineNumberNewEnvironmentalData({
                 params:{
-                    enviromental_id:this.enviromentalid
+                    enviromental_id:this.enviromentalid,
+                    regionid:this.regionid
                 }
             }).then(res => {
-                // console.log(res)
+                console.log(res)
                 if(res.data.result == null&&res.data.code==500){
                     this.linktype = false;
                 }else if(res.data.code==200){
@@ -557,18 +626,40 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
-.env-data-bock span:nth-child(1){
+.env-data-bock .el-input{
+    width: 80px;
+}
+.env-data-bock span:nth-child(2){
     display: inline-block;
     font-size: 32px;
     width: 80px;
 }
-.env-data-bock span:nth-child(2){
+.env-data-bock span:nth-child(3){
     display: inline-block;
     margin-left: 10px;
     font-size: 24px;
     width: 80px;
     text-align: left;
+}
+.env-data-bock .div-position{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    font-size: 11px;
+    top: 0px;
+    right: -10px;
+    border: 1px solid #999999;
+    border-radius: 50%;
+    line-height: 30px;
+    text-align: center;
+}
+.env-hack{
+    right: 25px!important;
+    border: none!important;
+    border-radius: none;
+    cursor: pointer;
 }
 .env-event-bock{
     display: flex;

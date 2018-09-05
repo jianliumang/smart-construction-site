@@ -137,14 +137,25 @@ export default {
                 resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
-                layers: [new AMap.TileLayer.Satellite()], //地图图层（卫星图层）
+                layers: [new AMap.TileLayer()], //地图图层（卫星图层） new AMap.TileLayer.Satellite()
                 zoom: 16 //地图显示的缩放级别
             });
             //gps定位点
             if(this.maplist.size==0){
                 return false;
             };
+            var infoWindow = new AMap.InfoWindow({
+                // content: info.join("<br/>"),
+                offset: new AMap.Pixel(0, -30)
+            });
             this.maplist.forEach((value,key,self) => {
+                 var info = [];
+                 console.log(value)
+                // info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
+                info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>员工信息</b>");
+                info.push("编号 : 1024005");
+                info.push("人员名称 : 方大傻子");
+                info.push("所属分组 :良渚管委会</div></div>");    
                 var marker1 = new AMap.Marker({
                     position: new AMap.LngLat(value.east_longitude, value.north_latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
                     title: "北京"
@@ -157,7 +168,17 @@ export default {
                 //将创建的点标记添加到已有的地图实例：
                 var markerList = marker1;
                 map.add(markerList);
+                marker1.content = info.join("<br/>");
+                marker1.on('click', markerClick);
+                marker1.emit('click', {target: marker1});
+                // infoWindow.close();
             });
+            
+            function markerClick(e) {
+                infoWindow.setContent(e.target.content);
+                infoWindow.open(map, e.target.getPosition());
+            }
+            
             //根据所有的定位点调整视野
             map.setFitView();
         }
@@ -177,6 +198,12 @@ export default {
     border: none;
     opacity: 0;
 }
+/* .gprsddress .amap-info-content img,.gprsddress .amap-info-content b{
+    display: none;
+} */
+/* .gprsddress .amap-info-content>div>br,.gprsddress .amap-info-content>div div:nth-child(1),.gprsddress .amap-info-content b,.gprsddress .amap-info-content b+br{
+    display: none;
+} */
 .gprsddress .amap-marker-label {
     border-radius: 5px;
 }

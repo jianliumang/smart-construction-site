@@ -8,7 +8,7 @@ export default new Router({
   routes: [
     { 
       path:'/', 
-      redirect:'/landing',
+      redirect:'/login',
       hidden:false
     },
     { 
@@ -32,9 +32,9 @@ export default new Router({
       hidden:false
     },
     {
-      path: '/landing',
-      name: 'landing',
-      component: (resolve) => require(['@/components/view/landing.vue'],resolve),
+      path: '/login',
+      name: 'login',
+      component: (resolve) => require(['@/components/view/login.vue'],resolve),
       hidden: false
     },
     {
@@ -106,6 +106,9 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
+      meta: {
+        requireAuth: true
+      },
       component: (resolve) => require(['@/components/view/home.vue'],resolve),
       hidden:true,
       children:[

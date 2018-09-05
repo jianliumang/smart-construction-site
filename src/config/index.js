@@ -204,6 +204,16 @@ export const seekEngineeringCategory = () =>{
     return axios.post(api.seekEngineeringCategory)
 }
 
+//查找设备的环境临界值
+export const selectEnvironmentalThreshold = (data) =>{
+    return axios.get(api.selectEnvironmentalThreshold,data)
+}
+
+//修改设备的环境临界值
+export const updateEnvironmentalThreshold = (data) =>{
+    return axios.post(api.updateEnvironmentalThreshold,data)
+}
+
 //查找环境监控历史数据
 export const seekEnvironmentalMonitoringHistoryData = (data) =>{
     return axios.get(api.seekEnvironmentalMonitoringHistoryData,data)

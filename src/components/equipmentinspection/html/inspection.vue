@@ -60,10 +60,11 @@
                     <el-popover
                         placement="right"
                         width="375"
+                        v-model="scope.row.visible"
                         trigger="click">
                         <div>上传图片：</div>
                         <el-upload
-                            action="http://192.168.1.88:8080/EquipmentInspection/mongoDBController/PictureUploading"
+                            action="http://192.168.1.88:8080/RestIOTAPI/mongoDBController/PictureUploading"
                             list-type="picture-card"
                             show-file-list
                             :limit="1"
@@ -84,8 +85,8 @@
                             @change="textareachagne">
                         </el-input>
                         <div style="text-align: right; margin: 0">
-                            <el-button size="mini" type="text" @click="visible2 = false">取消</el-button>
-                            <el-button type="primary" size="mini" @click="visible2 = false" slot="reference">确定</el-button>
+                            <el-button size="mini" type="text" @click="ddd(scope.row)">取消</el-button>
+                            <el-button type="primary" size="mini" @click="scope.row.visible = false">确定</el-button>
                         </div>
                         <el-button @click="breakdownfn(scope.row)" type="text" size="small" slot="reference">故障</el-button>
                     </el-popover>
@@ -115,7 +116,7 @@ export default {
             rowdata:null,
             phonename:'',
             imguuid:'',
-            visible:false
+            visible2:false
         }
     },
     created(){
@@ -127,6 +128,11 @@ export default {
         this.responselist();
     },
     methods: {
+        ddd(row){
+            console.log(1111);
+            row.visible=false;
+            this.tableData[0].visible=false;
+        },
         downpage(){
             
         },
@@ -161,7 +167,7 @@ export default {
                 }).then(res => {
                     if(res.data.result == true){
                         // console.log("全部正常")
-                        this.$router.push('/qrcode?equipmentNumber='+this.equipmentNumber+'&equipmentTypeNumber='+this.equipmentTypeNumber) 
+                        this.$router.push('/equipmentinspection/qrcode?equipmentNumber='+this.equipmentNumber+'&equipmentTypeNumber='+this.equipmentTypeNumber) 
                     }
                 });
             }else{
@@ -222,7 +228,7 @@ export default {
         },
         breakdownfn(row) {
             //对详细说明的输入框进行初始化
-            // console.log(row);
+            console.log(row);
             this.rowdata = row;
             this.tableData.forEach(element => {
                 if(element.acceptancechecknumber==this.rowdata.acceptancechecknumber){
@@ -238,6 +244,9 @@ export default {
                         }
             }).then(res => {
                 this.tableData = res.data.result;
+                this.tableData.forEach(ele => {
+                    ele.visible=false;
+                })
             });
         },
         handleClick(row) {

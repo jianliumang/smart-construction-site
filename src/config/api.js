@@ -8,6 +8,8 @@ export default{
     withCMCNumberSeekAllConstruction : 'constructionsite/toselectAllConstructionSite',//根据管委会编号查找旗下所有工地
     withConstructionNumberSeekInfo : 'constructionsite/toselectOneConstructionSite',//get根据工地编号查找对应的工地信息
     seekEngineeringCategory : 'engineeringCategory/selectEngineeringCategory',//查找工程类别
+    selectEnvironmentalThreshold : 'environmentalThreshold/selectEnvironmentalThreshold',//查找设备的环境临界值
+    updateEnvironmentalThreshold : 'environmentalThreshold/updateEnvironmentalThreshold',//修改设备的环境临界值
     seekEnvironmentalMonitoringHistoryData : 'environmentalmonitoring/tohistorydate',//查找环境监控历史数据
     withMachineNumberHasDataDayPost : 'environmentalmonitoring/toselectDataExistDate',//根据设备编号查找有数据的日期
     seekDatesEnvironmentalMonitoringData : 'environmentalmonitoring/toselectHistoryFromTimeToTime2',//get根据设备编号查找时间到另一个时间的环境监控数据
