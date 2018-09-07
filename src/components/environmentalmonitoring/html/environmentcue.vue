@@ -49,9 +49,9 @@
                         <div class="env-data-bock" v-if="defauldata==null?false:true">
                             <span></span>
                             <span class="el-temperature" :style="{'color':weather.newdata>=weather.critical?'red':''}">{{defauldata==null?"111":weather.newdata}}</span><span>{{weather.unit}}</span>
-                            <div class="div-position">实时</div>
+                            <!-- <div class="div-position">实时</div> -->
                         </div>
-                        <div class="env-data-bock" v-if="defauldata==null?false:true">
+                        <!-- <div class="env-data-bock" v-if="defauldata==null?false:true">
                             <el-input v-show="weather.criticaltype" v-model="weather.critical"></el-input>
                             <span v-show="!weather.criticaltype" class="el-temperature">{{weather.critical}}</span><span>{{weather.unit}}</span>
                             <div class="env-hack div-position">
@@ -60,7 +60,7 @@
                                 <div @click="hackchange(index)" v-show="weather.criticaltype">取消</div>
                             </div>
                             <div class="div-position">临界</div>
-                        </div>
+                        </div> -->
                         <div class="env-event-bock">
                             <el-button type="text" @click="realtimeline(index)" :disabled="!linktype" >
                                 实时曲线<span :class="weatherlist[index].showtype?'el-icon-arrow-down nav-menu':'el-icon-arrow-down'"></span>

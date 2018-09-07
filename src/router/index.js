@@ -27,6 +27,11 @@ export default new Router({
       hidden:false
     },
     { 
+      path:'/environmentalmonitoring', 
+      redirect:'/environmentalmonitoring/environmentcue',
+      hidden:false
+    },
+    { 
       path:'/equipmentinspection', 
       redirect:'/equipmentinspection/management',
       hidden:false
@@ -133,11 +138,25 @@ export default new Router({
           hidden:true
         },
         {
-          path: '/environmentcue',
+          path: '/environmentalmonitoring',
           name: '环境监控',
           icon:require('@/assets/img/nav00003.png'),
-          component: (resolve) => require(['@/components/environmentcue/html/environmentcue.vue'],resolve),
-          hidden:true
+          component: (resolve) => require(['@/components/environmentalmonitoring/html/environmentalmonitoring.vue'],resolve),
+          hidden:true,
+          children:[
+            {
+              path: '/environmentalmonitoring/environmentcue',
+              name: '环境数据监控',
+              component: (resolve) => require(['@/components/environmentalmonitoring/html/environmentcue.vue'],resolve),
+              hidden:true
+            },
+            {
+              path: '/environmentalmonitoring/revisethreshold',
+              name: '修改阀值',
+              component: (resolve) => require(['@/components/environmentalmonitoring/html/revisethreshold.vue'],resolve),
+              hidden:true
+            }
+          ]
         },
         {
           path: '/gprspositioning',

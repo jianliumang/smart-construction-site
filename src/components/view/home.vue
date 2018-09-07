@@ -181,7 +181,7 @@ export default {
                 firstspanele[i].style.display='none';
                 lastspanele[i].style.display='';
             }
-            if(index-1<3){
+            if(index-1<2){
                 this.nownav=liele[index-1].children[3].innerHTML;
                 localStorage.setItem("nownav",liele[index-1].children[3].innerHTML);
             }else{

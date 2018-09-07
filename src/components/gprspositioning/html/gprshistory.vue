@@ -361,7 +361,7 @@ export default {
             this.map = new AMap.Map("container", {
                 center: [116.397428, 39.90923], //设置中心点
                 // pitch: 60,
-                rotation: -35,
+                // rotation: -35,
                 resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
@@ -399,7 +399,6 @@ export default {
             this.northeastlat = currentZoom.northeast.lat;
         },
         init() {
-            this.loadinginstace.close();
             if(this.maplist.length==0){
                 return false;
             }
@@ -412,90 +411,51 @@ export default {
             //地图平移时进行监控
             this.map.on("moveend", this.onmap);
             //线条轨迹
-            // var canvasDir = document.createElement('canvas')
-            // var width = 24;
-            // canvasDir.width = width;
-            // canvasDir.height = width;
-            // var context = canvasDir.getContext('2d');
-            // context.strokeStyle = 'red';
-            // context.lineJoin = 'round';
-            // context.lineWidth = 8;
-            // context.moveTo(-4, width - 4);
-            // context.lineTo(width / 2, 6);
-            // context.lineTo(width + 4, width - 4);
-            // context.stroke();
+            var canvasDir = document.createElement('canvas')
+            var width = 24;
+            canvasDir.width = width;
+            canvasDir.height = width;
+            var context = canvasDir.getContext('2d');
+            context.strokeStyle = '#fff';
+            context.lineJoin = 'round';
+            context.lineWidth = 8;
+            context.moveTo(-4, width - 4);
+            context.lineTo(width / 2, 6);
+            context.lineTo(width + 4, width - 4);
+            context.stroke();
 
             var polyline = new AMap.Polyline({
                 path: this.maplist, //设置线覆盖物路径
-                // showDir:true,
-                // dirImg:canvasDir,
-                strokeColor: "#3366FF", //线颜色
+                showDir:true,
+                dirImg:canvasDir,
+                strokeColor: "#00eb00", //线颜色3366FF
                 strokeOpacity: 1, //线透明度
                 strokeWeight: 5, //线宽
                 strokeStyle: "solid", //线样式
                 strokeDasharray: [10, 5] //补充线样式
             });
             polyline.setMap(this.map);
-            // var passdPolyline = new AMap.Polyline({
-            //     map: this.map,
-            //     showDir:true,
-            //     dirImg:canvasDir,
-            //     // path: this.maplist, //设置线覆盖物路径
-            //     strokeColor: "#f00", //线颜色
-            //     // strokeOpacity: 1, //线透明度
-            //     strokeWeight: 5, //线宽
-            //     // strokeStyle: "solid", //线样式
-            //     strokeDasharray: [10, 5] //补充线样式
-            // });
-            
-            // var icon = new AMap.Icon({
-            //     size: new AMap.Size(40, 50),    // 图标尺寸
-            //     image: '/static/img/man.07ada0e.png',  // Icon的图像
-            //     imageOffset: new AMap.Pixel(0, -60),  // 图像相对展示区域的偏移量，适于雪碧图等
-            //     imageSize: new AMap.Size(40, 50)   // 根据所设置的大小拉伸或压缩图片
-            // });
-            // // console.log(icon)
-
-            var content = '<img src="@/assets/img/man.png" alt="" />';
             //第一个点
-            // if(this.markertype == 0){
+            // if(this.markertype == 0){}
                 var placedata = [this.maplist[this.mapindex]];
                 this.marker1 = new AMap.Marker({
                     position: new AMap.LngLat(placedata[0].lng, placedata[0].lat), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]
-                    offset: new AMap.Pixel(-17, -60),
-                    icon: new AMap.Icon({
-                        image: this.imgurl,  // Icon的图像
-                        size: new AMap.Size(40,60),  // 图标尺寸
-                        imageSize: new AMap.Size(40, 60) // 根据所设置的大小拉伸或压缩图片
-                    }), // 添加 Icon 图标 URL
-                    // content: content,
-                    title: "北京",
-                    // autoRotation: true
+                    // offset: new AMap.Pixel(-17, -60),
+                    icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    // icon: new AMap.Icon({
+                    //     image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",  // Icon的图像
+                    //     size: new AMap.Size(40,60),  // 图标尺寸
+                    //     imageSize: new AMap.Size(40, 60) // 根据所设置的大小拉伸或压缩图片
+                    // }), // 添加 Icon 图标 URL
+                    // // content: content,
+                    title: "北京"
                 });
                 this.map.add(this.marker1);
                 this.markertype = 1;
-            // }
             
             if (this.restart==0) {
                 this.map.setCenter(this.maplist[0]);
             };
-            //将创建的点标记添加到已有的地图实例：
-            
-            // this.marker1.on('moving',function(e){
-            //     passdPolyline.setPath(e.passedPath)
-            // })
-            // AMap.event.addDomListener(document.getElementById('start1'), 'click', () => {
-            //     this.marker1.moveAlong(this.maplist, 500);
-            // }, false);
-            // AMap.event.addDomListener(document.getElementById('pause1'), 'click', () => {
-            //     this.marker1.pauseMove();
-            // }, false);
-            // AMap.event.addDomListener(document.getElementById('resume1'), 'click', () => {
-            //     this.marker1.resumeMove();
-            // }, false);
-            // AMap.event.addDomListener(document.getElementById('stop1'), 'click', () => {
-            //     this.marker1.stopMove();
-            // }, false);
             //移动点下的说明
             this.marker1.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
                 offset: new AMap.Pixel(-50, 60),//修改label相对于maker的位置
@@ -506,7 +466,6 @@ export default {
             }
             this.zoomtype = 1;
             // 创建样式对象
-
             var styleObject = [{
                 url: this.mass,
                 anchor: new AMap.Pixel(5, 5),
@@ -523,29 +482,8 @@ export default {
                 // zooms: [3, 19],  // 在指定地图缩放级别范围内展示海量点图层
                 style: styleObject  // 设置样式对象
             });
-            // massMarks.setData(data);
-            console.log(massMarks,AMap)
             // 将海量点添加至地图实例
             massMarks.setMap(this.map);
-            //圆点轨迹
-            // for (var i = 0; i < this.maplist.length; i += 1) {
-            //     var center = this.maplist[i];
-            //     var circleMarker = new AMap.CircleMarker({
-            //     center: center, // 中心位置
-            //     radius: 5,
-            //     // radius: 10 + Math.random() * 10,
-            //     strokeColor: "white",
-            //     strokeWeight: 2,
-            //     strokeOpacity: 0.5,
-            //     fillColor: "#f00", //rgba(0,0,255,1)
-            //     fillOpacity: 1, //0.5
-            //     zIndex: 10,
-            //     bubble: true,
-            //     cursor: "pointer",
-            //     clickable: true
-            //     });
-            //     circleMarker.setMap(this.map);
-            // };
         },
         clear() {
                 clearInterval(this.trajectory);
