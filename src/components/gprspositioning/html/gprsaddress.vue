@@ -133,11 +133,11 @@ export default {
             var map = new AMap.Map("container", {
                 center: [116.397428, 39.90923], //设置中心点
                 // pitch: 60,
-                rotation: -35,
+                // rotation: -35,
                 resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
-                layers: [new AMap.TileLayer()], //地图图层（卫星图层） new AMap.TileLayer.Satellite()
+                layers: [new AMap.TileLayer.Satellite()], //地图图层（卫星图层）   new AMap.TileLayer()
                 zoom: 16 //地图显示的缩放级别
             });
             //gps定位点
@@ -154,7 +154,8 @@ export default {
                 // info.push("<div><div><img style=\"float:left;\" src=\" https://webapi.amap.com/images/autonavi.png \"/></div> ");
                 info.push("<div style=\"padding:0px 0px 0px 4px;\"><b>员工信息</b>");
                 info.push("编号 : 1024005");
-                info.push("人员名称 : 方大傻子");
+                info.push("人员名称 : 方俊");
+                info.push("更新时间 : 方俊");
                 info.push("所属分组 :良渚管委会</div></div>");    
                 var marker1 = new AMap.Marker({
                     position: new AMap.LngLat(value.east_longitude, value.north_latitude), // 经纬度对象，也可以是经纬度构成的一维数组[116.39, 39.9]

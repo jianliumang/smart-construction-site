@@ -80,6 +80,9 @@ export default {
                 }
             })
         },
+    },
+    destroyed(){
+        document.onkeydown=null;
     }
 }
 </script>
@@ -91,6 +94,10 @@ export default {
 .input-row label{
     display: inline-block;
     width: 70px;
+}
+.page-content{
+    height: 400px;
+    padding-top: 40px;
 }
 .button{
     width: 200px;

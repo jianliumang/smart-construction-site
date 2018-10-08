@@ -365,7 +365,7 @@ export default {
                 resizeEnable: true, //是否监控地图容器尺寸变化
                 features: ["bg", "road", "point"], //隐藏默认楼块
                 mapStyle: "amap://styles/light", //设置地图的显示样式
-                layers: [new AMap.TileLayer()], //地图图层（卫星图层）  new AMap.TileLayer.Satellite()
+                layers: [new AMap.TileLayer.Satellite()], //地图图层（卫星图层）    new AMap.TileLayer()
                 zoom: 16 //地图显示的缩放级别
             });
         },
@@ -373,7 +373,7 @@ export default {
             //位置移动
             // if(this.start==1){
             this.trajectory = setInterval(() => {
-                this.map.setZoom(this.zoom);
+                // this.map.setZoom(this.zoom);
                 var nowsouthwestlng = this.maplist[this.mapindex].lng;
                 var nowsouthwestlat = this.maplist[this.mapindex].lat;
                 if (nowsouthwestlng < this.southwestlng || nowsouthwestlng > this.northeastlng || nowsouthwestlat < this.southwestlat || nowsouthwestlat > this.northeastlat
